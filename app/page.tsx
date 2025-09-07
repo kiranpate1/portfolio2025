@@ -1,103 +1,118 @@
-import Image from "next/image";
+"use client";
+
+import React, { useRef, useEffect } from "react";
+import Projects from "./components/projects";
+import Project from "./components/project";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const padding = 16;
+  const scrollWindow = useRef<HTMLDivElement>(null);
+  const main = useRef<HTMLElement>(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+  useEffect(() => {
+    const windows = document.querySelectorAll(
+      ".window"
+    ) as NodeListOf<HTMLElement>;
+    const main = document.querySelector("main");
+    if (main) {
+      main.style.minHeight = `${windows.length * 100}vh`;
+    }
+    let ticking = false;
+
+    function updateWindows() {
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+      const maxScroll =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const scrollProgress = Math.min(scrollTop / maxScroll, 1);
+
+      const windowCount = windows.length;
+      const sectionProgress = scrollProgress * (windowCount - 1);
+      const sectionOne = Math.floor(sectionProgress);
+      const sectionTwo = sectionOne + 1;
+
+      if (sectionOne >= 0 && sectionOne < windowCount) {
+        for (let i = 0; i < windowCount; i++) {
+          const filter = windows[i].querySelector(".filter") as HTMLElement;
+          if (i < sectionOne || i > sectionTwo) {
+            windows[i].style.height = `0px`;
+            if (filter) {
+              filter.style.opacity = `0`;
+            }
+          } else if (i <= sectionOne) {
+            windows[i].classList.add("scrollout");
+            windows[i].classList.remove("scrollin");
+          } else if (i >= sectionTwo) {
+            windows[i].classList.add("scrollin");
+            windows[i].classList.remove("scrollout");
+          }
+        }
+
+        const adjustedProgress = sectionProgress % 1;
+
+        if (sectionOne >= 0) {
+          const windowOne = windows[sectionOne];
+          const filterOne = windowOne.querySelector(".filter") as HTMLElement;
+          windowOne.style.height = `calc(${100 - adjustedProgress * 100}% - ${
+            padding * adjustedProgress
+          }px)`;
+          filterOne.style.opacity = `${adjustedProgress}`;
+          // filterOne.style.filter = `blur(20px) brightness(${1 + adjustedProgress})`
+        }
+
+        if (sectionTwo < windowCount) {
+          const windowTwo = windows[sectionTwo];
+          const filterTwo = windowTwo.querySelector(".filter") as HTMLElement;
+          windowTwo.style.height = `calc(${adjustedProgress * 100}% - ${
+            padding - adjustedProgress * padding
+          }px)`;
+          filterTwo.style.opacity = `${1 - adjustedProgress}`;
+          // filterTwo.style.filter = `blur(20px) brightness(${2 - adjustedProgress})`
+        }
+      }
+
+      ticking = false;
+    }
+    updateWindows();
+
+    function requestTick() {
+      if (!ticking) {
+        requestAnimationFrame(updateWindows);
+        ticking = true;
+      }
+    }
+
+    window.addEventListener("scroll", requestTick, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", requestTick);
+    };
+  }, [padding, scrollWindow, main]);
+
+  return (
+    <main ref={main}>
+      <div
+        className="fixed w-[250px]"
+        style={{
+          top: `${padding}px`,
+          left: `${padding}px`,
+          height: `calc(100vh - ${padding * 2}px)`,
+        }}
+      ></div>
+      <div
+        ref={scrollWindow}
+        className="fixed overflow-hidden"
+        style={{
+          top: `${padding}px`,
+          right: `${padding}px`,
+          width: `calc(100% - 250px - ${padding * 3}px)`,
+          height: `calc(100vh - ${padding * 2}px)`,
+        }}
+      >
+        {Projects.map((project, index) => (
+          <Project key={index} padding={padding} title={project.title} />
+        ))}
+      </div>
+    </main>
   );
 }
