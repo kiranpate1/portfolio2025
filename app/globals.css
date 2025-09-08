@@ -28,8 +28,6 @@ body {
 /* app */
 
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
   text-rendering: geometricPrecision;
   font-smoothing: antialiased;
@@ -38,17 +36,17 @@ body {
 
 /* For Chrome, Safari, and Opera */
 *::-webkit-scrollbar {
-  display: none;
+  display: none !important;
 }
 
 /* For Firefox */
 * {
-  scrollbar-width: none;
+  scrollbar-width: none !important;
 }
 
 /* For Internet Explorer and Edge */
 * {
-  -ms-overflow-style: none;
+  -ms-overflow-style: none !important;
 }
 
 .window.scrollout,
