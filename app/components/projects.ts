@@ -1,27 +1,33 @@
 const Projects = [
   {
-    title: "one",
-    src: "/images/test.webp",
+    title: "Dropbox",
+    src: "/images/dropbox.png",
+    color: "#0061FE",
   },
   {
-    title: "two",
-    src: "/images/test.webp",
+    title: "Superpower",
+    src: "/images/superpower.png",
+    color: "#FC5F2B",
   },
   {
-    title: "three",
-    src: "/images/test.webp",
+    title: "Toronto Tech Week",
+    src: "/images/ttw.png",
+    color: "#D3CDB7",
   },
   {
-    title: "four",
-    src: "/images/test.webp",
+    title: "Codepen",
+    src: "/images/codepen.png",
+    color: "#393939",
   },
   {
-    title: "five",
-    src: "/images/test.webp",
+    title: "Workmade Valentines",
+    src: "/images/dtf.png",
+    color: "#FFBDC3",
   },
   {
-    title: "six",
-    src: "/images/test.webp",
+    title: "Art IG",
+    src: "/images/art.png",
+    color: "#A94EB9",
   },
 ];
 export default Projects;

@@ -1,15 +1,22 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
+import Nav from "./components/nav";
 import Projects from "./components/projects";
 import Project from "./components/project";
+import Lenis from "lenis";
 
 export default function Home() {
   const padding = 16;
   const scrollWindow = useRef<HTMLDivElement>(null);
   const main = useRef<HTMLElement>(null);
+  const [scrollPos, setScrollPos] = useState(0);
 
   useEffect(() => {
+    const lenis = new Lenis({
+      autoRaf: true,
+    });
+
     const windows = document.querySelectorAll(
       ".window"
     ) as NodeListOf<HTMLElement>;
@@ -25,6 +32,7 @@ export default function Home() {
       const maxScroll =
         document.documentElement.scrollHeight - window.innerHeight;
       const scrollProgress = Math.min(scrollTop / maxScroll, 1);
+      setScrollPos(scrollProgress);
 
       const windowCount = windows.length;
       const sectionProgress = scrollProgress * (windowCount - 1);
@@ -98,7 +106,9 @@ export default function Home() {
           left: `${padding}px`,
           height: `calc(100vh - ${padding * 2}px)`,
         }}
-      ></div>
+      >
+        <Nav scrollPos={scrollPos} padding={padding} />
+      </div>
       <div
         ref={scrollWindow}
         className="fixed overflow-hidden"
@@ -110,7 +120,12 @@ export default function Home() {
         }}
       >
         {Projects.map((project, index) => (
-          <Project key={index} padding={padding} title={project.title} />
+          <Project
+            key={index}
+            padding={padding}
+            title={project.title}
+            src={project.src}
+          />
         ))}
       </div>
     </main>
