@@ -35,9 +35,9 @@ const Projects = [
     title: "Death Row Records",
     project: "Death Row Records Website",
     src: "/images/deathrow.webp",
-    color: "#393939",
+    color: "#6E2A2B",
     description:
-      "A home for all my interactive experiments. Within each pen, I explore new ideas, techniques, and technologies as I continue to learn and grow as a developer.",
+      "Revamped the iconic Death Row Records website, blending nostalgic design with modern web technologies. I led the development, creating interactive elements, smooth animations, and a responsive layout that honors the brand's legacy while engaging today's audience.",
   },
   {
     title: "Workmade",

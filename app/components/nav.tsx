@@ -1,21 +1,27 @@
 import React, { useRef, useEffect, useState } from "react";
 import Projects from "./projects";
+import Doodle from "./doodle";
 
 type props = {
-  scrollPos: number;
+  scrollProgress: number;
   padding: number;
 };
 
-const Nav = ({ scrollPos, padding }: props) => {
+const Nav = ({ scrollProgress, padding }: props) => {
   const title = useRef<HTMLDivElement>(null);
   const description = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
-    if (title.current && description.current) {
+    if (title.current && description.current && scrollProgress > 1) {
       for (let i = 0; i < Projects.length; i++) {
-        const adjScrollPos = scrollPos + 1 / ((Projects.length - 1) * 2);
-        const activeIndex = Math.floor(adjScrollPos * (Projects.length - 1));
+        // map new scrollProgress (1 .. Projects.length) to a 0-based project index
+        const clamped = Math.max(1, Math.min(scrollProgress, Projects.length));
+        const pos = clamped - 1; // 0 .. Projects.length - 1
+        const activeIndex = Math.min(
+          Projects.length - 1,
+          Math.max(0, Math.round(pos))
+        );
         if (i === activeIndex) {
           title.current.innerText = Projects[i].project;
           description.current.innerText = Projects[i].description;
@@ -23,19 +29,24 @@ const Nav = ({ scrollPos, padding }: props) => {
           break;
         }
       }
+    } else if (title.current && description.current && scrollProgress <= 1) {
+      title.current.innerText = "";
+      description.current.innerText = "";
+      setActiveIndex(0);
     }
-  }, [scrollPos]);
+  }, [scrollProgress]);
 
   return (
     <nav
-      className="flex flex-col justify-between align-stretch"
+      className="flex flex-col justify-between align-stretch text-[rgb(246,232,255)]"
       style={{
         minHeight: `calc(100vh - ${padding * 2}px)`,
         maxHeight: `calc(100vh - ${padding * 2}px)`,
       }}
     >
       <div className="flex flex-col gap-4">
-        <div className="relative flex gap-[3px] items-stretch w-full h-4 p-1 bg-[#222] rounded-2xl">
+        <Doodle activeIndex={activeIndex} />
+        <div className="relative flex gap-[3px] items-stretch w-full h-3 p-1 bg-[#222] rounded-2xl">
           {Projects.map((project, index) => (
             <div
               key={index}
@@ -44,8 +55,13 @@ const Nav = ({ scrollPos, padding }: props) => {
             ></div>
           ))}
           <div
-            className="absolute w-[1px] h-full bg-white top-0 bottom-0"
-            style={{ left: `${scrollPos * 100}%` }}
+            className="absolute w-[1.5px] h-full bg-[#8C95BD] top-0 bottom-0"
+            style={{
+              left:
+                scrollProgress > 1
+                  ? `${((scrollProgress - 1) / (Projects.length - 1)) * 100}%`
+                  : "0%",
+            }}
           ></div>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -54,7 +70,8 @@ const Nav = ({ scrollPos, padding }: props) => {
               key={index}
               className="text-xs px-1.5 py-1 rounded cursor-pointer bg-[#222] hover:opacity-100"
               style={{
-                opacity: index === activeIndex ? 1 : 0.6,
+                opacity:
+                  scrollProgress > 1 ? (index === activeIndex ? 1 : 0.6) : 0.6,
               }}
             >
               {project.title}
@@ -68,11 +85,11 @@ const Nav = ({ scrollPos, padding }: props) => {
         </h1>
         <p
           ref={description}
-          className="text-sm text-[rgba(255,255,255,0.6)] text-pretty"
+          className="text-sm text-[rgb(141,141,173)] text-pretty"
         >
           Description
         </p>
-        <button className="flex items-center gap-2 mt-4 px-3 py-2 bg-[#222] text-white rounded-full w-max text-sm font-medium hover:bg-[#333] cursor-pointer">
+        <button className="flex items-center gap-2 mt-4 px-3 py-2 bg-[#222] rounded-full w-max text-sm font-medium hover:bg-[#333] cursor-pointer">
           Visit
           <svg
             width="11"
