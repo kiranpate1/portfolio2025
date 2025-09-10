@@ -118,7 +118,7 @@ export default function Home() {
             windowTwo.style.height = `calc(100% - ${
               padding - adjustedProgress * padding
             }px - ${160 - adjustedProgress * 160}px)`;
-            windowTwo.style.filter = `brightness(${adjustedProgress})`;
+            windowTwo.style.filter = `brightness(1)`;
           } else {
             windowTwo.style.height = `calc(${adjustedProgress * 100}% - ${
               padding - adjustedProgress * padding
@@ -170,8 +170,8 @@ export default function Home() {
           height: `calc(100vh - ${padding * 2}px)`,
         }}
       >
-        <div className="window window absolute flex flex-col items-stretch w-full rounded-2xl overflow-hidden h-40 bg-[#222]">
-          <div className="w-full h-full relative flex items-center justify-center text-3xl font-medium text-[rgb(246,232,255)]">
+        <div className="window window absolute flex flex-col items-stretch w-full rounded-2xl overflow-hidden h-40 bg-[#323740]">
+          <div className="w-full h-full relative flex items-center justify-center text-3xl font-medium">
             <h1>kiranpa.tel</h1>
           </div>
           <div className="filter absolute w-full rounded-2xl overflow-hidden mix-blend-plus-lighter blur-xl h-full"></div>
