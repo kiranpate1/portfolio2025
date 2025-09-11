@@ -9,28 +9,6 @@ const Doodle = ({ activeIndex, height }: props) => {
   let isActive = false;
 
   useEffect(() => {
-    // const LinesList = doodle1.current?.querySelectorAll(".lines path");
-    // const LinesLength = LinesList ? LinesList.length : 0;
-    // const lines = LinesList ? (Array.from(LinesList) as SVGPathElement[]) : [];
-    // lines.forEach((line, index) => {
-    //   line.style.opacity = "0";
-    //   setTimeout(() => {
-    //     line.style.opacity = "1";
-    //   }, (LinesLength - index) * 20);
-    // });
-
-    // const numbersList = doodle1.current?.querySelectorAll(".numbers path");
-    // const numbersLength = numbersList ? numbersList.length : 0;
-    // const numbers = numbersList
-    //   ? (Array.from(numbersList) as SVGPathElement[])
-    //   : [];
-    // numbers.forEach((number, index) => {
-    //   number.style.opacity = "0";
-    //   setTimeout(() => {
-    //     number.style.opacity = "1";
-    //   }, (numbersLength - index) * 50);
-    // });
-
     // time
     const updateClock = () => {
       if (!doodle1.current) return;
@@ -104,6 +82,29 @@ const Doodle = ({ activeIndex, height }: props) => {
           hoursGroup.style.transition = "0s";
         }, 1000);
       }
+
+      // lines and numbers
+      const LinesList = doodle1.current?.querySelectorAll(".lines path");
+      const LinesLength = LinesList ? LinesList.length : 0;
+      const lines = LinesList
+        ? (Array.from(LinesList) as SVGPathElement[])
+        : [];
+      lines.forEach((line, index) => {
+        setTimeout(() => {
+          line.style.opacity = "1";
+        }, (LinesLength - index) * 10);
+      });
+
+      const numbersList = doodle1.current?.querySelectorAll(".numbers path");
+      const numbersLength = numbersList ? numbersList.length : 0;
+      const numbers = numbersList
+        ? (Array.from(numbersList) as SVGPathElement[])
+        : [];
+      numbers.forEach((number, index) => {
+        setTimeout(() => {
+          number.style.opacity = "1";
+        }, (numbersLength - index) * 25);
+      });
     }
 
     if (typeof document !== "undefined" && document.readyState === "complete") {

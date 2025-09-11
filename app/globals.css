@@ -197,3 +197,18 @@ body {
   mask: linear-gradient(to top, var(--gradient-8));
   -webkit-mask: linear-gradient(to top, var(--gradient-8));
 }
+
+/* nav */
+
+.lines path,
+.numbers path {
+  opacity: 0;
+}
+
+.lines path {
+  transition: opacity 0.1s ease-in-out;
+}
+
+.numbers path {
+  transition: opacity 0.3s ease-in-out;
+}
