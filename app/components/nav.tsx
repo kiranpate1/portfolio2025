@@ -28,7 +28,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
         if (i === activeIndex) {
           title.current.innerText = Projects[i].project;
           description.current.innerText = Projects[i].description;
-          setActiveIndex(i);
+          setActiveIndex(i + 1);
           break;
         }
       }
@@ -40,10 +40,21 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
 
     const normalizedScrollProgress =
       scrollProgress > 1 ? (scrollProgress - 1) / (Projects.length - 1) : 0;
-
     setNormalizedProgress(normalizedScrollProgress);
 
     setWeights(generateNumbers(normalizedScrollProgress, 40).finalWeights);
+    const bars = document.querySelectorAll(".bar") as NodeListOf<HTMLElement>;
+
+    window.addEventListener("scroll", () => {
+      bars.forEach((bar, index) => {
+        if (scrollProgress > 1) {
+          bar.style.width = `${weights[index]}%`;
+        } else {
+          bar.style.width = `${100 / Projects.length}%`;
+        }
+        bar.style.transition = "width 0.1s ease-in-out";
+      });
+    });
 
     function generateNumbers(percentage: number, maxWeight: number) {
       const totalSum = 100; // The target total sum
@@ -82,6 +93,10 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
 
       return { finalWeights, maxWeightIndex };
     }
+
+    return () => {
+      window.removeEventListener("scroll", () => {});
+    };
   }, [scrollProgress]);
 
   return (
@@ -98,15 +113,16 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
           {Projects.map((project, index) => (
             <div
               key={index}
-              className="h-full rounded-xl p-[2px]"
+              className="bar h-full rounded-xl p-[2px] duration-100"
               style={{
-                width: `${weights[index]}%`,
+                width: `${100 / Projects.length}%`,
               }}
             >
               <div
-                className="h-full rounded-xl"
+                className="h-full rounded-xl duration-700"
                 style={{
-                  backgroundColor: project.color,
+                  backgroundColor:
+                    scrollProgress > 1 ? project.color : "#656D7F",
                 }}
               ></div>
             </div>
@@ -125,7 +141,11 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
               className="text-xs px-1.5 py-1 rounded cursor-pointer bg-[#252931] hover:opacity-100"
               style={{
                 opacity:
-                  scrollProgress > 1 ? (index === activeIndex ? 1 : 0.6) : 0.6,
+                  scrollProgress > 1
+                    ? index === activeIndex + 1
+                      ? 1
+                      : 0.6
+                    : 0.6,
               }}
             >
               {project.title}
