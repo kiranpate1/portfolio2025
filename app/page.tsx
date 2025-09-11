@@ -14,10 +14,6 @@ export default function Home() {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    const lenis = new Lenis({
-      autoRaf: true,
-    });
-
     const windows = document.querySelectorAll(
       ".window"
     ) as NodeListOf<HTMLElement>;
@@ -73,7 +69,11 @@ export default function Home() {
       }
       const sectionOne = Math.floor(sectionProgress);
       const sectionTwo = sectionOne + 1;
-      setScrollProgress(sectionProgress);
+      setScrollProgress((prev) => {
+        // only update state if the value changed to avoid excessive re-renders
+        if (Math.abs(prev - sectionProgress) < 1e-6) return prev;
+        return sectionProgress;
+      });
 
       if (sectionOne >= 0 && sectionOne < windowCount) {
         for (let i = 0; i < windowCount; i++) {
@@ -141,13 +141,26 @@ export default function Home() {
         ticking = true;
       }
     }
+    window.addEventListener("scroll", requestTick);
 
-    window.addEventListener("scroll", requestTick, { passive: true });
+    const lenis = new Lenis({
+      autoRaf: true,
+    });
+    lenis.on("scroll", (e) => {
+      requestTick();
+    });
+
+    // initial call to set correct heights
+    requestTick();
 
     return () => {
       window.removeEventListener("scroll", requestTick);
+      // clean up lenis if it exposes a destroy method
+      if (lenis && typeof (lenis as any).destroy === "function") {
+        (lenis as any).destroy();
+      }
     };
-  }, [padding, scrollWindow, main]);
+  }, [padding]);
 
   return (
     <main ref={main}>

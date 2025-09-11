@@ -113,7 +113,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
           {Projects.map((project, index) => (
             <div
               key={index}
-              className="bar h-full rounded-xl p-[2px] duration-100"
+              className="bar h-full rounded-xl p-[2px]"
               style={{
                 width: `${100 / Projects.length}%`,
               }}
