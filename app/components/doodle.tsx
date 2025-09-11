@@ -6,6 +6,7 @@ type props = {
 
 const Doodle = ({ activeIndex, height }: props) => {
   const doodle1 = useRef<SVGSVGElement>(null);
+  let isActive = false;
 
   useEffect(() => {
     // const LinesList = doodle1.current?.querySelectorAll(".lines path");
@@ -74,12 +75,53 @@ const Doodle = ({ activeIndex, height }: props) => {
         hoursGroup.setAttribute("transform", `rotate(${hoursAngle} 160 90)`);
     };
 
+    function loadingAnimation() {
+      // run only once per page load
+      if (typeof window !== "undefined" && (window as any).__doodleLoaded)
+        return;
+      if (typeof window !== "undefined") (window as any).__doodleLoaded = true;
+
+      if (!doodle1.current) return;
+
+      const secondsGroup =
+        doodle1.current.querySelector<SVGGElement>(".hand.seconds");
+      const minutesGroup =
+        doodle1.current.querySelector<SVGGElement>(".hand.minutes");
+      const hoursGroup =
+        doodle1.current.querySelector<SVGGElement>(".hand.hours");
+
+      if (secondsGroup && minutesGroup && hoursGroup) {
+        secondsGroup.style.transition = "transform .6s ease-in-out";
+        setTimeout(() => {
+          secondsGroup.style.transition = "0s";
+        }, 600);
+        minutesGroup.style.transition = "transform 0.8s ease-in-out";
+        setTimeout(() => {
+          minutesGroup.style.transition = "0s";
+        }, 800);
+        hoursGroup.style.transition = "transform 1s ease-in-out";
+        setTimeout(() => {
+          hoursGroup.style.transition = "0s";
+        }, 1000);
+      }
+    }
+
+    if (typeof document !== "undefined" && document.readyState === "complete") {
+      loadingAnimation();
+    } else if (typeof window !== "undefined") {
+      // add listener once to avoid repeated runs
+      window.addEventListener("load", loadingAnimation, { once: true });
+    }
+
     updateClock();
     const intervalId = window.setInterval(updateClock, 1000);
     return () => {
       clearInterval(intervalId);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("load", loadingAnimation);
+      }
     };
-  }, [activeIndex]);
+  }, []);
 
   return (
     <div
@@ -337,7 +379,7 @@ const Doodle = ({ activeIndex, height }: props) => {
           <path d="M160 92L160 160" stroke="black" opacity="0" />
           <path d="M160 20L160 88" stroke="white" />
         </g>
-        <g className="hand minutes">
+        <g className="hand minutes ">
           <path d="M160 139V92" stroke="black" opacity="0" />
           <path
             d="M160 88V83M160 83V83C161.105 83 162 82.1046 162 81V43C162 41.8954 161.105 41 160 41V41C158.895 41 158 41.8954 158 43V81C158 82.1046 158.895 83 160 83V83Z"
