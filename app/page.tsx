@@ -8,6 +8,7 @@ import Lenis from "lenis";
 
 export default function Home() {
   const padding = 16;
+  const doodleHeight = 180;
   const scrollWindow = useRef<HTMLDivElement>(null);
   const main = useRef<HTMLElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -97,9 +98,9 @@ export default function Home() {
           const windowOne = windows[sectionOne];
           const filterOne = windowOne.querySelector(".filter") as HTMLElement;
           if (sectionOne == 0) {
-            windowOne.style.height = `calc(160px - ${
+            windowOne.style.height = `calc(${doodleHeight}px - ${
               padding * adjustedProgress
-            }px - ${adjustedProgress * 160}px)`;
+            }px - ${adjustedProgress * doodleHeight}px)`;
             windowOne.style.filter = `brightness(1)`;
           } else {
             windowOne.style.height = `calc(${100 - adjustedProgress * 100}% - ${
@@ -117,7 +118,7 @@ export default function Home() {
           if (sectionTwo == 1) {
             windowTwo.style.height = `calc(100% - ${
               padding - adjustedProgress * padding
-            }px - ${160 - adjustedProgress * 160}px)`;
+            }px - ${doodleHeight - adjustedProgress * doodleHeight}px)`;
             windowTwo.style.filter = `brightness(1)`;
           } else {
             windowTwo.style.height = `calc(${adjustedProgress * 100}% - ${
@@ -158,7 +159,11 @@ export default function Home() {
           height: `calc(100vh - ${padding * 2}px)`,
         }}
       >
-        <Nav scrollProgress={scrollProgress} padding={padding} />
+        <Nav
+          scrollProgress={scrollProgress}
+          padding={padding}
+          doodleHeight={doodleHeight}
+        />
       </div>
       <div
         ref={scrollWindow}

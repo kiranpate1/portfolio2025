@@ -5,15 +5,17 @@ import Doodle from "./doodle";
 type props = {
   scrollProgress: number;
   padding: number;
+  doodleHeight: number;
 };
 
-const Nav = ({ scrollProgress, padding }: props) => {
+const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
   const title = useRef<HTMLDivElement>(null);
   const description = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [normalizedProgress, setNormalizedProgress] = useState(0);
+  const [weights, setWeights] = useState<number[]>([]);
 
   useEffect(() => {
-    console.log(scrollProgress % 1);
     if (title.current && description.current && scrollProgress > 1) {
       for (let i = 0; i < Projects.length; i++) {
         // map new scrollProgress (1 .. Projects.length) to a 0-based project index
@@ -35,6 +37,51 @@ const Nav = ({ scrollProgress, padding }: props) => {
       description.current.innerText = "";
       setActiveIndex(0);
     }
+
+    const normalizedScrollProgress =
+      scrollProgress > 1 ? (scrollProgress - 1) / (Projects.length - 1) : 0;
+
+    setNormalizedProgress(normalizedScrollProgress);
+
+    setWeights(generateNumbers(normalizedScrollProgress, 40).finalWeights);
+
+    function generateNumbers(percentage: number, maxWeight: number) {
+      const totalSum = 100; // The target total sum
+      const numberOfElements = Projects.length; // Total elements in the array
+      const midPoint = percentage * (numberOfElements - 1); // The "center" based on the percentage
+
+      // Calculate preliminary weights based on proximity to the midpoint
+      const rawWeights = Array.from({ length: numberOfElements }, (_, i) => {
+        const distance = Math.abs(i - midPoint);
+        return 1 / (distance + 1); // Closer indices have higher weights
+      });
+
+      // Normalize preliminary weights to get their relative contributions
+      const rawWeightSum = rawWeights.reduce((sum, weight) => sum + weight, 0);
+      const normalizedWeights = rawWeights.map(
+        (weight) => weight / rawWeightSum
+      );
+
+      // Apply the max weight constraint
+      const scaledWeights = normalizedWeights.map((weight) =>
+        Math.min(weight * totalSum, maxWeight)
+      );
+      const scaledWeightSum = scaledWeights.reduce(
+        (sum, weight) => sum + weight,
+        0
+      );
+
+      // Redistribute excess/remaining weight proportionally
+      const redistributionFactor =
+        (totalSum - scaledWeightSum) / scaledWeightSum;
+      const finalWeights = scaledWeights.map(
+        (weight) => weight + weight * redistributionFactor
+      );
+
+      const maxWeightIndex = scaledWeights.indexOf(Math.max(...scaledWeights));
+
+      return { finalWeights, maxWeightIndex };
+    }
   }, [scrollProgress]);
 
   return (
@@ -46,28 +93,28 @@ const Nav = ({ scrollProgress, padding }: props) => {
       }}
     >
       <div className="flex flex-col gap-4">
-        <Doodle activeIndex={activeIndex} />
-        <div className="relative flex gap-[3px] items-stretch w-full h-3 p-1 bg-[#252931] rounded-2xl">
+        <Doodle height={doodleHeight} activeIndex={activeIndex} />
+        <div className="relative flex items-stretch w-full h-3 p-0.5 bg-[#252931] rounded-2xl">
           {Projects.map((project, index) => (
             <div
               key={index}
-              className="h-full rounded-xl min-w-6"
+              className="h-full rounded-xl p-[2px]"
               style={{
-                backgroundColor: project.color,
-                minWidth:
-                  index === activeIndex
-                    ? `${Number(String(scrollProgress).slice(2)) * 30}%`
-                    : `calc(${70 / (Projects.length - 1)}% - 3px)`,
+                width: `${weights[index]}%`,
               }}
-            ></div>
+            >
+              <div
+                className="h-full rounded-xl"
+                style={{
+                  backgroundColor: project.color,
+                }}
+              ></div>
+            </div>
           ))}
           <div
             className="absolute w-[1.5px] h-full bg-[#8C95BD] top-0 bottom-0"
             style={{
-              left:
-                scrollProgress > 1
-                  ? `${((scrollProgress - 1) / (Projects.length - 1)) * 100}%`
-                  : "0%",
+              left: scrollProgress > 1 ? `${normalizedProgress * 100}%` : "0%",
             }}
           ></div>
         </div>

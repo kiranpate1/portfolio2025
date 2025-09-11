@@ -1,12 +1,16 @@
 import React from "react";
 
 type props = {
+  height: number;
   activeIndex: number;
 };
 
-const Doodle = ({ activeIndex }: props) => {
+const Doodle = ({ activeIndex, height }: props) => {
   return (
-    <div className="relative w-full h-40 border-[#8C95BD] border rounded-2xl overflow-hidden">
+    <div
+      className="relative w-full border-[#8C95BD] border rounded-2xl overflow-hidden"
+      style={{ height: height }}
+    >
       <svg
         className="w-full h-full"
         viewBox="0 0 800 600"
