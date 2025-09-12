@@ -1,15 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const chivo = localFont({
+  src: [
+    {
+      path: "../public/typefaces/ChivoMono-VariableFont_wght.ttf",
+      weight: "400",
+      style: "normal",
+    },
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+    {
+      path: "../public/typefaces/ChivoMono-Italic-VariableFont_wght.ttf",
+      weight: "400",
+      style: "italic",
+    },
+  ],
+  variable: "--font-chivo",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -25,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#181b22] text-[#f3f7ff]`}
+        className={`${chivo.variable} antialiased bg-[#181b22] text-[#f3f7ff]`}
       >
         {children}
       </body>
