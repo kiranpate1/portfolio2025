@@ -111,16 +111,48 @@ const DoodleOpening = ({}: props) => {
           0,
           Math.min(1, (temp - minTemp) / (maxTemp - minTemp))
         );
-
         const tempBar = document?.querySelector<SVGPathElement>(".temp-bar");
         if (tempBar) {
-          tempBar.setAttribute(
-            "d",
-            `M12 ${
-              16 + (144 - ratio * 144)
-            }H21V163.5C21 165.985 18.9853 168 16.5 168V168C14.0147 168 12 165.985 12 163.5V104Z`
-          );
+          const duration: number = 800; // ms
+          const startTime = performance.now();
+          const from = 0;
+          const to = ratio;
+          const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+          // cancel any previous animation
+          const prev = (window as any).__tempBarRaf;
+          if (prev) cancelAnimationFrame(prev);
+
+          const step = (now: number) => {
+            const elapsed = Math.min(duration, now - startTime);
+            const t = duration === 0 ? 1 : elapsed / duration;
+            const eased = easeOutCubic(t);
+            const animatedRatio = from + (to - from) * eased;
+
+            tempBar.setAttribute(
+              "d",
+              `M12 ${
+                16 + (144 - animatedRatio * 144)
+              }H21V163.5C21 165.985 18.9853 168 16.5 168V168C14.0147 168 12 165.985 12 163.5V104Z`
+            );
+
+            if (elapsed < duration) {
+              (window as any).__tempBarRaf = requestAnimationFrame(step);
+            } else {
+              (window as any).__tempBarRaf = undefined;
+            }
+          };
+
+          (window as any).__tempBarRaf = requestAnimationFrame(step);
         }
+        // if (tempBar) {
+        //   tempBar.setAttribute(
+        //     "d",
+        //     `M12 ${
+        //       16 + (144 - ratio * 144)
+        //     }H21V163.5C21 165.985 18.9853 168 16.5 168V168C14.0147 168 12 165.985 12 163.5V104Z`
+        //   );
+        // }
 
         const celsius = Math.round(data.main.temp - 273.15);
         const fahrenheit = Math.round((celsius * 9) / 5 + 32);

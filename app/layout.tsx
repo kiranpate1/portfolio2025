@@ -33,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${chivo.variable} antialiased bg-[#181b22] text-[#f3f7ff]`}
+        className={`${chivo.variable} antialiased bg-[#181b22] text-[#f3f7ff] selection:bg-[#d8e5ff] selection:text-black`}
       >
         {children}
       </body>

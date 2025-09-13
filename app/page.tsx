@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import Nav from "./components/nav";
+import Banner from "./components/banner";
 import Projects from "./components/projects";
 import Project from "./components/project";
 import Lenis from "lenis";
@@ -121,7 +122,7 @@ export default function Home() {
             windowTwo.style.height = `calc(100% - ${
               padding - adjustedProgress * padding
             }px - ${doodleHeight - adjustedProgress * doodleHeight}px)`;
-            windowTwo.style.filter = `brightness(1)`;
+            windowTwo.style.filter = `brightness(${adjustedProgress})`;
           } else {
             windowTwo.style.height = `calc(${adjustedProgress * 100}% - ${
               padding - adjustedProgress * padding
@@ -192,12 +193,7 @@ export default function Home() {
           height: `calc(100vh - ${padding * 2}px)`,
         }}
       >
-        <div className="window window absolute flex flex-col items-stretch w-full rounded-2xl overflow-hidden h-40 bg-[#323740]">
-          <div className="w-full h-full relative flex items-center justify-center text-3xl font-medium">
-            <h1>kiranpa.tel</h1>
-          </div>
-          <div className="filter absolute w-full rounded-2xl overflow-hidden mix-blend-plus-lighter blur-xl h-full"></div>
-        </div>
+        <Banner height={doodleHeight} />
         {Projects.map((project, index) => (
           <Project
             key={index}

@@ -13,7 +13,6 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
   const description = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [normalizedProgress, setNormalizedProgress] = useState(0);
-  const [weights, setWeights] = useState<number[]>([]);
 
   useEffect(() => {
     if (title.current && description.current && scrollProgress > 1) {
@@ -42,57 +41,29 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
       scrollProgress > 1 ? (scrollProgress - 1) / (Projects.length - 1) : 0;
     setNormalizedProgress(normalizedScrollProgress);
 
-    setWeights(generateNumbers(normalizedScrollProgress, 40).finalWeights);
     const bars = document.querySelectorAll(".bar") as NodeListOf<HTMLElement>;
-
     window.addEventListener("scroll", () => {
+      const minWidth = 10; // in percentage
+      const maxWidth = 100 - (Projects.length - 1) * minWidth;
+      const normalizedActiveIndex = Math.floor(scrollProgress);
+      const normalizedScrollProgress = scrollProgress % 1;
+      const openingWidth = normalizedScrollProgress * maxWidth;
+      const closingWidth = (1 - normalizedScrollProgress) * maxWidth;
+
       bars.forEach((bar, index) => {
         if (scrollProgress > 1) {
-          bar.style.width = `${weights[index]}%`;
+          if (index === normalizedActiveIndex - 1) {
+            bar.style.width = `${closingWidth + minWidth}%`;
+          } else if (index === normalizedActiveIndex) {
+            bar.style.width = `${openingWidth + minWidth}%`;
+          } else {
+            bar.style.width = `${minWidth}%`;
+          }
         } else {
           bar.style.width = `${100 / Projects.length}%`;
         }
-        bar.style.transition = "width 0.1s ease-in-out";
       });
     });
-
-    function generateNumbers(percentage: number, maxWeight: number) {
-      const totalSum = 100; // The target total sum
-      const numberOfElements = Projects.length; // Total elements in the array
-      const midPoint = percentage * (numberOfElements - 1); // The "center" based on the percentage
-
-      // Calculate preliminary weights based on proximity to the midpoint
-      const rawWeights = Array.from({ length: numberOfElements }, (_, i) => {
-        const distance = Math.abs(i - midPoint);
-        return 1 / (distance + 1); // Closer indices have higher weights
-      });
-
-      // Normalize preliminary weights to get their relative contributions
-      const rawWeightSum = rawWeights.reduce((sum, weight) => sum + weight, 0);
-      const normalizedWeights = rawWeights.map(
-        (weight) => weight / rawWeightSum
-      );
-
-      // Apply the max weight constraint
-      const scaledWeights = normalizedWeights.map((weight) =>
-        Math.min(weight * totalSum, maxWeight)
-      );
-      const scaledWeightSum = scaledWeights.reduce(
-        (sum, weight) => sum + weight,
-        0
-      );
-
-      // Redistribute excess/remaining weight proportionally
-      const redistributionFactor =
-        (totalSum - scaledWeightSum) / scaledWeightSum;
-      const finalWeights = scaledWeights.map(
-        (weight) => weight + weight * redistributionFactor
-      );
-
-      const maxWeightIndex = scaledWeights.indexOf(Math.max(...scaledWeights));
-
-      return { finalWeights, maxWeightIndex };
-    }
 
     return () => {
       window.removeEventListener("scroll", () => {});
@@ -153,7 +124,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
           ))}
         </div>
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-1">
         <h1 ref={title} className="text-lg font-medium">
           My Projects
         </h1>
