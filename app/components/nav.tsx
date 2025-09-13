@@ -142,7 +142,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
               style={{
                 opacity:
                   scrollProgress > 1
-                    ? index === activeIndex + 1
+                    ? index === activeIndex - 1
                       ? 1
                       : 0.6
                     : 0.6,

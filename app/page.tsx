@@ -109,7 +109,9 @@ export default function Home() {
             windowOne.style.filter = `brightness(1)`;
           }
           filterOne.style.opacity = `${adjustedProgress}`;
-          // filterOne.style.filter = `blur(20px) brightness(${1 + adjustedProgress})`
+          filterOne.style.filter = `blur(20px) brightness(${
+            1 + adjustedProgress
+          })`;
         }
 
         if (sectionTwo < windowCount) {
@@ -127,7 +129,9 @@ export default function Home() {
             windowTwo.style.filter = `brightness(1)`;
           }
           filterTwo.style.opacity = `${1 - adjustedProgress}`;
-          // filterTwo.style.filter = `blur(20px) brightness(${2 - adjustedProgress})`
+          filterTwo.style.filter = `blur(20px) brightness(${
+            2 - adjustedProgress
+          })`;
         }
       }
 
@@ -160,7 +164,7 @@ export default function Home() {
         (lenis as any).destroy();
       }
     };
-  }, [padding]);
+  }, [setScrollProgress, padding, doodleHeight]);
 
   return (
     <main ref={main}>
