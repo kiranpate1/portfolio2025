@@ -79,6 +79,7 @@ const DoodleOpening = ({}: props) => {
       lines.forEach((line, index) => {
         setTimeout(() => {
           line.style.opacity = "1";
+          line.style.transform = "scale(1)";
         }, (LinesLength - index) * 10);
       });
 

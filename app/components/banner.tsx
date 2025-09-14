@@ -54,7 +54,7 @@ const Banner = ({ height }: props) => {
   const terminalRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const prompt = "kiran@kiranpa.tel ~ % ";
+  const prompt = "kiran@kiranpa.tel ~ %\u00A0";
 
   // Blinking cursor effect
   useEffect(() => {
@@ -203,40 +203,45 @@ const Banner = ({ height }: props) => {
   return (
     <div
       ref={terminalRef}
-      className="window p-3 absolute flex flex-col items-stretch w-full rounded-2xl bg-[#0a0e15] caption-small overflow-auto select-text"
+      className="window absolute w-full rounded-2xl bg-[#0a0e15] overflow-scroll"
       style={{ height: `${height}px` }}
     >
-      {lines.map((line, index) => (
-        <div key={index} className="whitespace-pre-wrap select-text leading-3">
-          {line}
-        </div>
-      ))}
-
-      <div className="flex select-text leading-3">
-        <span className="text-green-400 select-text">{prompt}</span>
-        <div className="flex-1 relative">
-          <span className="text-green-400 select-text">{currentInput}</span>
-          <span
-            className={`absolute top-0 bg-green-400 text-black w-2 h-3 ${
-              cursorVisible ? "opacity-100" : "opacity-0"
-            } transition-opacity`}
-            style={{
-              left: `${cursorPosition * 0.6}em`, // Approximate character width in monospace
-            }}
+      <div className="flex flex-col items-stretch p-3 w-full caption-small select-text">
+        {lines.map((line, index) => (
+          <div
+            key={index}
+            className="whitespace-pre-wrap select-text leading-3"
           >
-            {cursorPosition < currentInput.length
-              ? currentInput[cursorPosition]
-              : " "}
-          </span>
-          <input
-            ref={inputRef}
-            type="text"
-            value=""
-            onKeyDown={handleKeyDown}
-            className="absolute inset-0 bg-transparent border-none outline-none text-transparent w-full pointer-events-none"
-            style={{ caretColor: "transparent" }}
-            readOnly
-          />
+            {line}
+          </div>
+        ))}
+
+        <div className="flex select-text leading-3">
+          <span className="text-green-400 select-text">{prompt}</span>
+          <div className="flex-1 relative">
+            <span className="text-green-400 select-text">{currentInput}</span>
+            <span
+              className={`absolute top-0 bg-green-400 text-black w-2 h-3 ${
+                cursorVisible ? "opacity-100" : "opacity-0"
+              } transition-opacity`}
+              style={{
+                left: `${cursorPosition * 0.6}em`, // Approximate character width in monospace
+              }}
+            >
+              {cursorPosition < currentInput.length
+                ? currentInput[cursorPosition]
+                : " "}
+            </span>
+            <input
+              ref={inputRef}
+              type="text"
+              value=""
+              onKeyDown={handleKeyDown}
+              className="absolute inset-0 bg-transparent border-none outline-none text-transparent w-full pointer-events-none"
+              style={{ caretColor: "transparent" }}
+              readOnly
+            />
+          </div>
         </div>
       </div>
       <div className="filter"></div>
