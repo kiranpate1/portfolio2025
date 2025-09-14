@@ -238,3 +238,26 @@ body {
 .numbers path {
   transition: opacity 0.3s ease-in-out;
 }
+
+.blinker {
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.window input {
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+input {
+  border: none;
+  outline: none;
+  background: transparent;
+  caret-color: transparent; /* hide native caret if you use a custom .blinker element */
+}
