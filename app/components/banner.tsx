@@ -4,30 +4,6 @@ type props = {
   height: number;
 };
 
-// $ cat about.me
-// Name:     Kiran Patel
-// Roles:    Designer / Developer / Artist
-// Status:   Freelancing · Remote-friendly
-// Focus:    UX, frontend (React + TypeScript), generative/motion visuals
-
-// $ skills
-// - Product & interface design
-// - Component-driven frontend (React / Next.js / TypeScript)
-// - Interactive visuals & generative art
-// - Prototyping, motion, illustration
-
-// $ projects --recent
-// • portfolio2025 — a fast, polished personal site (this site)
-// • experimental-visuals — WebGL + creative coding experiments
-// • client-work — design systems, prototypes, brand identities
-
-// $ ethos
-// "Design with code. Ship with craft."
-
-// $ connect --method=contact
-// > email: hello@kiranpa.tel     github: github.com/kiranpatel
-// > dribbble / behance / linkedin — available on profile links
-
 const Banner = ({ height }: props) => {
   const [fullDate, setFullDate] = useState("");
   const [isMounted, setIsMounted] = useState(false);
@@ -50,16 +26,21 @@ const Banner = ({ height }: props) => {
   }, []);
 
   const firstLine = `Last login: ${isMounted ? fullDate : ""} on ttys013`;
-  const [lines, setLines] = useState<string[]>([firstLine]);
+  const secondLine = "===============================================";
+  const thirdLine = "kiran patel ~ designer · developer · artist";
+  const [lines, setLines] = useState<string[]>([
+    firstLine,
+    secondLine,
+    thirdLine,
+  ]);
 
   // Keep the first history line in sync with the computed fullDate after hydration.
   // We compare before updating to avoid unnecessary state updates.
   useEffect(() => {
-    const newFirst = `Last login: ${isMounted ? fullDate : ""} on ttys013`;
     setLines((prev) => {
-      if (prev[0] === newFirst) return prev;
+      if (prev[0] === firstLine) return prev;
       const updated = [...prev];
-      updated[0] = newFirst;
+      updated[0] = firstLine;
       return updated;
     });
   }, [fullDate, isMounted]);
@@ -132,7 +113,7 @@ const Banner = ({ height }: props) => {
       // Simulate command response (you can extend this)
       if (currentInput.trim()) {
         if (currentInput.trim() === "clear") {
-          setLines([firstLine]);
+          setLines([firstLine, secondLine, thirdLine]);
         } else if (currentInput.trim() === "help") {
           setLines((prev) => [
             ...prev,
@@ -156,12 +137,7 @@ const Banner = ({ height }: props) => {
           ]);
         } else if (currentInput.trim().startsWith("projects")) {
           if (currentInput.trim() === "projects --recent") {
-            setLines((prev) => [
-              ...prev,
-              "• portfolio2025 — a fast, polished personal site (this site)",
-              "• experimental-visuals — WebGL + creative coding experiments",
-              "• client-work — design systems, prototypes, brand identities",
-            ]);
+            setLines((prev) => [...prev, "yo mama"]);
           } else {
             setLines((prev) => [
               ...prev,
@@ -169,6 +145,14 @@ const Banner = ({ height }: props) => {
               "• experimental-visuals — WebGL + creative coding experiments",
               "• client-work — design systems, prototypes, brand identities",
             ]);
+          }
+        } else if (currentInput.trim() === "ethos") {
+          setLines((prev) => [...prev, '"Design with code. Ship with craft."']);
+        } else if (currentInput.trim().startsWith("connect")) {
+          if (currentInput.trim() === "connect --method=contact") {
+            setLines((prev) => [...prev, "> email: kiran@example.com"]);
+          } else {
+            setLines((prev) => [...prev, "> email: kiran@example.com"]);
           }
         } else if (currentInput.trim() === "pwd") {
           setLines((prev) => [...prev, "https://kiranpa.tel/"]);
@@ -222,25 +206,26 @@ const Banner = ({ height }: props) => {
       className="window flex flex-col absolute w-full rounded-2xl bg-[#0a0e15] overflow-scroll"
       style={{
         height: `${height}px`,
-        justifyContent: lines.length < 6 ? "flex-start" : "flex-end",
+        justifyContent: lines.length < 9 ? "flex-start" : "flex-end",
       }}
     >
-      <div className="flex flex-col items-stretch p-3 w-full caption-small select-text">
+      <div className="flex flex-col items-stretch p-3 w-full caption-medium select-text">
         {lines.map((line, index) => (
           <div
             key={index}
-            className="whitespace-pre-wrap select-text leading-3"
+            className="whitespace-pre-wrap select-text leading-4"
+            style={{ color: index === 1 ? "#8b96ad" : undefined }}
           >
             {line}
           </div>
         ))}
 
-        <div className="flex select-text leading-3">
+        <div className="flex select-text leading-4">
           <span className="text-green-400 select-text">{prompt}</span>
           <div className="flex-1 relative">
             <span className="text-green-400 select-text">{currentInput}</span>
             <span
-              className={`absolute top-0 bg-green-400 text-black w-1.5 h-3 ${
+              className={`absolute top-0 bg-green-400 text-black w-[7px] h-4 ${
                 cursorVisible ? "opacity-100" : "opacity-0"
               } transition-opacity`}
               style={{
