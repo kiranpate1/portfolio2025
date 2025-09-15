@@ -3,11 +3,25 @@ import React, { useEffect } from "react";
 type props = {};
 
 const DoodleOpening = ({}: props) => {
+  const cities = ["Toronto", "San Francisco", "London", "New York", "Seoul"];
+  const [currentCityIndex, setCurrentCityIndex] = React.useState(0);
+  const nextCity = React.useRef<SVGGElement>(null);
+  const prevCity = React.useRef<SVGGElement>(null);
+
   useEffect(() => {
     // time
-    const updateClock = () => {
+    const updateClock = (city: string) => {
+      // map friendly city names to valid IANA time zone identifiers
+      const timeZoneMap: Record<string, string> = {
+        Toronto: "America/Toronto",
+        "San Francisco": "America/Los_Angeles",
+        London: "Europe/London",
+        "New York": "America/New_York",
+        Seoul: "Asia/Seoul",
+      };
+      const tz = timeZoneMap[city] ?? "UTC";
       const dtf = new Intl.DateTimeFormat("en-US", {
-        timeZone: "America/New_York",
+        timeZone: tz,
         hour12: false,
         hour: "2-digit",
         minute: "2-digit",
@@ -41,6 +55,105 @@ const DoodleOpening = ({}: props) => {
         );
       if (hoursGroup)
         hoursGroup.setAttribute("transform", `rotate(${hoursAngle} 160 90)`);
+    };
+
+    //temperature
+    const weatherUpdate = (city: string) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open(
+        "GET",
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=cad7ec124945dcfff04e457e76760d90`
+      );
+      xhr.send();
+      xhr.onload = () => {
+        var data = JSON.parse(xhr.response);
+        const temp = Math.round(data.main.temp - 273.15); // Kelvin to Celsius
+        const minTemp = -30;
+        const maxTemp = 40;
+        const ratio = Math.max(
+          0,
+          Math.min(1, (temp - minTemp) / (maxTemp - minTemp))
+        );
+        const tempBar = document?.querySelector<SVGPathElement>(".temp-bar");
+        if (tempBar) {
+          const duration: number = 800; // ms
+          const startTime = performance.now();
+          const from = 0;
+          const to = ratio;
+          const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+          // cancel any previous animation
+          const prev = (window as any).__tempBarRaf;
+          if (prev) cancelAnimationFrame(prev);
+
+          const step = (now: number) => {
+            const elapsed = Math.min(duration, now - startTime);
+            const t = duration === 0 ? 1 : elapsed / duration;
+            const eased = easeOutCubic(t);
+            const animatedRatio = from + (to - from) * eased;
+
+            tempBar.setAttribute(
+              "d",
+              `M12 ${
+                16 + (144 - animatedRatio * 144)
+              }H21V163.5C21 165.985 18.9853 168 16.5 168V168C14.0147 168 12 165.985 12 163.5V104Z`
+            );
+
+            if (elapsed < duration) {
+              (window as any).__tempBarRaf = requestAnimationFrame(step);
+            } else {
+              (window as any).__tempBarRaf = undefined;
+            }
+          };
+
+          (window as any).__tempBarRaf = requestAnimationFrame(step);
+        }
+
+        const celsius = Math.round(data.main.temp - 273.15);
+        const fahrenheit = Math.round((celsius * 9) / 5 + 32);
+
+        const celsiusEl = document?.querySelector<HTMLElement>(".celsius");
+        if (celsiusEl) celsiusEl.innerText = `${celsius}°C`;
+        const fahrenheitEl =
+          document?.querySelector<HTMLElement>(".fahrenheit");
+        if (fahrenheitEl) fahrenheitEl.innerText = `${fahrenheit}°F`;
+        // for (
+        //   let i = 0;
+        //   i < document.querySelectorAll(".city-" + slang + " .clouds").length;
+        //   i++
+        // ) {
+        //   let elm;
+        //   if (data.weather[0].main == "Clouds") {
+        //     elm = document.querySelectorAll(".city-" + slang + " .clouds")[0];
+        //   } else if (data.weather[0].main == "Clear") {
+        //     elm = document.querySelectorAll(".city-" + slang + " .clear")[0];
+        //   } else if (data.weather[0].main == "Rain") {
+        //     elm = document.querySelectorAll(".city-" + slang + " .rain")[0];
+        //   } else if (data.weather[0].main == "Snow") {
+        //     elm = document.querySelectorAll(".city-" + slang + " .snow")[0];
+        //   } else if (data.weather[0].main == "Haze") {
+        //     elm = document.querySelectorAll(".city-" + slang + " .haze")[0];
+        //   } else if (data.weather[0].main == "Thunderstorm") {
+        //     elm = document.querySelectorAll(
+        //       ".city-" + slang + " .thunderstorm"
+        //     )[0];
+        //   } else if (
+        //     data.weather[0].main == "Mist" ||
+        //     data.weather[0].main == "Fog"
+        //   ) {
+        //     elm = document.querySelectorAll(".city-" + slang + " .mist")[0];
+        //   } else if (data.weather[0].main == "Drizzle") {
+        //     elm = document.querySelectorAll(".city-" + slang + " .drizzle")[0];
+        //   }
+        //   if (!elm) return;
+        //   elm.style.display = "block";
+        //   elm.style.opacity = "0";
+        //   elm.style.transition = "opacity .3s linear";
+        //   requestAnimationFrame(() => {
+        //     elm.style.opacity = "1";
+        //   });
+        // }
+      };
     };
 
     function loadingAnimation() {
@@ -95,123 +208,68 @@ const DoodleOpening = ({}: props) => {
       });
     }
 
-    //temperature
-    const weatherUpdate = (city: string, slang: string) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open(
-        "GET",
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=cad7ec124945dcfff04e457e76760d90`
-      );
-      xhr.send();
-      xhr.onload = () => {
-        var data = JSON.parse(xhr.response);
-        const temp = Math.round(data.main.temp - 273.15); // Kelvin to Celsius
-        const minTemp = -30;
-        const maxTemp = 40;
-        const ratio = Math.max(
-          0,
-          Math.min(1, (temp - minTemp) / (maxTemp - minTemp))
-        );
-        const tempBar = document?.querySelector<SVGPathElement>(".temp-bar");
-        if (tempBar) {
-          const duration: number = 800; // ms
-          const startTime = performance.now();
-          const from = 0;
-          const to = ratio;
-          const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+    weatherUpdate(cities[currentCityIndex]);
 
-          // cancel any previous animation
-          const prev = (window as any).__tempBarRaf;
-          if (prev) cancelAnimationFrame(prev);
-
-          const step = (now: number) => {
-            const elapsed = Math.min(duration, now - startTime);
-            const t = duration === 0 ? 1 : elapsed / duration;
-            const eased = easeOutCubic(t);
-            const animatedRatio = from + (to - from) * eased;
-
-            tempBar.setAttribute(
-              "d",
-              `M12 ${
-                16 + (144 - animatedRatio * 144)
-              }H21V163.5C21 165.985 18.9853 168 16.5 168V168C14.0147 168 12 165.985 12 163.5V104Z`
-            );
-
-            if (elapsed < duration) {
-              (window as any).__tempBarRaf = requestAnimationFrame(step);
-            } else {
-              (window as any).__tempBarRaf = undefined;
-            }
-          };
-
-          (window as any).__tempBarRaf = requestAnimationFrame(step);
-        }
-        // if (tempBar) {
-        //   tempBar.setAttribute(
-        //     "d",
-        //     `M12 ${
-        //       16 + (144 - ratio * 144)
-        //     }H21V163.5C21 165.985 18.9853 168 16.5 168V168C14.0147 168 12 165.985 12 163.5V104Z`
-        //   );
-        // }
-
-        const celsius = Math.round(data.main.temp - 273.15);
-        const fahrenheit = Math.round((celsius * 9) / 5 + 32);
-
-        const celsiusEl = document?.querySelector<HTMLElement>(".celsius");
-        if (celsiusEl) celsiusEl.innerText = `${celsius}°C`;
-        const fahrenheitEl =
-          document?.querySelector<HTMLElement>(".fahrenheit");
-        if (fahrenheitEl) fahrenheitEl.innerText = `${fahrenheit}°F`;
-        // for (
-        //   let i = 0;
-        //   i < document.querySelectorAll(".city-" + slang + " .clouds").length;
-        //   i++
-        // ) {
-        //   let elm;
-        //   if (data.weather[0].main == "Clouds") {
-        //     elm = document.querySelectorAll(".city-" + slang + " .clouds")[0];
-        //   } else if (data.weather[0].main == "Clear") {
-        //     elm = document.querySelectorAll(".city-" + slang + " .clear")[0];
-        //   } else if (data.weather[0].main == "Rain") {
-        //     elm = document.querySelectorAll(".city-" + slang + " .rain")[0];
-        //   } else if (data.weather[0].main == "Snow") {
-        //     elm = document.querySelectorAll(".city-" + slang + " .snow")[0];
-        //   } else if (data.weather[0].main == "Haze") {
-        //     elm = document.querySelectorAll(".city-" + slang + " .haze")[0];
-        //   } else if (data.weather[0].main == "Thunderstorm") {
-        //     elm = document.querySelectorAll(
-        //       ".city-" + slang + " .thunderstorm"
-        //     )[0];
-        //   } else if (
-        //     data.weather[0].main == "Mist" ||
-        //     data.weather[0].main == "Fog"
-        //   ) {
-        //     elm = document.querySelectorAll(".city-" + slang + " .mist")[0];
-        //   } else if (data.weather[0].main == "Drizzle") {
-        //     elm = document.querySelectorAll(".city-" + slang + " .drizzle")[0];
-        //   }
-        //   if (!elm) return;
-        //   elm.style.display = "block";
-        //   elm.style.opacity = "0";
-        //   elm.style.transition = "opacity .3s linear";
-        //   requestAnimationFrame(() => {
-        //     elm.style.opacity = "1";
-        //   });
-        // }
-        console.log(
-          data.name +
-            ", " +
-            `${Math.round(data.main.temp - 273.15)}°C` +
-            ", " +
-            data.weather[0].main +
-            ", " +
-            data.weather[0].description
-        );
-      };
+    const clearGlobalInterval = () => {
+      if (typeof window === "undefined") return;
+      const prev = (window as any).__doodleInterval;
+      if (prev) {
+        clearInterval(prev);
+        (window as any).__doodleInterval = undefined;
+      }
     };
 
-    weatherUpdate("toronto", "toronto");
+    // start initial clock interval (clear any previous one first)
+    updateClock(cities[currentCityIndex]);
+    clearGlobalInterval();
+    if (typeof window !== "undefined") {
+      const id = window.setInterval(
+        () => updateClock(cities[currentCityIndex]),
+        1000
+      );
+      (window as any).__doodleInterval = id;
+    }
+
+    if (nextCity.current && prevCity.current) {
+      nextCity.current.onclick = () => {
+        setCurrentCityIndex((prevIndex) => {
+          const newIndex = (prevIndex + 1) % cities.length;
+          updateClock(cities[newIndex]);
+          weatherUpdate(cities[newIndex]);
+
+          // recreate interval for the new city and cancel the old one
+          clearGlobalInterval();
+          if (typeof window !== "undefined") {
+            const id = window.setInterval(
+              () => updateClock(cities[newIndex]),
+              1000
+            );
+            (window as any).__doodleInterval = id;
+          }
+
+          return newIndex;
+        });
+      };
+      prevCity.current.onclick = () => {
+        setCurrentCityIndex((prevIndex) => {
+          const newIndex = (prevIndex - 1 + cities.length) % cities.length;
+          updateClock(cities[newIndex]);
+          weatherUpdate(cities[newIndex]);
+
+          // recreate interval for the new city and cancel the old one
+          clearGlobalInterval();
+          if (typeof window !== "undefined") {
+            const id = window.setInterval(
+              () => updateClock(cities[newIndex]),
+              1000
+            );
+            (window as any).__doodleInterval = id;
+          }
+
+          return newIndex;
+        });
+      };
+    }
 
     if (typeof document !== "undefined" && document.readyState === "complete") {
       loadingAnimation();
@@ -220,10 +278,8 @@ const DoodleOpening = ({}: props) => {
       window.addEventListener("load", loadingAnimation, { once: true });
     }
 
-    updateClock();
-    const intervalId = window.setInterval(updateClock, 1000);
     return () => {
-      clearInterval(intervalId);
+      clearGlobalInterval();
       if (typeof window !== "undefined") {
         window.removeEventListener("load", loadingAnimation);
       }
@@ -234,7 +290,47 @@ const DoodleOpening = ({}: props) => {
     <div className="absolute inset-0">
       <div className="absolute left-8 top-2.5 inset-[10px_auto_7px_32px] flex flex-col justify-between">
         <div className="flex flex-col gap-1">
-          <p className="caption-small text-[#B1BFDB]">TORONTO</p>
+          <p className="caption-small text-[#B1BFDB]">
+            {cities[currentCityIndex].toUpperCase()}
+          </p>
+          <svg
+            transform="translate(-2,0)"
+            width="24"
+            height="12"
+            viewBox="0 0 24 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g className="cursor-pointer hover:opacity-80" ref={prevCity}>
+              <rect width="12" height="12" fill="#181B22" />
+              <path
+                d="M6.8645 2.78809L3.901 5.22859C3.78705 5.3224 3.69529 5.44028 3.63229 5.57375C3.56929 5.70723 3.53662 5.85299 3.53662 6.00059C3.53662 6.14818 3.56929 6.29395 3.63229 6.42742C3.69529 6.5609 3.78705 6.67877 3.901 6.77259L6.8645 9.21309"
+                stroke="#B1BFDB"
+                strokeWidth="1.2"
+              />
+            </g>
+            <g className="cursor-pointer hover:opacity-80" ref={nextCity}>
+              <rect
+                width="12"
+                height="12"
+                transform="matrix(-1 0 0 1 24 0)"
+                fill="#181B22"
+              />
+              <path
+                d="M17.1355 2.78809L20.099 5.22859C20.2129 5.3224 20.3047 5.44028 20.3677 5.57375C20.4307 5.70723 20.4634 5.85299 20.4634 6.00059C20.4634 6.14818 20.4307 6.29395 20.3677 6.42742C20.3047 6.5609 20.2129 6.67877 20.099 6.77259L17.1355 9.21309"
+                stroke="#B1BFDB"
+                strokeWidth="1.2"
+              />
+            </g>
+          </svg>
+        </div>
+        <div className="flex flex-col">
+          <p className="caption-large celsius text-[#B1BFDB]">0°C</p>
+          <p className="caption-large fahrenheit text-[#656D7F]">0°F</p>
+        </div>
+      </div>
+      <div className="absolute right-3 top-3">
+        {currentCityIndex === 0 ? (
           <svg
             width="22"
             height="15"
@@ -258,11 +354,65 @@ const DoodleOpening = ({}: props) => {
               fill="#181B22"
             />
           </svg>
-        </div>
-        <div className="flex flex-col">
-          <p className="caption-large celsius text-[#B1BFDB]">0°C</p>
-          <p className="caption-large fahrenheit text-[#656D7F]">0°F</p>
-        </div>
+        ) : currentCityIndex === 2 ? (
+          <svg
+            width="22"
+            height="15"
+            viewBox="0 0 22 15"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              x="0.5"
+              y="0.5"
+              width="21"
+              height="14"
+              rx="3.625"
+              stroke="#656D7F"
+            />
+            <path
+              d="M10.0322 14H9V10.4043L3.46875 14H2.23438L9 9.60156V9.20996H8.06055L1 13.7988V12.3945L5.89941 9.20996H1V8.52637H10.0322V14Z"
+              fill="#656D7F"
+            />
+            <path
+              d="M21 9.20996H16.1006L21 12.3945V13.1973L14.8662 9.20996H13.3213L20.6914 14H18.5312L13 10.4043V14H11.9678V8.52637H21V9.20996Z"
+              fill="#656D7F"
+            />
+            <path
+              d="M9 4.59473V1H10.0322V6.47363H1V5.78906H5.89746L1 2.60547V1.80273L7.13281 5.78906H8.67676L1.30859 1H3.46875L9 4.59473Z"
+              fill="#656D7F"
+            />
+            <path
+              d="M13 4.59375L18.5312 1H19.7656L13 5.39746V5.78906H13.9404L21 1.2002V2.60449L16.1016 5.78906H21V6.47363H11.9678V1H13V4.59375Z"
+              fill="#656D7F"
+            />
+          </svg>
+        ) : (
+          <svg
+            width="22"
+            height="15"
+            viewBox="0 0 22 15"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              x="0.5"
+              y="0.5"
+              width="21"
+              height="14"
+              rx="3.625"
+              stroke="#656D7F"
+            />
+            <path
+              d="M1 11.7778H21V13H1V11.7778ZM11 6.88889H21V8.11111H11V6.88889ZM11 4.44444H21V5.66667H11V4.44444ZM1 9.33333H21V10.5556H1V9.33333ZM11 2H21V3.22222H11V2Z"
+              fill="#656D7F"
+            />
+            <path
+              d="M1.75 2.44367L2.12767 2.71806L1.98344 3.16111L2.3605 2.88733L2.73817 3.16111L2.59394 2.71806L2.97161 2.44367H2.50472L2.3605 2L2.21689 2.44367H1.75ZM2.97222 3.66589L3.34989 3.94028L3.20567 4.38333L3.58272 4.10956L3.96039 4.38333L3.81617 3.94028L4.19383 3.66589H3.72694L3.58272 3.22222L3.43911 3.66589H2.97222ZM5.41667 3.66589L5.79433 3.94028L5.65011 4.38333L6.02717 4.10956L6.40483 4.38333L6.26061 3.94028L6.63828 3.66589H6.17139L6.02717 3.22222L5.88356 3.66589H5.41667ZM7.86111 3.66589L8.23878 3.94028L8.09456 4.38333L8.47161 4.10956L8.84928 4.38333L8.70506 3.94028L9.08272 3.66589H8.61583L8.47161 3.22222L8.328 3.66589H7.86111ZM2.97222 6.11033L3.34989 6.38472L3.20567 6.82778L3.58272 6.554L3.96039 6.82778L3.81617 6.38472L4.19383 6.11033H3.72694L3.58272 5.66667L3.43911 6.11033H2.97222ZM5.41667 6.11033L5.79433 6.38472L5.65011 6.82778L6.02717 6.554L6.40483 6.82778L6.26061 6.38472L6.63828 6.11033H6.17139L6.02717 5.66667L5.88356 6.11033H5.41667ZM7.86111 6.11033L8.23878 6.38472L8.09456 6.82778L8.47161 6.554L8.84928 6.82778L8.70506 6.38472L9.08272 6.11033H8.61583L8.47161 5.66667L8.328 6.11033H7.86111ZM4.19444 2.44367L4.57211 2.71806L4.42789 3.16111L4.80494 2.88733L5.18261 3.16111L5.03839 2.71806L5.41606 2.44367H4.94917L4.80494 2L4.66133 2.44367H4.19444ZM6.63889 2.44367L7.01656 2.71806L6.87233 3.16111L7.24939 2.88733L7.62706 3.16111L7.48283 2.71806L7.8605 2.44367H7.39361L7.24939 2L7.10578 2.44367H6.63889ZM9.08333 2.44367L9.461 2.71806L9.31678 3.16111L9.69383 2.88733L10.0715 3.16111L9.92728 2.71806L10.3049 2.44367H9.83806L9.69383 2L9.55022 2.44367H9.08333ZM1.75 4.88811L2.12767 5.1625L1.98344 5.60556L2.3605 5.33178L2.73817 5.60556L2.59394 5.1625L2.97161 4.88811H2.50472L2.3605 4.44444L2.21689 4.88811H1.75ZM4.42789 5.60556L4.80494 5.33178L5.18261 5.60556L5.03839 5.1625L5.41606 4.88811H4.94917L4.80494 4.44444L4.66133 4.88811H4.19444L4.57211 5.1625L4.42789 5.60556ZM6.63889 4.88811L7.01656 5.1625L6.87233 5.60556L7.24939 5.33178L7.62706 5.60556L7.48283 5.1625L7.8605 4.88811H7.39361L7.24939 4.44444L7.10578 4.88811H6.63889ZM9.08333 4.88811L9.461 5.1625L9.31678 5.60556L9.69383 5.33178L10.0715 5.60556L9.92728 5.1625L10.3049 4.88811H9.83806L9.69383 4.44444L9.55022 4.88811H9.08333ZM1.75 7.33256L2.12767 7.60694L1.98344 8.05L2.3605 7.77622L2.73817 8.05L2.59394 7.60694L2.97161 7.33256H2.50472L2.3605 6.88889L2.21689 7.33256H1.75ZM4.42789 8.05L4.80494 7.77622L5.18261 8.05L5.03839 7.60694L5.41606 7.33256H4.94917L4.80494 6.88889L4.66133 7.33256H4.19444L4.57211 7.60694L4.42789 8.05ZM6.63889 7.33256L7.01656 7.60694L6.87233 8.05L7.24939 7.77622L7.62706 8.05L7.48283 7.60694L7.8605 7.33256H7.39361L7.24939 6.88889L7.10578 7.33256H6.63889ZM9.08333 7.33256L9.461 7.60694L9.31678 8.05L9.69383 7.77622L10.0715 8.05L9.92728 7.60694L10.3049 7.33256H9.83806L9.69383 6.88889L9.55022 7.33256H9.08333Z"
+              fill="#656D7F"
+            />
+          </svg>
+        )}
       </div>
       <svg
         width="250"

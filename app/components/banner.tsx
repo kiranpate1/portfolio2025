@@ -26,8 +26,9 @@ const Banner = ({ height }: props) => {
   }, []);
 
   const firstLine = `Last login: ${isMounted ? fullDate : ""} on ttys013`;
-  const secondLine = "===============================================";
-  const thirdLine = "kiran patel ~ designer · developer · artist";
+  const secondLine = "==========================================";
+  const thirdLine =
+    "kiran patel ~ designer · developer · artist · open to work";
   const [lines, setLines] = useState<string[]>([
     firstLine,
     secondLine,
@@ -51,7 +52,7 @@ const Banner = ({ height }: props) => {
   const terminalRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const prompt = "kiran@kiranpa.tel ~ %\u00A0";
+  const prompt = "hello@kiranpa.tel ~ %\u00A0";
 
   // Blinking cursor effect
   useEffect(() => {
