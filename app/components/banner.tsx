@@ -29,6 +29,9 @@ type props = {
 // > dribbble / behance / linkedin — available on profile links
 
 const Banner = ({ height }: props) => {
+  const [fullDate, setFullDate] = useState("");
+  const [isMounted, setIsMounted] = useState(false);
+
   useEffect(() => {
     const date = new Date();
     const dayofWeek = date.toLocaleDateString("en-US", { weekday: "short" });
@@ -41,13 +44,26 @@ const Banner = ({ height }: props) => {
       hour12: false,
     });
     const fullDate = `${dayofWeek} ${month} ${day} ${time}`;
-
-    const template = `Last login: ${fullDate} on ttys013
-> kiran@kiranpa.tel ~ % `;
+    setFullDate(fullDate);
+    // mark mounted so we only render the dynamic date after hydration
+    setIsMounted(true);
   }, []);
 
-  const firstLine = `Last login: 09/13/25 on ttys013`;
+  const firstLine = `Last login: ${isMounted ? fullDate : ""} on ttys013`;
   const [lines, setLines] = useState<string[]>([firstLine]);
+
+  // Keep the first history line in sync with the computed fullDate after hydration.
+  // We compare before updating to avoid unnecessary state updates.
+  useEffect(() => {
+    const newFirst = `Last login: ${isMounted ? fullDate : ""} on ttys013`;
+    setLines((prev) => {
+      if (prev[0] === newFirst) return prev;
+      const updated = [...prev];
+      updated[0] = newFirst;
+      return updated;
+    });
+  }, [fullDate, isMounted]);
+
   const [currentInput, setCurrentInput] = useState("");
   const [cursorPosition, setCursorPosition] = useState(0);
   const [cursorVisible, setCursorVisible] = useState(true);
@@ -203,8 +219,11 @@ const Banner = ({ height }: props) => {
   return (
     <div
       ref={terminalRef}
-      className="window absolute w-full rounded-2xl bg-[#0a0e15] overflow-scroll"
-      style={{ height: `${height}px` }}
+      className="window flex flex-col absolute w-full rounded-2xl bg-[#0a0e15] overflow-scroll"
+      style={{
+        height: `${height}px`,
+        justifyContent: lines.length < 6 ? "flex-start" : "flex-end",
+      }}
     >
       <div className="flex flex-col items-stretch p-3 w-full caption-small select-text">
         {lines.map((line, index) => (
@@ -221,7 +240,7 @@ const Banner = ({ height }: props) => {
           <div className="flex-1 relative">
             <span className="text-green-400 select-text">{currentInput}</span>
             <span
-              className={`absolute top-0 bg-green-400 text-black w-2 h-3 ${
+              className={`absolute top-0 bg-green-400 text-black w-1.5 h-3 ${
                 cursorVisible ? "opacity-100" : "opacity-0"
               } transition-opacity`}
               style={{
