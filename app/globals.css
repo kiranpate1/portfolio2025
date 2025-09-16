@@ -71,6 +71,8 @@ body {
   text-rendering: geometricPrecision;
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
+  font-feature-settings: "liga" 0, "calt" 0;
+  -webkit-font-feature-settings: "liga" 0, "calt" 0;
 }
 
 /* For Chrome, Safari, and Opera */

@@ -49,6 +49,8 @@ const Banner = ({ height }: props) => {
   const [currentInput, setCurrentInput] = useState("");
   const [cursorPosition, setCursorPosition] = useState(0);
   const [cursorVisible, setCursorVisible] = useState(true);
+  const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
   const terminalRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -110,6 +112,11 @@ const Banner = ({ height }: props) => {
     if (e.key === "Enter") {
       // Add current line to history
       setLines((prev) => [...prev, prompt + currentInput]);
+
+      if (currentInput.trim()) {
+        setCommandHistory((prev) => [...prev, currentInput.trim()]);
+      }
+      setHistoryIndex(-1); // Reset history index
 
       // Simulate command response (you can extend this)
       if (currentInput.trim()) {
@@ -173,6 +180,33 @@ const Banner = ({ height }: props) => {
     } else if (e.key === "ArrowRight") {
       e.preventDefault();
       setCursorPosition((prev) => Math.min(currentInput.length, prev + 1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (commandHistory.length > 0) {
+        const newIndex =
+          historyIndex === -1
+            ? commandHistory.length - 1
+            : Math.max(0, historyIndex - 1);
+        setHistoryIndex(newIndex);
+        const command = commandHistory[newIndex];
+        setCurrentInput(command);
+        setCursorPosition(command.length);
+      }
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (historyIndex >= 0) {
+        const newIndex = historyIndex + 1;
+        if (newIndex >= commandHistory.length) {
+          setHistoryIndex(-1);
+          setCurrentInput("");
+          setCursorPosition(0);
+        } else {
+          setHistoryIndex(newIndex);
+          const command = commandHistory[newIndex];
+          setCurrentInput(command);
+          setCursorPosition(command.length);
+        }
+      }
     } else if (e.key === "Backspace") {
       e.preventDefault();
       if (cursorPosition > 0) {

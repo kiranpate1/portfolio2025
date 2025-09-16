@@ -36,7 +36,7 @@ const Project = ({ title, padding, src }: props) => {
         alt="Filter Image"
         // quality={95}
       />
-      <div className="gradient-blur top inset-[0_0_auto_0] absolute min-h-12 max-h-12 min-w-full">
+      <div className="gradient-blur top inset-[0_0_auto_0] absolute min-h-20 max-h-20 min-w-full">
         <div></div>
         <div></div>
         <div></div>
@@ -44,7 +44,7 @@ const Project = ({ title, padding, src }: props) => {
         <div></div>
         <div></div>
       </div>
-      <div className="gradient-blur bottom inset-[auto_0_0_0] absolute min-h-12 max-h-12 min-w-full">
+      <div className="gradient-blur bottom inset-[auto_0_0_0] absolute min-h-20 max-h-20 min-w-full">
         <div></div>
         <div></div>
         <div></div>
