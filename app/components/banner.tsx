@@ -25,15 +25,14 @@ const Banner = ({ height }: props) => {
     setIsMounted(true);
   }, []);
 
+  const nameBanner = ` __  ___  __   ______       ___       __   __   ______      ___      ___________  _______  __          ___
+|  |/  / |  | |   _  \\     /   \\     |  \\ |  | |   _  \\    /   \\    |           ||   ____||  |        /  /
+|  '  /  |  | |  |_)  |   /  ^  \\    |   \\|  | |  |_)  |  /  ^  \\   '---|  |----'|  |__   |  |       /  / 
+|    <   |  | |      /   /  /_\\  \\   |  , '  | |   ___/  /  /_\\  \\      |  |     |   __|  |  |      /  /  
+|  .  \\  |  | |  |\\  \\-./  _____  \\  |  |\\   | |  |     /  _____  \\   __|  |     |  |____ |  '----./  /   
+|__|\\__\\ |__| | _| '.__/__/     \\__\\ |__| \\__| |__|    /__/     \\__\\ (__)__|     |_______||_______/__/`;
   const firstLine = `Last login: ${isMounted ? fullDate : ""} on ttys013`;
-  const secondLine = "==========================================";
-  const thirdLine =
-    "kiran patel ~ designer · developer · artist · open to work";
-  const [lines, setLines] = useState<string[]>([
-    firstLine,
-    secondLine,
-    thirdLine,
-  ]);
+  const [lines, setLines] = useState<string[]>([firstLine]);
 
   // Keep the first history line in sync with the computed fullDate after hydration.
   // We compare before updating to avoid unnecessary state updates.
@@ -121,7 +120,7 @@ const Banner = ({ height }: props) => {
       // Simulate command response (you can extend this)
       if (currentInput.trim()) {
         if (currentInput.trim() === "clear") {
-          setLines([firstLine, secondLine, thirdLine]);
+          setLines([firstLine]);
         } else if (currentInput.trim() === "help") {
           setLines((prev) => [
             ...prev,
@@ -244,20 +243,28 @@ const Banner = ({ height }: props) => {
       }}
     >
       <div
-        className="w-full h-full overflow-scroll flex flex-col rounded-2xl"
+        className="w-full h-full overflow-hidden flex flex-col rounded-2xl caption-small select-text p-3 justify-start"
         style={{
           justifyContent:
-            lines.length < Math.floor(height / 16) - 1
+            lines.length < Math.floor((height - 96) / 16) - 1
               ? "flex-start"
               : "flex-end",
         }}
       >
-        <div className="flex flex-col items-stretch p-3 w-full caption-medium select-text">
+        <div>
+          <div className="text-[#8b96ad]">
+            Designer · developer · artist · open to work
+          </div>
+          <pre>{nameBanner}</pre>
+          <div className="text-[#8b96ad]">
+            ==========================================================================================================
+          </div>
+        </div>
+        <div className="flex flex-col items-stretch w-full">
           {lines.map((line, index) => (
             <div
               key={index}
               className="whitespace-pre-wrap select-text leading-4"
-              style={{ color: index === 1 ? "#8b96ad" : undefined }}
             >
               {line}
             </div>
