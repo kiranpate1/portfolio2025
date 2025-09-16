@@ -9,7 +9,11 @@ import Lenis from "lenis";
 
 export default function Home() {
   const padding = 16;
-  const doodleHeight = 180;
+  const originalDoodleHeight = 180;
+  const [doodleHeight, setDoodleHeight] = useState(originalDoodleHeight);
+  const dragStartHeightRef = useRef(originalDoodleHeight);
+  const posRef = useRef({ top: 0, left: 0, x: 0, y: 0 });
+  const isDraggingRef = useRef(false);
   const scrollWindow = useRef<HTMLDivElement>(null);
   const main = useRef<HTMLElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -39,7 +43,7 @@ export default function Home() {
         sectionProgress = 0;
       } else {
         const vh = Math.max(window.innerHeight, 1);
-        const firstWeight = 250 / vh; // 250px relative to 100vh
+        const firstWeight = doodleHeight / vh; // doodleHeight relative to 100vh
         const otherWeight = 1; // represents 100vh
         const weights: number[] = [
           firstWeight,
@@ -145,6 +149,13 @@ export default function Home() {
         requestAnimationFrame(updateWindows);
         ticking = true;
       }
+      // console.log("test");
+      // dragHandle.current!.style.transform = `translate(-50%, -${window.pageYOffset }px)`;
+      // if (window.pageYOffset > 5) {
+      //   dragHandle.current!.style.opacity = "0";
+      // } else {
+      //   dragHandle.current!.style.opacity = "1";
+      // }
     }
     window.addEventListener("scroll", requestTick);
 
@@ -158,15 +169,51 @@ export default function Home() {
     // initial call to set correct heights
     requestTick();
 
+    const drag = document.querySelector(".drag") as HTMLElement;
+
+    const handleMouseDown = (e: MouseEvent) => {
+      isDraggingRef.current = true;
+      posRef.current = {
+        left: drag.scrollLeft,
+        top: drag.scrollTop,
+        x: e.clientX,
+        y: e.clientY,
+      };
+      dragStartHeightRef.current = doodleHeight;
+      e.preventDefault();
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDraggingRef.current) return;
+      const deltaY = e.clientY - posRef.current.y;
+      console.log(doodleHeight);
+      setDoodleHeight(dragStartHeightRef.current + deltaY);
+      e.preventDefault();
+    };
+
+    const handleMouseUp = () => {
+      isDraggingRef.current = false;
+    };
+
+    if (drag) {
+      drag.addEventListener("mousedown", handleMouseDown);
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    }
+
     return () => {
       window.removeEventListener("scroll", requestTick);
       // clean up lenis if it exposes a destroy method
       if (lenis && typeof (lenis as any).destroy === "function") {
         (lenis as any).destroy();
       }
+      if (drag) {
+        drag.removeEventListener("mousedown", handleMouseDown);
+        document.removeEventListener("mousemove", handleMouseMove);
+        document.removeEventListener("mouseup", handleMouseUp);
+      }
     };
-  }, [setScrollProgress, padding, doodleHeight]);
-
+  }, [doodleHeight, padding]);
   return (
     <main ref={main}>
       <div
@@ -180,7 +227,7 @@ export default function Home() {
         <Nav
           scrollProgress={scrollProgress}
           padding={padding}
-          doodleHeight={doodleHeight}
+          doodleHeight={originalDoodleHeight}
         />
       </div>
       <div

@@ -238,52 +238,62 @@ const Banner = ({ height }: props) => {
   return (
     <div
       ref={terminalRef}
-      className="window flex flex-col absolute w-full rounded-2xl bg-[#0a0e15] overflow-scroll"
+      className="window absolute w-full rounded-2xl bg-[#0a0e15]"
       style={{
         height: `${height}px`,
-        justifyContent: lines.length < 9 ? "flex-start" : "flex-end",
       }}
     >
-      <div className="flex flex-col items-stretch p-3 w-full caption-medium select-text">
-        {lines.map((line, index) => (
-          <div
-            key={index}
-            className="whitespace-pre-wrap select-text leading-4"
-            style={{ color: index === 1 ? "#8b96ad" : undefined }}
-          >
-            {line}
-          </div>
-        ))}
-
-        <div className="flex select-text leading-4">
-          <span className="text-green-400 select-text">{prompt}</span>
-          <div className="flex-1 relative">
-            <span className="text-green-400 select-text">{currentInput}</span>
-            <span
-              className={`absolute top-0 bg-green-400 text-black w-[7px] h-4 ${
-                cursorVisible ? "opacity-100" : "opacity-0"
-              } transition-opacity`}
-              style={{
-                left: `${cursorPosition * 0.6}em`, // Approximate character width in monospace
-              }}
+      <div
+        className="w-full h-full overflow-scroll flex flex-col rounded-2xl"
+        style={{
+          justifyContent:
+            lines.length < Math.floor(height / 16) - 1
+              ? "flex-start"
+              : "flex-end",
+        }}
+      >
+        <div className="flex flex-col items-stretch p-3 w-full caption-medium select-text">
+          {lines.map((line, index) => (
+            <div
+              key={index}
+              className="whitespace-pre-wrap select-text leading-4"
+              style={{ color: index === 1 ? "#8b96ad" : undefined }}
             >
-              {cursorPosition < currentInput.length
-                ? currentInput[cursorPosition]
-                : " "}
-            </span>
-            <input
-              ref={inputRef}
-              type="text"
-              value=""
-              onKeyDown={handleKeyDown}
-              className="absolute inset-0 bg-transparent border-none outline-none text-transparent w-full pointer-events-none"
-              style={{ caretColor: "transparent" }}
-              readOnly
-            />
+              {line}
+            </div>
+          ))}
+
+          <div className="flex select-text leading-4">
+            <span className="text-green-400 select-text">{prompt}</span>
+            <div className="flex-1 relative">
+              <span className="text-green-400 select-text">{currentInput}</span>
+              <span
+                className={`absolute top-0 bg-green-400 text-black w-[7px] h-4 ${
+                  cursorVisible ? "opacity-100" : "opacity-0"
+                } transition-opacity`}
+                style={{
+                  left: `${cursorPosition * 0.6}em`, // Approximate character width in monospace
+                }}
+              >
+                {cursorPosition < currentInput.length
+                  ? currentInput[cursorPosition]
+                  : " "}
+              </span>
+              <input
+                ref={inputRef}
+                type="text"
+                value=""
+                onKeyDown={handleKeyDown}
+                className="absolute inset-0 bg-transparent border-none outline-none text-transparent w-full pointer-events-none"
+                style={{ caretColor: "transparent" }}
+                readOnly
+              />
+            </div>
           </div>
         </div>
       </div>
       <div className="filter"></div>
+      <div className="drag absolute w-12 h-2 rounded-full border border-[#717b8e] bg-[#323740] bottom-[-4px] left-[50%] translate-x-[-50%] translate-y-[100%] after:content-[''] after:absolute after:-inset-4 cursor-ns-resize z-100 duration-100 transition-opacity"></div>
     </div>
   );
 };
