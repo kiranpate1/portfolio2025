@@ -242,65 +242,69 @@ const Banner = ({ height }: props) => {
         height: `${height}px`,
       }}
     >
-      <div
-        className="w-full h-full overflow-hidden flex flex-col rounded-2xl caption-small select-text p-3 justify-start"
-        style={{
-          justifyContent:
-            lines.length < Math.floor((height - 96) / 16) - 1
-              ? "flex-start"
-              : "flex-end",
-        }}
-      >
-        <div>
-          <div className="text-[#8b96ad]">
-            Designer · developer · artist · open to work
-          </div>
-          <pre>{nameBanner}</pre>
-          <div className="text-[#8b96ad]">
-            ==========================================================================================================
-          </div>
-        </div>
-        <div className="flex flex-col items-stretch w-full">
-          {lines.map((line, index) => (
-            <div
-              key={index}
-              className="whitespace-pre-wrap select-text leading-4"
-            >
-              {line}
+      <div className="w-full h-full overflow-hidden relative rounded-2xl">
+        <div
+          className="w-full h-full flex flex-col caption-small select-text justify-start p-3"
+          style={{
+            justifyContent:
+              lines.length < Math.floor((height - 96) / 16) - 1
+                ? "flex-start"
+                : "flex-end",
+          }}
+        >
+          <div>
+            <div className="text-[#8b96ad]">
+              Designer · developer · artist · open to work
             </div>
-          ))}
-
-          <div className="flex select-text leading-4">
-            <span className="text-green-400 select-text">{prompt}</span>
-            <div className="flex-1 relative">
-              <span className="text-green-400 select-text">{currentInput}</span>
-              <span
-                className={`absolute top-0 bg-green-400 text-black w-[7px] h-4 ${
-                  cursorVisible ? "opacity-100" : "opacity-0"
-                } transition-opacity`}
-                style={{
-                  left: `${cursorPosition * 0.6}em`, // Approximate character width in monospace
-                }}
+            <pre>{nameBanner}</pre>
+            <div className="text-[#8b96ad]">
+              ==========================================================================================================
+            </div>
+          </div>
+          <div className="flex flex-col items-stretch w-full">
+            {lines.map((line, index) => (
+              <div
+                key={index}
+                className="whitespace-pre-wrap select-text leading-4"
               >
-                {cursorPosition < currentInput.length
-                  ? currentInput[cursorPosition]
-                  : " "}
-              </span>
-              <input
-                ref={inputRef}
-                type="text"
-                value=""
-                onKeyDown={handleKeyDown}
-                className="absolute inset-0 bg-transparent border-none outline-none text-transparent w-full pointer-events-none"
-                style={{ caretColor: "transparent" }}
-                readOnly
-              />
+                {line}
+              </div>
+            ))}
+
+            <div className="flex select-text leading-4">
+              <span className="text-green-400 select-text">{prompt}</span>
+              <div className="flex-1 relative">
+                <span className="text-green-400 select-text">
+                  {currentInput}
+                </span>
+                <span
+                  className={`absolute top-0 bg-green-400 text-black w-[7px] h-4 ${
+                    cursorVisible ? "opacity-100" : "opacity-0"
+                  } transition-opacity`}
+                  style={{
+                    left: `${cursorPosition * 0.6}em`, // Approximate character width in monospace
+                  }}
+                >
+                  {cursorPosition < currentInput.length
+                    ? currentInput[cursorPosition]
+                    : " "}
+                </span>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value=""
+                  onKeyDown={handleKeyDown}
+                  className="absolute inset-0 bg-transparent border-none outline-none text-transparent w-full pointer-events-none"
+                  style={{ caretColor: "transparent" }}
+                  readOnly
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div className="filter"></div>
-      <div className="drag absolute w-12 h-2 rounded-full border border-[#717b8e] bg-[#323740] bottom-[-4px] left-[50%] translate-x-[-50%] translate-y-[100%] after:content-[''] after:absolute after:-inset-4 cursor-ns-resize z-100 duration-100 transition-opacity"></div>
+      <div className="drag absolute w-12 h-2 rounded-full border border-[#4b525f] bg-[#323740] bottom-[-4px] left-[50%] translate-x-[-50%] translate-y-[100%] after:content-[''] after:absolute after:inset-[-16px_auto_-16px_auto] after:w-[calc(100vw-250px)] after:left-[50%] after:translate-x-[-50%] cursor-ns-resize z-100 duration-100 transition-opacity"></div>
     </div>
   );
 };

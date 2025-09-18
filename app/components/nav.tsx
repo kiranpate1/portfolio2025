@@ -109,7 +109,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
           {Projects.map((project, index) => (
             <span
               key={index}
-              className="text-xs px-1.5 py-1 rounded cursor-pointer bg-[#252931] hover:opacity-100"
+              className="text-xs px-1.5 py-1 rounded cursor-pointer bg-[#252931] hover:bg-[#323740]"
               style={{
                 opacity:
                   scrollProgress > 1

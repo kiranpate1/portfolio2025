@@ -5,6 +5,7 @@ import Nav from "./components/nav";
 import Banner from "./components/banner";
 import Projects from "./components/projects";
 import Project from "./components/project";
+import Footer from "./components/footer";
 import Lenis from "lenis";
 
 export default function Home() {
@@ -13,6 +14,7 @@ export default function Home() {
   const [doodleHeight, setDoodleHeight] = useState(originalDoodleHeight);
   const dragStartHeightRef = useRef(originalDoodleHeight);
   const posRef = useRef({ top: 0, left: 0, x: 0, y: 0 });
+  const footerHeight = 200;
   const isDraggingRef = useRef(false);
   const scrollWindow = useRef<HTMLDivElement>(null);
   const main = useRef<HTMLElement>(null);
@@ -45,9 +47,11 @@ export default function Home() {
         const vh = Math.max(window.innerHeight, 1);
         const firstWeight = doodleHeight / vh; // doodleHeight relative to 100vh
         const otherWeight = 1; // represents 100vh
+        const lastWeight = footerHeight / vh; // footerHeight relative to 100vh
         const weights: number[] = [
           firstWeight,
-          ...Array(Math.max(segments - 1, 0)).fill(otherWeight),
+          ...Array(Math.max(segments - 2, 0)).fill(otherWeight),
+          lastWeight,
         ];
         const totalWeight = weights.reduce((a, b) => a + b, 0);
         const scaled = Math.min(Math.max(scrollProgress, 0), 1) * totalWeight;
@@ -80,7 +84,7 @@ export default function Home() {
         return sectionProgress;
       });
 
-      if (sectionOne >= 0 && sectionOne < windowCount) {
+      if (sectionOne >= 0 && sectionOne < windowCount - 1) {
         for (let i = 0; i < windowCount; i++) {
           const filter = windows[i].querySelector(".filter") as HTMLElement;
           if (i < sectionOne || i > sectionTwo) {
@@ -107,6 +111,11 @@ export default function Home() {
               padding * adjustedProgress
             }px - ${adjustedProgress * doodleHeight}px)`;
             windowOne.style.filter = `brightness(1)`;
+          } else if (sectionOne == windowCount - 2) {
+            windowOne.style.height = `calc(100% - ${
+              adjustedProgress * footerHeight
+            }px - ${padding * adjustedProgress}px)`;
+            windowOne.style.filter = `brightness(1)`;
           } else {
             windowOne.style.height = `calc(${100 - adjustedProgress * 100}% - ${
               padding * adjustedProgress
@@ -126,6 +135,12 @@ export default function Home() {
             windowTwo.style.height = `calc(100% - ${
               padding - adjustedProgress * padding
             }px - ${doodleHeight - adjustedProgress * doodleHeight}px)`;
+            windowTwo.style.filter = `brightness(${adjustedProgress})`;
+          } else if (sectionTwo == windowCount - 1) {
+            // Transitioning into last section - grow to footer height
+            windowTwo.style.height = `calc(${
+              adjustedProgress * footerHeight
+            }px - ${padding - adjustedProgress * padding}px)`;
             windowTwo.style.filter = `brightness(${adjustedProgress})`;
           } else {
             windowTwo.style.height = `calc(${adjustedProgress * 100}% - ${
@@ -180,19 +195,29 @@ export default function Home() {
         y: e.clientY,
       };
       dragStartHeightRef.current = doodleHeight;
+      drag.style.backgroundColor = "#4b525f";
+      document.body.style.userSelect = "none";
+      document.body.style.cursor = "ns-resize";
       e.preventDefault();
     };
 
     const handleMouseMove = (e: MouseEvent) => {
       if (!isDraggingRef.current) return;
       const deltaY = e.clientY - posRef.current.y;
-      console.log(doodleHeight);
-      setDoodleHeight(dragStartHeightRef.current + deltaY);
+      if (
+        dragStartHeightRef.current + deltaY > 100 &&
+        dragStartHeightRef.current + deltaY < window.innerHeight - 100 - padding
+      ) {
+        setDoodleHeight(dragStartHeightRef.current + deltaY);
+      }
       e.preventDefault();
     };
 
     const handleMouseUp = () => {
       isDraggingRef.current = false;
+      drag.style.backgroundColor = "#323740";
+      document.body.style.userSelect = "auto";
+      document.body.style.cursor = "auto";
     };
 
     if (drag) {
@@ -249,6 +274,7 @@ export default function Home() {
             src={project.src}
           />
         ))}
+        <Footer height={footerHeight} />
       </div>
     </main>
   );
