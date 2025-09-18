@@ -1,13 +1,15 @@
 import React from "react";
 import Image from "next/image";
+import Projects from "./projects";
 
 type props = {
+  index: number;
   title: string;
   padding: number;
   src: string;
 };
 
-const Project = ({ title, padding, src }: props) => {
+const Project = ({ index, title, padding, src }: props) => {
   return (
     <div className="window absolute flex flex-col items-stretch w-full rounded-2xl overflow-hidden">
       <Image
@@ -52,6 +54,9 @@ const Project = ({ title, padding, src }: props) => {
         <div></div>
         <div></div>
       </div>
+      {index === 0 || index === Projects.length - 1 ? (
+        <div className="bg-shade absolute inset-0 bg-[var(--shade-950)] z-10 opacity-0 duration-300"></div>
+      ) : null}
     </div>
   );
 };

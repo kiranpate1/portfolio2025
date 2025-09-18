@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import Nav from "./components/nav";
-import Banner from "./components/banner";
+import Header from "./components/header";
 import Projects from "./components/projects";
 import Project from "./components/project";
 import Footer from "./components/footer";
@@ -14,7 +14,7 @@ export default function Home() {
   const [doodleHeight, setDoodleHeight] = useState(originalDoodleHeight);
   const dragStartHeightRef = useRef(originalDoodleHeight);
   const posRef = useRef({ top: 0, left: 0, x: 0, y: 0 });
-  const footerHeight = 200;
+  const footerHeight = 500;
   const isDraggingRef = useRef(false);
   const scrollWindow = useRef<HTMLDivElement>(null);
   const main = useRef<HTMLElement>(null);
@@ -106,6 +106,7 @@ export default function Home() {
         if (sectionOne >= 0) {
           const windowOne = windows[sectionOne];
           const filterOne = windowOne.querySelector(".filter") as HTMLElement;
+          const shadeOne = windowOne.querySelector(".bg-shade") as HTMLElement;
           if (sectionOne == 0) {
             windowOne.style.height = `calc(${doodleHeight}px - ${
               padding * adjustedProgress
@@ -115,7 +116,9 @@ export default function Home() {
             windowOne.style.height = `calc(100% - ${
               adjustedProgress * footerHeight
             }px - ${padding * adjustedProgress}px)`;
-            windowOne.style.filter = `brightness(1)`;
+            if (shadeOne) {
+              shadeOne.style.opacity = `${adjustedProgress * 2}`;
+            }
           } else {
             windowOne.style.height = `calc(${100 - adjustedProgress * 100}% - ${
               padding * adjustedProgress
@@ -131,17 +134,20 @@ export default function Home() {
         if (sectionTwo < windowCount) {
           const windowTwo = windows[sectionTwo];
           const filterTwo = windowTwo.querySelector(".filter") as HTMLElement;
+          const shadeTwo = windowTwo.querySelector(".bg-shade") as HTMLElement;
           if (sectionTwo == 1) {
             windowTwo.style.height = `calc(100% - ${
               padding - adjustedProgress * padding
             }px - ${doodleHeight - adjustedProgress * doodleHeight}px)`;
-            windowTwo.style.filter = `brightness(${adjustedProgress})`;
+            if (shadeTwo) {
+              shadeTwo.style.opacity = `${2 - adjustedProgress * 2}`;
+            }
           } else if (sectionTwo == windowCount - 1) {
             // Transitioning into last section - grow to footer height
             windowTwo.style.height = `calc(${
               adjustedProgress * footerHeight
             }px - ${padding - adjustedProgress * padding}px)`;
-            windowTwo.style.filter = `brightness(${adjustedProgress})`;
+            windowTwo.style.filter = `brightness(1)`;
           } else {
             windowTwo.style.height = `calc(${adjustedProgress * 100}% - ${
               padding - adjustedProgress * padding
@@ -265,10 +271,11 @@ export default function Home() {
           height: `calc(100vh - ${padding * 2}px)`,
         }}
       >
-        <Banner height={doodleHeight} />
+        <Header height={doodleHeight} />
         {Projects.map((project, index) => (
           <Project
             key={index}
+            index={index}
             padding={padding}
             title={project.title}
             src={project.src}

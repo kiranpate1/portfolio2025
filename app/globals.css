@@ -3,6 +3,26 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --shade-1000: #00030a;
+  --shade-950: #0a0e15;
+  --shade-900: #181b22;
+  --shade-850: #252931;
+  --shade-800: #323740;
+  --shade-750: #3f4450;
+  --shade-700: #4b525f;
+  --shade-650: #58606f;
+  --shade-600: #656d7f;
+  --shade-550: #717b8e;
+  --shade-500: #7e889e;
+  --shade-450: #8b96ad;
+  --shade-400: #98a4bd;
+  --shade-350: #a4b1cc;
+  --shade-300: #b1bfdb;
+  --shade-250: #beccea;
+  --shade-200: #cbdaf9;
+  --shade-150: #d8e5ff;
+  --shade-100: #e6eeff;
+  --shade-50: #f3f7ff;
 }
 
 @theme inline {

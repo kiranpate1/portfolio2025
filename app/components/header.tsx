@@ -4,7 +4,7 @@ type props = {
   height: number;
 };
 
-const Banner = ({ height }: props) => {
+const Header = ({ height }: props) => {
   const [fullDate, setFullDate] = useState("");
   const [isMounted, setIsMounted] = useState(false);
 
@@ -237,7 +237,7 @@ const Banner = ({ height }: props) => {
   return (
     <div
       ref={terminalRef}
-      className="window absolute w-full rounded-2xl bg-[#0a0e15]"
+      className="window absolute w-full rounded-2xl bg-[var(--shade-950)]"
       style={{
         height: `${height}px`,
       }}
@@ -304,9 +304,9 @@ const Banner = ({ height }: props) => {
         </div>
       </div>
       <div className="filter"></div>
-      <div className="drag absolute w-12 h-2 rounded-full border border-[#4b525f] bg-[#323740] bottom-[-4px] left-[50%] translate-x-[-50%] translate-y-[100%] after:content-[''] after:absolute after:inset-[-16px_auto_-16px_auto] after:w-[calc(100vw-250px)] after:left-[50%] after:translate-x-[-50%] cursor-ns-resize z-100 duration-100 transition-opacity"></div>
+      <div className="drag absolute w-12 h-2 rounded-full border border-[var(--shade-700)] bg-[var(--shade-800)] bottom-[-4px] left-[50%] translate-x-[-50%] translate-y-[100%] after:content-[''] after:absolute after:inset-[-16px_auto_-16px_auto] after:w-[calc(100vw-250px)] after:left-[50%] after:translate-x-[-50%] cursor-ns-resize z-100 duration-100 transition-opacity"></div>
     </div>
   );
 };
 
-export default Banner;
+export default Header;

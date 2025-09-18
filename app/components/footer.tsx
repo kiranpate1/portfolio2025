@@ -7,7 +7,7 @@ type props = {
 const Footer = ({ height }: props) => {
   return (
     <footer
-      className="window absolute w-full rounded-2xl bg-[#0a0e15] overflow-hidden"
+      className="window absolute w-full rounded-2xl bg-[var(--shade-950)] overflow-hidden"
       style={{ height: height }}
     >
       <div className="container mx-auto text-center">

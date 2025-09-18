@@ -84,7 +84,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
     >
       <div className="flex flex-col gap-4">
         <Doodle height={doodleHeight} activeIndex={activeIndex} />
-        <div className="relative flex items-stretch w-full h-3 p-0.5 bg-[#252931] rounded-2xl">
+        <div className="relative flex items-stretch w-full h-3 p-0.5 bg-[var(--shade-850)] rounded-2xl">
           {Projects.map((project, index) => (
             <div
               key={index}
@@ -118,7 +118,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
               className="text-xs px-1.5 py-1 rounded cursor-pointer bg-[#252931] hover:bg-[#323740]"
               style={{
                 opacity:
-                  scrollProgress > 1
+                  scrollProgress > 1 && scrollProgress < Projects.length
                     ? index === activeIndex - 1
                       ? 1
                       : 0.6
