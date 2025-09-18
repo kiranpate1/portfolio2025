@@ -38,7 +38,11 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
     }
 
     const normalizedScrollProgress =
-      scrollProgress > 1 ? (scrollProgress - 1) / (Projects.length - 1) : 0;
+      scrollProgress > 1
+        ? scrollProgress < Projects.length
+          ? (scrollProgress - 1) / (Projects.length - 1)
+          : 1
+        : 0;
     setNormalizedProgress(normalizedScrollProgress);
 
     const bars = document.querySelectorAll(".bar") as NodeListOf<HTMLElement>;
@@ -51,7 +55,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
       const closingWidth = (1 - normalizedScrollProgress) * maxWidth;
 
       bars.forEach((bar, index) => {
-        if (scrollProgress > 1) {
+        if (scrollProgress > 1 && scrollProgress < Projects.length) {
           if (index === normalizedActiveIndex - 1) {
             bar.style.width = `${closingWidth + minWidth}%`;
           } else if (index === normalizedActiveIndex) {
@@ -93,7 +97,9 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
                 className="h-full rounded-xl duration-700"
                 style={{
                   backgroundColor:
-                    scrollProgress > 1 ? project.color : "#656D7F",
+                    scrollProgress > 1 && scrollProgress < Projects.length
+                      ? project.color
+                      : "#656D7F",
                 }}
               ></div>
             </div>
