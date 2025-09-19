@@ -19,6 +19,7 @@ export default function Home() {
   const scrollWindow = useRef<HTMLDivElement>(null);
   const main = useRef<HTMLElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [sectionProgress, setSectionProgress] = useState(0);
 
   useEffect(() => {
     const windows = document.querySelectorAll(
@@ -78,6 +79,7 @@ export default function Home() {
           Math.max(sectionProgress, 0),
           segments - 0.01
         );
+        setSectionProgress(sectionProgress);
       }
       const sectionOne = Math.floor(sectionProgress);
       const sectionTwo = sectionOne + 1;
@@ -262,7 +264,7 @@ export default function Home() {
         document.removeEventListener("mouseup", handleMouseUp);
       }
     };
-  }, [doodleHeight, padding, footerHeight]);
+  }, [doodleHeight, footerHeight]);
   return (
     <main ref={main}>
       <div
@@ -299,7 +301,7 @@ export default function Home() {
             src={project.src}
           />
         ))}
-        <Footer height={footerHeight} />
+        <Footer height={footerHeight} sectionProgress={sectionProgress} />
       </div>
     </main>
   );
