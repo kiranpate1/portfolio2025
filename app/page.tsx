@@ -14,7 +14,7 @@ export default function Home() {
   const [doodleHeight, setDoodleHeight] = useState(originalDoodleHeight);
   const dragStartHeightRef = useRef(originalDoodleHeight);
   const posRef = useRef({ top: 0, left: 0, x: 0, y: 0 });
-  const footerHeight = 500;
+  const [footerHeight, setFooterHeight] = useState(0);
   const isDraggingRef = useRef(false);
   const scrollWindow = useRef<HTMLDivElement>(null);
   const main = useRef<HTMLElement>(null);
@@ -74,7 +74,10 @@ export default function Home() {
           sectionProgress = segments;
         }
 
-        sectionProgress = Math.min(Math.max(sectionProgress, 0), segments);
+        sectionProgress = Math.min(
+          Math.max(sectionProgress, 0),
+          segments - 0.01
+        );
       }
       const sectionOne = Math.floor(sectionProgress);
       const sectionTwo = sectionOne + 1;
@@ -105,6 +108,7 @@ export default function Home() {
 
         if (sectionOne >= 0) {
           const windowOne = windows[sectionOne];
+          const images = windowOne.querySelectorAll("img");
           const filterOne = windowOne.querySelector(".filter") as HTMLElement;
           const shadeOne = windowOne.querySelector(".bg-shade") as HTMLElement;
           if (sectionOne == 0) {
@@ -116,6 +120,10 @@ export default function Home() {
             windowOne.style.height = `calc(100% - ${
               adjustedProgress * footerHeight
             }px - ${padding * adjustedProgress}px)`;
+            for (let i = 0; i < images.length; i++) {
+              const img = images[i] as HTMLElement;
+              img.style.filter = `brightness(${1 - adjustedProgress})`;
+            }
             if (shadeOne) {
               shadeOne.style.opacity = `${adjustedProgress * 2}`;
             }
@@ -124,23 +132,28 @@ export default function Home() {
               padding * adjustedProgress
             }px)`;
             windowOne.style.filter = `brightness(1)`;
+            filterOne.style.opacity = `${adjustedProgress}`;
+            filterOne.style.filter = `blur(20px) brightness(${
+              1 + adjustedProgress
+            })`;
           }
-          filterOne.style.opacity = `${adjustedProgress}`;
-          filterOne.style.filter = `blur(20px) brightness(${
-            1 + adjustedProgress
-          })`;
         }
 
         if (sectionTwo < windowCount) {
           const windowTwo = windows[sectionTwo];
+          const images = windowTwo.querySelectorAll("img");
           const filterTwo = windowTwo.querySelector(".filter") as HTMLElement;
           const shadeTwo = windowTwo.querySelector(".bg-shade") as HTMLElement;
           if (sectionTwo == 1) {
             windowTwo.style.height = `calc(100% - ${
               padding - adjustedProgress * padding
             }px - ${doodleHeight - adjustedProgress * doodleHeight}px)`;
+            for (let i = 0; i < images.length; i++) {
+              const img = images[i] as HTMLElement;
+              img.style.filter = `brightness(${adjustedProgress})`;
+            }
             if (shadeTwo) {
-              shadeTwo.style.opacity = `${2 - adjustedProgress * 2}`;
+              shadeTwo.style.opacity = `${1.5 - adjustedProgress * 1.5}`;
             }
           } else if (sectionTwo == windowCount - 1) {
             // Transitioning into last section - grow to footer height
@@ -153,11 +166,11 @@ export default function Home() {
               padding - adjustedProgress * padding
             }px)`;
             windowTwo.style.filter = `brightness(1)`;
+            filterTwo.style.opacity = `${1 - adjustedProgress}`;
+            filterTwo.style.filter = `blur(20px) brightness(${
+              2 - adjustedProgress
+            })`;
           }
-          filterTwo.style.opacity = `${1 - adjustedProgress}`;
-          filterTwo.style.filter = `blur(20px) brightness(${
-            2 - adjustedProgress
-          })`;
         }
       }
 
@@ -170,13 +183,6 @@ export default function Home() {
         requestAnimationFrame(updateWindows);
         ticking = true;
       }
-      // console.log("test");
-      // dragHandle.current!.style.transform = `translate(-50%, -${window.pageYOffset }px)`;
-      // if (window.pageYOffset > 5) {
-      //   dragHandle.current!.style.opacity = "0";
-      // } else {
-      //   dragHandle.current!.style.opacity = "1";
-      // }
     }
     window.addEventListener("scroll", requestTick);
 
@@ -232,8 +238,20 @@ export default function Home() {
       document.addEventListener("mouseup", handleMouseUp);
     }
 
+    window.addEventListener("resize", handleFooterResize);
+    handleFooterResize();
+
+    function handleFooterResize() {
+      setFooterHeight(((window.innerWidth - 180) * 647) / 1432);
+      if (window.innerWidth >= 1470) {
+        setFooterHeight((1290 * 647) / 1432);
+      }
+      requestTick();
+    }
+
     return () => {
       window.removeEventListener("scroll", requestTick);
+      window.removeEventListener("resize", handleFooterResize);
       // clean up lenis if it exposes a destroy method
       if (lenis && typeof (lenis as any).destroy === "function") {
         (lenis as any).destroy();
@@ -244,7 +262,7 @@ export default function Home() {
         document.removeEventListener("mouseup", handleMouseUp);
       }
     };
-  }, [doodleHeight, padding]);
+  }, [doodleHeight, padding, footerHeight]);
   return (
     <main ref={main}>
       <div

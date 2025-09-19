@@ -299,3 +299,7 @@ input {
   background: transparent;
   caret-color: transparent; /* hide native caret if you use a custom .blinker element */
 }
+
+.keyboard * {
+  vector-effect: non-scaling-stroke;
+}

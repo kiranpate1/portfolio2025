@@ -237,7 +237,7 @@ const Header = ({ height }: props) => {
   return (
     <div
       ref={terminalRef}
-      className="window absolute w-full rounded-2xl bg-[var(--shade-950)]"
+      className="window absolute w-full rounded-2xl bg-[var(--shade-950)] z-2"
       style={{
         height: `${height}px`,
       }}

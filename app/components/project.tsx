@@ -11,7 +11,7 @@ type props = {
 
 const Project = ({ index, title, padding, src }: props) => {
   return (
-    <div className="window absolute flex flex-col items-stretch w-full rounded-2xl overflow-hidden">
+    <div className="window absolute flex flex-col items-stretch w-full rounded-2xl overflow-hidden z-1">
       <Image
         className="absolute w-full bg-black"
         style={{
@@ -23,7 +23,6 @@ const Project = ({ index, title, padding, src }: props) => {
         height={1000}
         src={src}
         alt={`${title} Image`}
-        // quality={95}
       />
       <Image
         className="filter absolute w-full rounded-2xl overflow-hidden mix-blend-plus-lighter blur-xl"
@@ -36,7 +35,6 @@ const Project = ({ index, title, padding, src }: props) => {
         height={1000}
         src={src}
         alt="Filter Image"
-        // quality={95}
       />
       <div className="gradient-blur top inset-[0_0_auto_0] absolute min-h-20 max-h-20 min-w-full">
         <div></div>
@@ -55,7 +53,7 @@ const Project = ({ index, title, padding, src }: props) => {
         <div></div>
       </div>
       {index === 0 || index === Projects.length - 1 ? (
-        <div className="bg-shade absolute inset-0 bg-[var(--shade-950)] z-10 opacity-0 duration-300"></div>
+        <div className="bg-shade absolute inset-0 bg-[var(--shade-950)] z-10 opacity-0 p-12"></div>
       ) : null}
     </div>
   );
