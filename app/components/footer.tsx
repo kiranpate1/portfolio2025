@@ -11,7 +11,7 @@ const Footer = ({ height, sectionProgress }: props) => {
       className="window absolute w-full bg-[var(--shade-900)] overflow-hidden flex items-center justify-center"
       style={{ height: height }}
     >
-      <div className="w-full h-full flex items-center justify-center relative transform-3d p-12 perspective-[2000px]">
+      <div className="w-full h-full flex items-center justify-center relative transform-3d p-[4vw_3vw_3vw_3vw] perspective-[2000px]">
         <div
           className="relative w-full max-w-[1076px] flex items-center justify-center transform-3d"
           style={{
@@ -21,14 +21,12 @@ const Footer = ({ height, sectionProgress }: props) => {
                 : "10000px",
             transform:
               sectionProgress > 7
-                ? `translateY(${
-                    -50 + (sectionProgress % 1) * 50
-                  }px) translateZ(${
-                    -100 + (sectionProgress % 1) * 100
-                  }px) rotateX(${
+                ? `translateY(${-2 + (sectionProgress % 1) * 2}vw) translateZ(${
+                    -10 + (sectionProgress % 1) * 10
+                  }vw) rotateX(${
                     90 - ((sectionProgress % 1) * 1.33 - 0.33) * 90
                   }deg)`
-                : "translateY(-50px) translateZ(-100px) rotateX(90deg)",
+                : "translateY(-2vw) translateZ(-10vw) rotateX(90deg)",
           }}
         >
           <svg
@@ -1249,9 +1247,9 @@ const Footer = ({ height, sectionProgress }: props) => {
             </defs>
           </svg>
           <div
-            className="absolute bottom-0 w-full h-20 border border-[var(--shade-150)] perspective-origin-top bg-[var(--shade-950)]"
+            className="absolute bottom-0 w-full h-[4vw] border border-[var(--shade-150)] perspective-origin-top bg-[var(--shade-950)]"
             style={{
-              transform: "translateZ(-40px) translateY(40px) rotateX(-90deg)",
+              transform: "translateZ(-2vw) translateY(2vw) rotateX(-90deg)",
             }}
           ></div>
         </div>

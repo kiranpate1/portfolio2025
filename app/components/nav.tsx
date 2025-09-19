@@ -130,14 +130,14 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
           ))}
         </div>
       </div>
-      <div className="flex flex-col gap-1">
-        <h1 ref={title} className="text-lg font-medium">
+      <div className="flex flex-col gap-2">
+        <h1 ref={title} className="heading-small font-medium">
           My Projects
         </h1>
         <p ref={description} className="text-sm text-[#97a4bd] text-pretty">
           Description
         </p>
-        <button className="flex items-center gap-2 mt-4 px-3 py-2 bg-[#252931] rounded-full w-max text-sm font-medium hover:bg-[#323740] cursor-pointer">
+        <button className="flex items-center gap-2 mt-2 px-3 py-2 bg-[#252931] rounded-lg w-max text-sm font-medium hover:bg-[#323740] cursor-pointer">
           Visit
           <svg
             width="11"

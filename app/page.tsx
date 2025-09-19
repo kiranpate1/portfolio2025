@@ -19,7 +19,6 @@ export default function Home() {
   const scrollWindow = useRef<HTMLDivElement>(null);
   const main = useRef<HTMLElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [sectionProgress, setSectionProgress] = useState(0);
 
   useEffect(() => {
     const windows = document.querySelectorAll(
@@ -79,7 +78,6 @@ export default function Home() {
           Math.max(sectionProgress, 0),
           segments - 0.01
         );
-        setSectionProgress(sectionProgress);
       }
       const sectionOne = Math.floor(sectionProgress);
       const sectionTwo = sectionOne + 1;
@@ -121,7 +119,7 @@ export default function Home() {
           } else if (sectionOne == windowCount - 2) {
             windowOne.style.height = `calc(100% - ${
               adjustedProgress * footerHeight
-            }px - ${padding * adjustedProgress}px)`;
+            }px)`;
             for (let i = 0; i < images.length; i++) {
               const img = images[i] as HTMLElement;
               img.style.filter = `brightness(${1 - adjustedProgress})`;
@@ -161,7 +159,7 @@ export default function Home() {
             // Transitioning into last section - grow to footer height
             windowTwo.style.height = `calc(${
               adjustedProgress * footerHeight
-            }px - ${padding - adjustedProgress * padding}px)`;
+            }px)`;
             windowTwo.style.filter = `brightness(1)`;
           } else {
             windowTwo.style.height = `calc(${adjustedProgress * 100}% - ${
@@ -244,7 +242,7 @@ export default function Home() {
     handleFooterResize();
 
     function handleFooterResize() {
-      setFooterHeight(((window.innerWidth - 180) * 647) / 1432);
+      setFooterHeight(((window.innerWidth - 150) * 647) / 1432);
       if (window.innerWidth >= 1470) {
         setFooterHeight((1290 * 647) / 1432);
       }
@@ -301,7 +299,7 @@ export default function Home() {
             src={project.src}
           />
         ))}
-        <Footer height={footerHeight} sectionProgress={sectionProgress} />
+        <Footer height={footerHeight} sectionProgress={scrollProgress} />
       </div>
     </main>
   );
