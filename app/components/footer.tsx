@@ -8,7 +8,7 @@ type props = {
 const Footer = ({ height, sectionProgress }: props) => {
   return (
     <footer
-      className="window absolute w-full bg-[var(--shade-900)] overflow-hidden flex items-center justify-center"
+      className="window absolute w-full bg-[var(--shade-900)] overflow-hidden flex items-center justify-center -mt-4"
       style={{ height: height }}
     >
       <div className="w-full h-full flex items-center justify-center relative transform-3d p-[4vw_3vw_3vw_3vw] perspective-[2000px]">

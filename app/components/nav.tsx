@@ -45,33 +45,28 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
         : 0;
     setNormalizedProgress(normalizedScrollProgress);
 
+    // Update progress bars based on scrollProgress prop instead of scroll events
     const bars = document.querySelectorAll(".bar") as NodeListOf<HTMLElement>;
-    window.addEventListener("scroll", () => {
-      const minWidth = 10; // in percentage
-      const maxWidth = 100 - (Projects.length - 1) * minWidth;
-      const normalizedActiveIndex = Math.floor(scrollProgress);
-      const normalizedScrollProgress = scrollProgress % 1;
-      const openingWidth = normalizedScrollProgress * maxWidth;
-      const closingWidth = (1 - normalizedScrollProgress) * maxWidth;
+    const minWidth = 10; // in percentage
+    const maxWidth = 100 - (Projects.length - 1) * minWidth;
+    const normalizedActiveIndex = Math.floor(scrollProgress);
+    const barScrollProgress = scrollProgress % 1;
+    const openingWidth = barScrollProgress * maxWidth;
+    const closingWidth = (1 - barScrollProgress) * maxWidth;
 
-      bars.forEach((bar, index) => {
-        if (scrollProgress > 1 && scrollProgress < Projects.length) {
-          if (index === normalizedActiveIndex - 1) {
-            bar.style.width = `${closingWidth + minWidth}%`;
-          } else if (index === normalizedActiveIndex) {
-            bar.style.width = `${openingWidth + minWidth}%`;
-          } else {
-            bar.style.width = `${minWidth}%`;
-          }
+    bars.forEach((bar, index) => {
+      if (scrollProgress > 1 && scrollProgress < Projects.length) {
+        if (index === normalizedActiveIndex - 1) {
+          bar.style.width = `${closingWidth + minWidth}%`;
+        } else if (index === normalizedActiveIndex) {
+          bar.style.width = `${openingWidth + minWidth}%`;
         } else {
-          bar.style.width = `${100 / Projects.length}%`;
+          bar.style.width = `${minWidth}%`;
         }
-      });
+      } else {
+        bar.style.width = `${100 / Projects.length}%`;
+      }
     });
-
-    return () => {
-      window.removeEventListener("scroll", () => {});
-    };
   }, [scrollProgress]);
 
   return (

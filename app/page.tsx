@@ -29,8 +29,18 @@ export default function Home() {
       main.style.minHeight = `${windows.length * 100}vh`;
     }
     let ticking = false;
+    let lastScrollTime = 0;
 
     function updateWindows() {
+      const now = performance.now();
+
+      // Throttle updates to max 60fps
+      if (now - lastScrollTime < 16) {
+        ticking = false;
+        return;
+      }
+      lastScrollTime = now;
+
       const scrollTop =
         window.pageYOffset || document.documentElement.scrollTop;
       const maxScroll =
@@ -82,8 +92,8 @@ export default function Home() {
       const sectionOne = Math.floor(sectionProgress);
       const sectionTwo = sectionOne + 1;
       setScrollProgress((prev) => {
-        // only update state if the value changed to avoid excessive re-renders
-        if (Math.abs(prev - sectionProgress) < 1e-6) return prev;
+        // only update state if the value changed significantly to avoid excessive re-renders
+        if (Math.abs(prev - sectionProgress) < 0.001) return prev;
         return sectionProgress;
       });
 
@@ -189,8 +199,14 @@ export default function Home() {
     const lenis = new Lenis({
       autoRaf: true,
     });
-    lenis.on("scroll", (e) => {
-      requestTick();
+
+    // Debounce the lenis scroll callback to avoid conflicts
+    let lenisTimeout: NodeJS.Timeout | null = null;
+    lenis.on("scroll", () => {
+      if (lenisTimeout) clearTimeout(lenisTimeout);
+      lenisTimeout = setTimeout(() => {
+        requestTick();
+      }, 1);
     });
 
     // initial call to set correct heights
@@ -252,6 +268,10 @@ export default function Home() {
     return () => {
       window.removeEventListener("scroll", requestTick);
       window.removeEventListener("resize", handleFooterResize);
+
+      // Clear any pending lenis timeout
+      if (lenisTimeout) clearTimeout(lenisTimeout);
+
       // clean up lenis if it exposes a destroy method
       if (lenis && typeof (lenis as any).destroy === "function") {
         (lenis as any).destroy();
