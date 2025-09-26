@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import Nav from "./components/nav";
 import Header from "./components/header";
 import Projects from "./components/projects";
@@ -29,17 +29,17 @@ export default function Home() {
       main.style.minHeight = `${windows.length * 100}vh`;
     }
     let ticking = false;
-    let lastScrollTime = 0;
+    let lastFrameTime = 0;
 
     function updateWindows() {
       const now = performance.now();
 
-      // Throttle updates to max 60fps
-      if (now - lastScrollTime < 16) {
+      // Throttle to 60fps (16.67ms between frames)
+      if (now - lastFrameTime < 16.67) {
         ticking = false;
         return;
       }
-      lastScrollTime = now;
+      lastFrameTime = now;
 
       const scrollTop =
         window.pageYOffset || document.documentElement.scrollTop;
@@ -93,7 +93,7 @@ export default function Home() {
       const sectionTwo = sectionOne + 1;
       setScrollProgress((prev) => {
         // only update state if the value changed significantly to avoid excessive re-renders
-        if (Math.abs(prev - sectionProgress) < 0.001) return prev;
+        if (Math.abs(prev - sectionProgress) < 0.01) return prev;
         return sectionProgress;
       });
 
@@ -190,24 +190,20 @@ export default function Home() {
 
     function requestTick() {
       if (!ticking) {
-        requestAnimationFrame(updateWindows);
         ticking = true;
+        requestAnimationFrame(updateWindows);
       }
     }
-    window.addEventListener("scroll", requestTick);
+
+    // Use passive scroll listener for better performance
+    window.addEventListener("scroll", requestTick, { passive: true });
 
     const lenis = new Lenis({
       autoRaf: true,
     });
 
-    // Debounce the lenis scroll callback to avoid conflicts
-    let lenisTimeout: NodeJS.Timeout | null = null;
-    lenis.on("scroll", () => {
-      if (lenisTimeout) clearTimeout(lenisTimeout);
-      lenisTimeout = setTimeout(() => {
-        requestTick();
-      }, 1);
-    });
+    // Use requestTick instead of calling updateWindows directly
+    lenis.on("scroll", requestTick);
 
     // initial call to set correct heights
     requestTick();
@@ -269,13 +265,11 @@ export default function Home() {
       window.removeEventListener("scroll", requestTick);
       window.removeEventListener("resize", handleFooterResize);
 
-      // Clear any pending lenis timeout
-      if (lenisTimeout) clearTimeout(lenisTimeout);
-
-      // clean up lenis if it exposes a destroy method
+      // Clean up lenis
       if (lenis && typeof (lenis as any).destroy === "function") {
         (lenis as any).destroy();
       }
+
       if (drag) {
         drag.removeEventListener("mousedown", handleMouseDown);
         document.removeEventListener("mousemove", handleMouseMove);

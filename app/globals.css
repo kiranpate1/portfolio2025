@@ -178,6 +178,7 @@ body {
 .gradient-blur::after {
   position: absolute;
   inset: 0;
+  /* display: none; */
 }
 
 .gradient-blur::before {
@@ -315,6 +316,28 @@ body {
   50% {
     opacity: 0;
   }
+}
+
+/* Performance optimizations for smooth scrolling */
+.window {
+  will-change: height, transform, filter;
+  transform: translateZ(0); /* Force hardware acceleration */
+  backface-visibility: hidden;
+}
+
+.filter {
+  will-change: opacity, filter;
+  transform: translateZ(0);
+}
+
+.window img {
+  will-change: filter, brightness;
+  transform: translateZ(0);
+}
+
+.bg-shade {
+  will-change: opacity;
+  transform: translateZ(0);
 }
 
 .window input {
