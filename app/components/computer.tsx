@@ -6,10 +6,10 @@ type props = {
 
 const Computer = ({ sectionProgress }: props) => {
   return (
-    <div className="absolute inset-0 flex justify-center items-center">
+    <div className="absolute inset-0 flex justify-center items-center border-[var(--shade-750)] border rounded-[16px]">
       <div className="absolute transform-3d perspective-distant">
         <div
-          className="computer relative flex justify-center items-center transform-3d"
+          className="computer w-[517px] relative flex justify-center items-center transform-3d"
           style={{
             transform: sectionProgress
               ? `rotateX(${sectionProgress * 120}deg)`
@@ -17,7 +17,7 @@ const Computer = ({ sectionProgress }: props) => {
           }}
         >
           <svg
-            className="relative w-[517px]"
+            className="relative w-full"
             viewBox="0 0 517 400"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +32,7 @@ const Computer = ({ sectionProgress }: props) => {
             />
           </svg>
           <div
-            className="absolute w-[79%] aspect-[405/304] translate-z-[-19px]"
+            className="absolute w-[79%] aspect-[405/304] translate-z-[-15px]"
             style={{
               clipPath:
                 "path('M6.02468 26.3161C6.78034 19.3829 11.679 13.7121 18.5195 12.3521C99.2139 -3.69155 308.961 -3.68907 389.613 12.3601C396.433 13.7172 401.325 19.3585 402.091 26.2697C409.97 97.3632 409.97 208.095 402.091 279.189C401.325 286.1 396.424 291.744 389.607 293.119C309.727 309.228 111.196 309.143 19.1337 292.865C12.0128 291.605 6.72967 285.817 5.93783 278.629C-1.88572 207.611 -1.85678 98.6291 6.02468 26.3161Z')",
@@ -40,7 +40,10 @@ const Computer = ({ sectionProgress }: props) => {
           >
             <img
               className="w-full h-full object-cover"
-              src="https://blog.sciencemuseum.org.uk/wp-content/uploads/2017/10/Pacman.gif"
+              // src="https://blog.sciencemuseum.org.uk/wp-content/uploads/2017/10/Pacman.gif"
+              // src="https://i.pinimg.com/originals/6d/46/f9/6d46f977733e6f9a9fa8f356e2b3e0fa.gif"
+              // src="https://i.pinimg.com/originals/5b/8a/5a/5b8a5aaa765a0b6096a5175588a2caef.gif"
+              src="https://i.imgflip.com/7xbpel.gif"
             />
             <div className="gradient-blur absolute inset-0">
               <div></div>
@@ -52,11 +55,11 @@ const Computer = ({ sectionProgress }: props) => {
             </div>
             <div className="absolute inset-0 flex flex-col justify-stretch gap-1 blur-[2px] mix-blend-color-dodge z-10">
               {Array.from({ length: 40 }).map((_, i) => (
-                <div key={i} className="w-full h-1 bg-[#F1241D]" />
+                <div key={i} className="w-full h-1 bg-[#1daef1]" />
               ))}
             </div>
           </div>
-          <div className="absolute w-[112%] translate-z-[-20px] transform-3d">
+          <div className="absolute w-[112%] translate-z-[-30px] transform-3d">
             <svg
               className="relative w-full"
               viewBox="0 0 557 442"
@@ -68,7 +71,7 @@ const Computer = ({ sectionProgress }: props) => {
                 stroke="var(--shade-300)"
               />
             </svg>
-            <div className="absolute w-[97%] aspect-[2/1] bottom-[2.3%] left-[1.5%] bg-[var(--shade-900)] transform-3d">
+            <div className="absolute w-[96.8%] aspect-[2/1] bottom-[2.1%] left-[1.6%] bg-[var(--shade-900)] transform-3d rounded-[3px]">
               <svg
                 className="absolute w-[90%] bottom-[0%] left-[5%] origin-bottom"
                 style={{ transform: "rotateX(75deg) translateY(-10%)" }}
@@ -96,26 +99,26 @@ const Computer = ({ sectionProgress }: props) => {
           <div className="absolute w-[96.5%] h-[95.5%] transform-3d">
             <div className="absolute w-full bottom-0 left-0 aspect-[4/1] bg-[var(--shade-900)] origin-bottom rotate-x-[90deg]"></div>
             <div
-              className="absolute top-0 left-0 w-0.25 h-11.5 bg-[var(--shade-300)] origin-top-left transform-3d"
-              style={{ transform: "rotateX(35deg) rotateZ(139deg)" }}
+              className="absolute top-0 left-0 w-0.25 h-12.75 bg-[var(--shade-300)] origin-top-left transform-3d"
+              style={{ transform: "rotateX(47deg) rotateZ(144deg)" }}
             >
               <div className="rotate-y-[90deg] origin-left h-full aspect-square bg-[var(--shade-900)] border-l-[1px] border-[var(--shade-300)]"></div>
             </div>
             <div
-              className="absolute top-0 right-0 w-0.25 h-11.5 bg-[var(--shade-300)] origin-top-right transform-3d"
-              style={{ transform: "rotateX(35deg) rotateZ(-139deg)" }}
+              className="absolute top-0 right-0 w-0.25 h-12.75 bg-[var(--shade-300)] origin-top-right transform-3d"
+              style={{ transform: "rotateX(47deg) rotateZ(-144deg)" }}
             >
               <div className="rotate-y-[90deg] origin-left h-full aspect-square bg-[var(--shade-900)] border-l-[1px] border-[var(--shade-300)]"></div>
             </div>
             <div
-              className="absolute bottom-0 right-0 w-0.25 h-11.5 bg-[var(--shade-300)] origin-bottom-right transform-3d"
-              style={{ transform: "rotateX(-35deg) rotateZ(139deg)" }}
+              className="absolute bottom-0 right-0 w-0.25 h-12.75 bg-[var(--shade-300)] origin-bottom-right transform-3d"
+              style={{ transform: "rotateX(-47deg) rotateZ(144deg)" }}
             >
               <div className="rotate-y-[90deg] origin-left h-full aspect-square bg-[var(--shade-900)] border-l-[1px] border-[var(--shade-300)]"></div>
             </div>
             <div
-              className="absolute bottom-0 left-0 w-0.25 h-11.5 bg-[var(--shade-300)] origin-bottom-left transform-3d"
-              style={{ transform: "rotateX(-35deg) rotateZ(-139deg)" }}
+              className="absolute bottom-0 left-0 w-0.25 h-12.75 bg-[var(--shade-300)] origin-bottom-left transform-3d"
+              style={{ transform: "rotateX(-47deg) rotateZ(-144deg)" }}
             >
               <div className="rotate-y-[90deg] origin-left h-full aspect-square bg-[var(--shade-900)] border-l-[1px] border-[var(--shade-300)]"></div>
             </div>

@@ -18,7 +18,7 @@ const Projects = [
   {
     title: "Toronto Tech Week",
     project: "Toronto Tech Week 2025",
-    src: "/images/ttw.png",
+    src: "/images/fuckthisshit.png",
     color: "#D3CDB7",
     description:
       "Marketing site for Toronto Tech Week 2025. I was the sole developer who built the site from the ground up, implementing a custom CMS and creating interactive features like a dynamic schedule, animated transitions, and responsive design.",

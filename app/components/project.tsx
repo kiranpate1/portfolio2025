@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Projects from "./projects";
 import Computer from "./computer";
+import TorontoTechWeek from "./ttw";
 
 type props = {
   index: number;
@@ -14,10 +15,14 @@ type props = {
 const Project = ({ index, title, padding, src, sectionProgress }: props) => {
   return (
     <div className="window absolute flex flex-col items-stretch w-full rounded-2xl overflow-hidden z-1">
-      {index === 0 ? <Computer sectionProgress={sectionProgress} /> : null}
+      {index === 0 ? (
+        <Computer sectionProgress={sectionProgress} />
+      ) : index === 2 ? (
+        <TorontoTechWeek sectionProgress={sectionProgress} />
+      ) : null}
       <div className="main-items">
         <Image
-          className="absolute w-full bg-black"
+          className="stick absolute w-full"
           style={{
             minHeight: `calc(100vh - ${padding * 2}px)`,
             maxHeight: `calc(100vh - ${padding * 2}px)`,
@@ -29,7 +34,7 @@ const Project = ({ index, title, padding, src, sectionProgress }: props) => {
           alt={`${title} Image`}
         />
         <Image
-          className="filter absolute w-full rounded-2xl overflow-hidden mix-blend-plus-lighter blur-xl"
+          className="stick filter absolute w-full rounded-2xl overflow-hidden mix-blend-plus-lighter blur-xl"
           style={{
             minHeight: `calc(100vh - ${padding * 2}px)`,
             maxHeight: `calc(100vh - ${padding * 2}px)`,

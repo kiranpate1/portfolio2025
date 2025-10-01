@@ -141,12 +141,12 @@ body {
 }
 
 .window.scrollout,
-.scrollout img {
+.scrollout .stick {
   top: 0 !important;
 }
 
 .window.scrollin,
-.scrollin img {
+.scrollin .stick {
   bottom: 0 !important;
 }
 
@@ -386,7 +386,13 @@ input {
   caret-color: transparent; /* hide native caret if you use a custom .blinker element */
 }
 
+.toronto svg * {
+  stroke-width: 1.5px;
+  stroke: var(--shade-300);
+}
+
 .computer *,
+.stick svg *,
 .keyboard * {
   vector-effect: non-scaling-stroke;
 }
