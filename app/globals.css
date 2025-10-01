@@ -163,14 +163,14 @@ body {
 }
 
 :root {
-  --gradient-1: transparent 0%, white 12.5%;
-  --gradient-2: transparent 12.5%, white 25%;
-  --gradient-3: transparent 25%, white 37.5%;
-  --gradient-4: transparent 37.5%, white 50%;
-  --gradient-5: transparent 50%, white 62.5%;
-  --gradient-6: transparent 62.5%, white 75%;
-  --gradient-7: transparent 75%, white 87.5%;
-  --gradient-8: transparent 87.5%, white 100%;
+  --gradient-1: transparent 30%, white 38.75%;
+  --gradient-2: transparent 38.75%, white 47.5%;
+  --gradient-3: transparent 47.5%, white 56.25%;
+  --gradient-4: transparent 56.25%, white 65%;
+  --gradient-5: transparent 65%, white 73.75%;
+  --gradient-6: transparent 73.75%, white 82.5%;
+  --gradient-7: transparent 82.5%, white 91.25%;
+  --gradient-8: transparent 91.25%, white 100%;
 }
 
 .gradient-blur > div,
@@ -290,6 +290,39 @@ body {
   -webkit-mask: linear-gradient(to top, var(--gradient-8));
 }
 
+.computer .gradient-blur::before {
+  mask: radial-gradient(ellipse, var(--gradient-1));
+  -webkit-mask: radial-gradient(ellipse, var(--gradient-1));
+}
+.computer .gradient-blur > div:nth-of-type(1) {
+  mask: radial-gradient(ellipse, var(--gradient-2));
+  -webkit-mask: radial-gradient(ellipse, var(--gradient-2));
+}
+.computer .gradient-blur > div:nth-of-type(2) {
+  mask: radial-gradient(ellipse, var(--gradient-3));
+  -webkit-mask: radial-gradient(ellipse, var(--gradient-3));
+}
+.computer .gradient-blur > div:nth-of-type(3) {
+  mask: radial-gradient(ellipse, var(--gradient-4));
+  -webkit-mask: radial-gradient(ellipse, var(--gradient-4));
+}
+.computer .gradient-blur > div:nth-of-type(4) {
+  mask: radial-gradient(ellipse, var(--gradient-5));
+  -webkit-mask: radial-gradient(ellipse, var(--gradient-5));
+}
+.computer .gradient-blur > div:nth-of-type(5) {
+  mask: radial-gradient(ellipse, var(--gradient-6));
+  -webkit-mask: radial-gradient(ellipse, var(--gradient-6));
+}
+.computer .gradient-blur > div:nth-of-type(6) {
+  mask: radial-gradient(ellipse, var(--gradient-7));
+  -webkit-mask: radial-gradient(ellipse, var(--gradient-7));
+}
+.computer .gradient-blur::after {
+  mask: radial-gradient(ellipse, var(--gradient-8));
+  -webkit-mask: radial-gradient(ellipse, var(--gradient-8));
+}
+
 /* nav */
 
 .lines path,
@@ -353,6 +386,7 @@ input {
   caret-color: transparent; /* hide native caret if you use a custom .blinker element */
 }
 
+.computer *,
 .keyboard * {
   vector-effect: non-scaling-stroke;
 }

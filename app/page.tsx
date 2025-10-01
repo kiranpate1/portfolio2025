@@ -118,9 +118,8 @@ export default function Home() {
 
         if (sectionOne >= 0) {
           const windowOne = windows[sectionOne];
-          const images = windowOne.querySelectorAll("img");
           const filterOne = windowOne.querySelector(".filter") as HTMLElement;
-          const shadeOne = windowOne.querySelector(".bg-shade") as HTMLElement;
+          const shade = document.querySelector(".bg-shade") as HTMLElement;
           if (sectionOne == 0) {
             windowOne.style.height = `calc(${doodleHeight}px - ${
               padding * adjustedProgress
@@ -130,13 +129,7 @@ export default function Home() {
             windowOne.style.height = `calc(100% - ${
               adjustedProgress * footerHeight
             }px)`;
-            for (let i = 0; i < images.length; i++) {
-              const img = images[i] as HTMLElement;
-              img.style.filter = `brightness(${1 - adjustedProgress})`;
-            }
-            if (shadeOne) {
-              shadeOne.style.opacity = `${adjustedProgress * 2}`;
-            }
+            shade.style.opacity = `${adjustedProgress * 2}`;
           } else {
             windowOne.style.height = `calc(${100 - adjustedProgress * 100}% - ${
               padding * adjustedProgress
@@ -151,20 +144,16 @@ export default function Home() {
 
         if (sectionTwo < windowCount) {
           const windowTwo = windows[sectionTwo];
-          const images = windowTwo.querySelectorAll("img");
           const filterTwo = windowTwo.querySelector(".filter") as HTMLElement;
-          const shadeTwo = windowTwo.querySelector(".bg-shade") as HTMLElement;
+          const mainItems = windowTwo.querySelector(
+            ".main-items"
+          ) as HTMLElement;
           if (sectionTwo == 1) {
             windowTwo.style.height = `calc(100% - ${
               padding - adjustedProgress * padding
             }px - ${doodleHeight - adjustedProgress * doodleHeight}px)`;
-            for (let i = 0; i < images.length; i++) {
-              const img = images[i] as HTMLElement;
-              img.style.filter = `brightness(${adjustedProgress})`;
-            }
-            if (shadeTwo) {
-              shadeTwo.style.opacity = `${1.5 - adjustedProgress * 1.5}`;
-            }
+            filterTwo.style.opacity = `${1 - adjustedProgress}`;
+            mainItems.style.opacity = `${-1 + adjustedProgress * 2.5}`;
           } else if (sectionTwo == windowCount - 1) {
             // Transitioning into last section - grow to footer height
             windowTwo.style.height = `calc(${
@@ -180,6 +169,7 @@ export default function Home() {
             filterTwo.style.filter = `blur(20px) brightness(${
               2 - adjustedProgress
             })`;
+            mainItems.style.opacity = `1`;
           }
         }
       }
@@ -311,6 +301,7 @@ export default function Home() {
             padding={padding}
             title={project.title}
             src={project.src}
+            sectionProgress={scrollProgress}
           />
         ))}
         <Footer height={footerHeight} sectionProgress={scrollProgress} />
