@@ -23,7 +23,7 @@ const TorontoTechWeek = ({ sectionProgress }: props) => {
     });
 
     const ttwLines = document.querySelector(".ttw-lines") as HTMLDivElement;
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 150; i++) {
       const newLine = document.createElement("div");
       newLine.className = `absolute w-0.5 bg-[var(--shade-300)]`;
       newLine.style.top = `${-25 + Math.random() * 40}%`;
@@ -32,9 +32,9 @@ const TorontoTechWeek = ({ sectionProgress }: props) => {
       } else {
         newLine.style.right = `${0 + Math.random() * 50}%`;
       }
-      newLine.style.height = `${5 + Math.random() * 20}%`;
+      newLine.style.height = `${5 + Math.random() * 15}%`;
       newLine.style.transform = `translateZ(${
-        -1000 + Math.random() * 900
+        -4500 + Math.random() * 5000
       }px) rotateX(90deg)`;
       ttwLines.appendChild(newLine);
     }
@@ -44,7 +44,7 @@ const TorontoTechWeek = ({ sectionProgress }: props) => {
     const objects = document.querySelectorAll(
       ".toronto svg g"
     ) as NodeListOf<SVGElement>;
-    const raw = typeof sectionProgress === "number" ? sectionProgress - 2 : 1;
+    const raw = typeof sectionProgress === "number" ? sectionProgress - 3 : 1;
     const scale = Math.min(1, Math.max(0, raw));
     const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
     const easedScale = easeOut(scale);

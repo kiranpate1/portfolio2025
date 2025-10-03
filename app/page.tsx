@@ -7,6 +7,7 @@ import Projects from "./components/projects";
 import Project from "./components/project";
 import Footer from "./components/footer";
 import Lenis from "lenis";
+import Computer from "./components/computer";
 
 export default function Home() {
   const padding = 16;
@@ -153,7 +154,7 @@ export default function Home() {
               padding - adjustedProgress * padding
             }px - ${doodleHeight - adjustedProgress * doodleHeight}px)`;
             filterTwo.style.opacity = `${1 - adjustedProgress}`;
-            mainItems.style.opacity = `${-1 + adjustedProgress * 2.5}`;
+            // mainItems.style.opacity = `${-1 + adjustedProgress * 2.5}`;
           } else if (sectionTwo == windowCount - 1) {
             // Transitioning into last section - grow to footer height
             windowTwo.style.height = `calc(${
@@ -169,7 +170,7 @@ export default function Home() {
             filterTwo.style.filter = `blur(20px) brightness(${
               2 - adjustedProgress
             })`;
-            mainItems.style.opacity = `1`;
+            // mainItems.style.opacity = `1`;
           }
         }
       }
@@ -294,6 +295,7 @@ export default function Home() {
         }}
       >
         <Header height={doodleHeight} />
+        <Computer sectionProgress={scrollProgress} />
         {Projects.map((project, index) => (
           <Project
             key={index}
