@@ -16,11 +16,11 @@ const Footer = ({ height, sectionProgress }: props) => {
           className="relative w-full max-w-[1076px] flex items-center justify-center transform-3d"
           style={{
             perspective:
-              sectionProgress > 7
+              sectionProgress > 8
                 ? `${10000 - (sectionProgress % 1) * 9000}px`
                 : "10000px",
             transform:
-              sectionProgress > 7
+              sectionProgress > 8
                 ? `translateY(${-2 + (sectionProgress % 1) * 2}vw) translateZ(${
                     -10 + (sectionProgress % 1) * 10
                   }vw) rotateX(${
@@ -35,7 +35,7 @@ const Footer = ({ height, sectionProgress }: props) => {
             viewBox="0 0 1432 647"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            style={{ opacity: sectionProgress > 7.2 ? 1 : 0 }}
+            style={{ opacity: sectionProgress > 8.2 ? 1 : 0 }}
           >
             <g clipPath="url(#clip0_980_1413)">
               <rect width="1432" height="647" fill="#181B22" />

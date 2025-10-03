@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 type props = {
   sectionProgress?: number;
 };
 
 const Computer = ({ sectionProgress }: props) => {
+  const [easedProgress, setEasedProgress] = useState(0);
+  const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+  const easeIn = (t: number) => t * t * t;
+  const easeInOut = (t: number) =>
+    t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+
+  useEffect(() => {
+    if (sectionProgress === undefined) return;
+    const progressAdj =
+      sectionProgress > 1 ? (sectionProgress < 2 ? sectionProgress - 1 : 1) : 0;
+    const eased = easeInOut(progressAdj);
+
+    setEasedProgress(progressAdj);
+  }, [sectionProgress]);
+
   return (
     <div className="window absolute flex flex-col items-stretch w-full border-[var(--shade-750)] border rounded-[16px] overflow-hidden z-1">
       <div className="absolute inset-0 flex justify-center items-center">
@@ -13,7 +28,7 @@ const Computer = ({ sectionProgress }: props) => {
             className="computer w-[517px] relative flex justify-center items-center transform-3d"
             style={{
               transform: sectionProgress
-                ? `rotateX(${sectionProgress * 120}deg)`
+                ? `rotateX(${easedProgress * 100}deg)`
                 : "rotateX(0deg)",
             }}
           >
