@@ -303,7 +303,6 @@ const Header = ({ height }: props) => {
           </div>
         </div>
       </div>
-      <div className="filter"></div>
       <div className="drag absolute w-12 h-2 rounded-full border border-[var(--shade-700)] bg-[var(--shade-800)] bottom-[-4px] left-[50%] translate-x-[-50%] translate-y-[100%] after:content-[''] after:absolute after:inset-[-16px_auto_-16px_auto] after:w-[calc(100vw-250px)] after:left-[50%] after:translate-x-[-50%] cursor-ns-resize z-100 duration-100 transition-opacity"></div>
     </div>
   );

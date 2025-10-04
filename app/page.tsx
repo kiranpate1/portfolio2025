@@ -100,12 +100,8 @@ export default function Home() {
 
       if (sectionOne >= 0 && sectionOne < windowCount - 1) {
         for (let i = 0; i < windowCount; i++) {
-          const filter = windows[i].querySelector(".filter") as HTMLElement;
           if (i < sectionOne || i > sectionTwo) {
             windows[i].style.height = `0px`;
-            if (filter) {
-              filter.style.opacity = `0`;
-            }
           } else if (i <= sectionOne) {
             windows[i].classList.add("scrollout");
             windows[i].classList.remove("scrollin");
@@ -119,7 +115,6 @@ export default function Home() {
 
         if (sectionOne >= 0) {
           const windowOne = windows[sectionOne];
-          const filterOne = windowOne.querySelector(".filter") as HTMLElement;
           const shade = document.querySelector(".bg-shade") as HTMLElement;
           if (sectionOne == 0) {
             windowOne.style.height = `calc(${doodleHeight}px - ${
@@ -136,25 +131,15 @@ export default function Home() {
               padding * adjustedProgress
             }px)`;
             windowOne.style.filter = `brightness(1)`;
-            filterOne.style.opacity = `${adjustedProgress}`;
-            filterOne.style.filter = `blur(20px) brightness(${
-              1 + adjustedProgress
-            })`;
           }
         }
 
         if (sectionTwo < windowCount) {
           const windowTwo = windows[sectionTwo];
-          const filterTwo = windowTwo.querySelector(".filter") as HTMLElement;
-          const mainItems = windowTwo.querySelector(
-            ".main-items"
-          ) as HTMLElement;
           if (sectionTwo == 1) {
             windowTwo.style.height = `calc(100% - ${
               padding - adjustedProgress * padding
             }px - ${doodleHeight - adjustedProgress * doodleHeight}px)`;
-            filterTwo.style.opacity = `${1 - adjustedProgress}`;
-            // mainItems.style.opacity = `${-1 + adjustedProgress * 2.5}`;
           } else if (sectionTwo == windowCount - 1) {
             // Transitioning into last section - grow to footer height
             windowTwo.style.height = `calc(${
@@ -166,11 +151,6 @@ export default function Home() {
               padding - adjustedProgress * padding
             }px)`;
             windowTwo.style.filter = `brightness(1)`;
-            filterTwo.style.opacity = `${1 - adjustedProgress}`;
-            filterTwo.style.filter = `blur(20px) brightness(${
-              2 - adjustedProgress
-            })`;
-            // mainItems.style.opacity = `1`;
           }
         }
       }

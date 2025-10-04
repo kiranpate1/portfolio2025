@@ -173,201 +173,154 @@ body {
   --gradient-6: transparent 73.75%, white 82.5%;
   --gradient-7: transparent 82.5%, white 91.25%;
   --gradient-8: transparent 91.25%, white 100%;
-  --test-1: transparent 10%, white 13.75%;
-  --test-2: transparent 13.75%, white 17.5%;
-  --test-3: transparent 17.5%, white 21.25%;
-  --test-4: transparent 21.25%, white 25%;
-  --test-5: transparent 25%, white 28.75%;
-  --test-6: transparent 28.75%, white 32.5%;
-  --test-7: transparent 32.5%, white 36.25%;
-  --test-8: transparent 36.25%, white 40%;
 }
 
-.gradient-blur > div,
-.gradient-blur::before,
-.gradient-blur::after {
+.gradient-blur > div {
   position: absolute;
   inset: 0;
   /* display: none; */
 }
 
-.gradient-blur::before {
-  content: "";
+.gradient-blur > div:nth-of-type(1) {
   z-index: 1;
   backdrop-filter: blur(1px) !important;
   /* -webkit-backdrop-filter: blur(1px); */
 }
-.gradient-blur > div:nth-of-type(1) {
+.gradient-blur > div:nth-of-type(2) {
   z-index: 2;
   backdrop-filter: blur(2px) !important;
   /* -webkit-backdrop-filter: blur(2px); */
 }
-.gradient-blur > div:nth-of-type(2) {
+.gradient-blur > div:nth-of-type(3) {
   z-index: 3;
   backdrop-filter: blur(4px) !important;
   /* -webkit-backdrop-filter: blur(4px); */
 }
-.gradient-blur > div:nth-of-type(3) {
+.gradient-blur > div:nth-of-type(4) {
   z-index: 4;
   backdrop-filter: blur(8px) !important;
   /* -webkit-backdrop-filter: blur(8px); */
 }
-.gradient-blur > div:nth-of-type(4) {
+.gradient-blur > div:nth-of-type(5) {
   z-index: 5;
   backdrop-filter: blur(16px) !important;
   /* -webkit-backdrop-filter: blur(16px); */
 }
-.gradient-blur > div:nth-of-type(5) {
+.gradient-blur > div:nth-of-type(6) {
   z-index: 6;
   backdrop-filter: blur(32px) !important;
   /* -webkit-backdrop-filter: blur(32px); */
 }
-.gradient-blur > div:nth-of-type(6) {
+.gradient-blur > div:nth-of-type(7) {
   z-index: 7;
   backdrop-filter: blur(64px) !important;
   /* -webkit-backdrop-filter: blur(64px); */
 }
-.gradient-blur::after {
-  content: "";
+.gradient-blur > div:nth-of-type(8) {
   z-index: 8;
   backdrop-filter: blur(128px) !important;
   /* -webkit-backdrop-filter: blur(128px); */
 }
 
-.bottom.gradient-blur::before {
+.bottom.gradient-blur > div:nth-of-type(1) {
   mask: linear-gradient(to bottom, var(--gradient-1));
   -webkit-mask: linear-gradient(to bottom, var(--gradient-1));
 }
-.bottom.gradient-blur > div:nth-of-type(1) {
+.bottom.gradient-blur > div:nth-of-type(2) {
   mask: linear-gradient(to bottom, var(--gradient-2));
   -webkit-mask: linear-gradient(to bottom, var(--gradient-2));
 }
-.bottom.gradient-blur > div:nth-of-type(2) {
+.bottom.gradient-blur > div:nth-of-type(3) {
   mask: linear-gradient(to bottom, var(--gradient-3));
   -webkit-mask: linear-gradient(to bottom, var(--gradient-3));
 }
-.bottom.gradient-blur > div:nth-of-type(3) {
+.bottom.gradient-blur > div:nth-of-type(4) {
   mask: linear-gradient(to bottom, var(--gradient-4));
   -webkit-mask: linear-gradient(to bottom, var(--gradient-4));
 }
-.bottom.gradient-blur > div:nth-of-type(4) {
+.bottom.gradient-blur > div:nth-of-type(5) {
   mask: linear-gradient(to bottom, var(--gradient-5));
   -webkit-mask: linear-gradient(to bottom, var(--gradient-5));
 }
-.bottom.gradient-blur > div:nth-of-type(5) {
+.bottom.gradient-blur > div:nth-of-type(6) {
   mask: linear-gradient(to bottom, var(--gradient-6));
   -webkit-mask: linear-gradient(to bottom, var(--gradient-6));
 }
-.bottom.gradient-blur > div:nth-of-type(6) {
+.bottom.gradient-blur > div:nth-of-type(7) {
   mask: linear-gradient(to bottom, var(--gradient-7));
   -webkit-mask: linear-gradient(to bottom, var(--gradient-7));
 }
-.bottom.gradient-blur::after {
+.bottom.gradient-blur > div:nth-of-type(8) {
   mask: linear-gradient(to bottom, var(--gradient-8));
   -webkit-mask: linear-gradient(to bottom, var(--gradient-8));
 }
 
-.top.gradient-blur::before {
+.top.gradient-blur > div:nth-of-type(1) {
   mask: linear-gradient(to top, var(--gradient-1));
   -webkit-mask: linear-gradient(to top, var(--gradient-1));
 }
-.top.gradient-blur > div:nth-of-type(1) {
+.top.gradient-blur > div:nth-of-type(2) {
   mask: linear-gradient(to top, var(--gradient-2));
   -webkit-mask: linear-gradient(to top, var(--gradient-2));
 }
-.top.gradient-blur > div:nth-of-type(2) {
+.top.gradient-blur > div:nth-of-type(3) {
   mask: linear-gradient(to top, var(--gradient-3));
   -webkit-mask: linear-gradient(to top, var(--gradient-3));
 }
-.top.gradient-blur > div:nth-of-type(3) {
+.top.gradient-blur > div:nth-of-type(4) {
   mask: linear-gradient(to top, var(--gradient-4));
   -webkit-mask: linear-gradient(to top, var(--gradient-4));
 }
-.top.gradient-blur > div:nth-of-type(4) {
+.top.gradient-blur > div:nth-of-type(5) {
   mask: linear-gradient(to top, var(--gradient-5));
   -webkit-mask: linear-gradient(to top, var(--gradient-5));
 }
-.top.gradient-blur > div:nth-of-type(5) {
+.top.gradient-blur > div:nth-of-type(6) {
   mask: linear-gradient(to top, var(--gradient-6));
   -webkit-mask: linear-gradient(to top, var(--gradient-6));
 }
-.top.gradient-blur > div:nth-of-type(6) {
+.top.gradient-blur > div:nth-of-type(7) {
   mask: linear-gradient(to top, var(--gradient-7));
   -webkit-mask: linear-gradient(to top, var(--gradient-7));
 }
-.top.gradient-blur::after {
+.top.gradient-blur > div:nth-of-type(8) {
   mask: linear-gradient(to top, var(--gradient-8));
   -webkit-mask: linear-gradient(to top, var(--gradient-8));
 }
 
 /* computer */
 
-.computer .gradient-blur::before {
+.computer .gradient-blur > div:nth-of-type(1) {
   mask: radial-gradient(ellipse, var(--gradient-1));
   -webkit-mask: radial-gradient(ellipse, var(--gradient-1));
 }
-.computer .gradient-blur > div:nth-of-type(1) {
+.computer .gradient-blur > div:nth-of-type(2) {
   mask: radial-gradient(ellipse, var(--gradient-2));
   -webkit-mask: radial-gradient(ellipse, var(--gradient-2));
 }
-.computer .gradient-blur > div:nth-of-type(2) {
+.computer .gradient-blur > div:nth-of-type(3) {
   mask: radial-gradient(ellipse, var(--gradient-3));
   -webkit-mask: radial-gradient(ellipse, var(--gradient-3));
 }
-.computer .gradient-blur > div:nth-of-type(3) {
+.computer .gradient-blur > div:nth-of-type(4) {
   mask: radial-gradient(ellipse, var(--gradient-4));
   -webkit-mask: radial-gradient(ellipse, var(--gradient-4));
 }
-.computer .gradient-blur > div:nth-of-type(4) {
+.computer .gradient-blur > div:nth-of-type(5) {
   mask: radial-gradient(ellipse, var(--gradient-5));
   -webkit-mask: radial-gradient(ellipse, var(--gradient-5));
 }
-.computer .gradient-blur > div:nth-of-type(5) {
+.computer .gradient-blur > div:nth-of-type(6) {
   mask: radial-gradient(ellipse, var(--gradient-6));
   -webkit-mask: radial-gradient(ellipse, var(--gradient-6));
 }
-.computer .gradient-blur > div:nth-of-type(6) {
+.computer .gradient-blur > div:nth-of-type(7) {
   mask: radial-gradient(ellipse, var(--gradient-7));
   -webkit-mask: radial-gradient(ellipse, var(--gradient-7));
 }
-.computer .gradient-blur::after {
+.computer .gradient-blur > div:nth-of-type(8) {
   mask: radial-gradient(ellipse, var(--gradient-8));
   -webkit-mask: radial-gradient(ellipse, var(--gradient-8));
-}
-
-/* sp */
-
-.sp .gradient-blur::before {
-  mask: radial-gradient(ellipse, var(--test-1));
-  -webkit-mask: radial-gradient(ellipse, var(--test-1));
-}
-.sp .gradient-blur > div:nth-of-type(1) {
-  mask: radial-gradient(ellipse, var(--test-2));
-  -webkit-mask: radial-gradient(ellipse, var(--test-2));
-}
-.sp .gradient-blur > div:nth-of-type(2) {
-  mask: radial-gradient(ellipse, var(--test-3));
-  -webkit-mask: radial-gradient(ellipse, var(--test-3));
-}
-.sp .gradient-blur > div:nth-of-type(3) {
-  mask: radial-gradient(ellipse, var(--test-4));
-  -webkit-mask: radial-gradient(ellipse, var(--test-4));
-}
-.sp .gradient-blur > div:nth-of-type(4) {
-  mask: radial-gradient(ellipse, var(--test-5));
-  -webkit-mask: radial-gradient(ellipse, var(--test-5));
-}
-.sp .gradient-blur > div:nth-of-type(5) {
-  mask: radial-gradient(ellipse, var(--test-6));
-  -webkit-mask: radial-gradient(ellipse, var(--test-6));
-}
-.sp .gradient-blur > div:nth-of-type(6) {
-  mask: radial-gradient(ellipse, var(--test-7));
-  -webkit-mask: radial-gradient(ellipse, var(--test-7));
-}
-.sp .gradient-blur::after {
-  mask: radial-gradient(ellipse, var(--test-8));
-  -webkit-mask: radial-gradient(ellipse, var(--test-8));
 }
 
 /* nav */

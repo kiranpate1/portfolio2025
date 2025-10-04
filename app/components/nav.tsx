@@ -44,7 +44,6 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
           : 1
         : 0;
     setNormalizedProgress(normalizedScrollProgress);
-    console.log(normalizedScrollProgress);
 
     // Update progress bars based on scrollProgress prop instead of scroll events
     const bars = document.querySelectorAll(".bar") as NodeListOf<HTMLElement>;

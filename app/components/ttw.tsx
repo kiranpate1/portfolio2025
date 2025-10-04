@@ -1,4 +1,7 @@
 import React, { useEffect } from "react";
+import Image from "next/image";
+import Projects from "./projects";
+const src = Projects[2].src; // Toronto Tech Week image
 
 type props = {
   sectionProgress?: number;
@@ -33,9 +36,14 @@ const TorontoTechWeek = ({ sectionProgress }: props) => {
         newLine.style.right = `${0 + Math.random() * 50}%`;
       }
       newLine.style.height = `${5 + Math.random() * 15}%`;
+      const leftValue = parseFloat(newLine.style.left || "0");
+      const rightValue = parseFloat(newLine.style.right || "0");
+      const rotationY = leftValue
+        ? -Math.atan((leftValue - 25) / 50) * (180 / Math.PI)
+        : Math.atan((rightValue - 25) / 50) * (180 / Math.PI);
       newLine.style.transform = `translateZ(${
         -4500 + Math.random() * 5000
-      }px) rotateX(90deg)`;
+      }px) rotateX(90deg) rotateY(${rotationY}deg)`;
       ttwLines.appendChild(newLine);
     }
   }, []);
@@ -593,6 +601,18 @@ const TorontoTechWeek = ({ sectionProgress }: props) => {
           <path d="M0 731.5L1580 731.5" />
         </svg>
       </div>
+
+      <Image
+        className="stick absolute w-full object-cover"
+        style={{
+          minHeight: `calc(100vh - ${16 * 2}px)`,
+          maxHeight: `calc(100vh - ${16 * 2}px)`,
+        }}
+        width={1000}
+        height={1000}
+        src={src}
+        alt={`TTW Image`}
+      />
     </div>
   );
 };

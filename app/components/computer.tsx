@@ -68,6 +68,8 @@ const Computer = ({ sectionProgress }: props) => {
                 <div></div>
                 <div></div>
                 <div></div>
+                <div></div>
+                <div></div>
               </div>
               <div className="absolute inset-0 flex flex-col justify-stretch gap-1 blur-[2px] mix-blend-color-dodge z-10">
                 {Array.from({ length: 40 }).map((_, i) => (
@@ -142,7 +144,6 @@ const Computer = ({ sectionProgress }: props) => {
           </div>
         </div>
       </div>
-      <div className="filter"></div>
     </div>
   );
 };
