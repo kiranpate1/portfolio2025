@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import Projects from "./projects";
 const src = Projects[0].src; // Dropbox image
+import DropboxTiles from "./dropboxTiles";
 
 type props = {
   sectionProgress?: number;
@@ -9,19 +10,22 @@ type props = {
 
 const Dropbox = ({ sectionProgress }: props) => {
   const filter = useRef<HTMLImageElement>(null);
+  const [rawProgress, setRawProgress] = React.useState(0);
 
   useEffect(() => {
     if (sectionProgress && filter.current) {
       const adjustedProgress = sectionProgress - 1;
+      setRawProgress(Math.min(1, Math.max(0, adjustedProgress)));
       filter.current.style.opacity = `${1 - adjustedProgress}`;
       filter.current.style.filter = `blur(20px) brightness(${
-        2 - adjustedProgress
+        3 - adjustedProgress * 2
       })`;
     }
   }, [sectionProgress]);
 
   return (
     <div>
+      {/* <DropboxTiles rawProgress={rawProgress} /> */}
       <Image
         className="stick absolute w-full object-cover"
         style={{

@@ -75,13 +75,7 @@ const TorontoTechWeek = ({ sectionProgress }: props) => {
   }, [sectionProgress]);
 
   return (
-    <div
-      className="stick toronto absolute w-full flex justify-center items-center bg-[#070F0F]"
-      style={{
-        minHeight: `calc(100vh - ${16 * 2}px)`,
-        maxHeight: `calc(100vh - ${16 * 2}px)`,
-      }}
-    >
+    <div className="stick toronto absolute inset-0 flex justify-center items-center bg-[#070F0F]">
       <div className="relative min-w-[1085px] w-[82.4%] transform-3d perspective-distant">
         <div className="ttw-lines absolute inset-[0_-50%-200%-50%] transform-3d perspective-distant z-0">
           {/* <div

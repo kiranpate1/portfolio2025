@@ -9,13 +9,9 @@ type props = {
 
 const Art = ({ sectionProgress }: props) => {
   return (
-    <div>
+    <div className="absolute inset-0">
       <Image
-        className="stick absolute w-full object-cover"
-        style={{
-          minHeight: `calc(100vh - ${16 * 2}px)`,
-          maxHeight: `calc(100vh - ${16 * 2}px)`,
-        }}
+        className="absolute min-w-full min-h-full object-cover"
         width={1000}
         height={1000}
         src={src}

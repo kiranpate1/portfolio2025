@@ -7,7 +7,7 @@ type props = {
 const Computer = ({ sectionProgress }: props) => {
   const [easedProgress, setEasedProgress] = useState(0);
   const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
-  const easeIn = (t: number) => t * t * t;
+  const easeIn = (t: number) => t * t * (3 - 2 * t);
   const easeInOut = (t: number) =>
     t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
 
@@ -15,7 +15,7 @@ const Computer = ({ sectionProgress }: props) => {
     if (sectionProgress === undefined) return;
     const progressAdj =
       sectionProgress > 1 ? (sectionProgress < 2 ? sectionProgress - 1 : 1) : 0;
-    const eased = easeInOut(progressAdj);
+    const eased = easeIn(progressAdj);
 
     setEasedProgress(progressAdj);
   }, [sectionProgress]);

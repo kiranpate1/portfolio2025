@@ -141,14 +141,12 @@ body {
 }
 
 .window.scrollout,
-.scrollout .stick,
-.scrollout .sp {
+.scrollout .stick {
   top: 0 !important;
 }
 
 .window.scrollin,
-.scrollin .stick,
-.scrollin .sp {
+.scrollin .stick {
   bottom: 0 !important;
 }
 

@@ -32,13 +32,7 @@ const Superpower = ({ sectionProgress }: props) => {
   }, [sectionProgress]);
 
   return (
-    <div
-      className="sp absolute min-w-full bg-[#000000]"
-      style={{
-        minHeight: `calc(100vh - ${16 * 2}px)`,
-        maxHeight: `calc(100vh - ${16 * 2}px)`,
-      }}
-    >
+    <div className="sp absolute inset-0 bg-[#000000]">
       <div
         className="absolute min-w-full min-h-full aspect-square overflow-hidden left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] flex items-center justify-center"
         style={{
@@ -51,7 +45,7 @@ const Superpower = ({ sectionProgress }: props) => {
           style={{
             minHeight: `calc(100vh - ${16 * 2}px)`,
             maxHeight: `calc(100vh - ${16 * 2}px)`,
-            scale: sectionProgress ? 2 - rawProgress : 1,
+            scale: sectionProgress ? 2.75 - rawProgress * 1.75 : 1,
           }}
           width={1000}
           height={1000}
