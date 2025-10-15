@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 
 type props = {
   height: number;
+  scrollProgress?: number;
 };
 
-const Header = ({ height }: props) => {
+const Header = ({ height, scrollProgress }: props) => {
   const [fullDate, setFullDate] = useState("");
   const [isMounted, setIsMounted] = useState(false);
 
@@ -24,6 +25,22 @@ const Header = ({ height }: props) => {
     // mark mounted so we only render the dynamic date after hydration
     setIsMounted(true);
   }, []);
+
+  const drag = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollProgress !== undefined && terminalRef.current && drag.current) {
+      const terminal = terminalRef.current;
+      const dragElement = drag.current;
+      if (scrollProgress > 0.9) {
+        terminal.style.zIndex = "0";
+        dragElement.style.opacity = "0";
+      } else {
+        terminal.style.zIndex = "2";
+        dragElement.style.opacity = "1";
+      }
+    }
+  }, [scrollProgress]);
 
   const nameBanner = ` __  ___  __   ______       ___       __   __   ______      ___      ___________  _______  __          ___
 |  |/  / |  | |   _  \\     /   \\     |  \\ |  | |   _  \\    /   \\    |           ||   ____||  |        /  /
@@ -303,7 +320,10 @@ const Header = ({ height }: props) => {
           </div>
         </div>
       </div>
-      <div className="drag absolute w-12 h-2 rounded-full border border-[var(--shade-700)] bg-[var(--shade-800)] bottom-[-4px] left-[50%] translate-x-[-50%] translate-y-[100%] after:content-[''] after:absolute after:inset-[-16px_auto_-16px_auto] after:w-[calc(100vw-250px)] after:left-[50%] after:translate-x-[-50%] cursor-ns-resize z-100 duration-100 transition-opacity"></div>
+      <div
+        ref={drag}
+        className="drag absolute w-12 h-2 rounded-full border border-[var(--shade-700)] bg-[var(--shade-800)] bottom-[-4px] left-[50%] translate-x-[-50%] translate-y-[100%] after:content-[''] after:absolute after:inset-[-16px_auto_-16px_auto] after:w-[calc(100vw-250px)] after:left-[50%] after:translate-x-[-50%] cursor-ns-resize z-100 duration-100 transition-opacity"
+      ></div>
     </div>
   );
 };

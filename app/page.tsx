@@ -274,7 +274,7 @@ export default function Home() {
           height: `calc(100vh - ${padding * 2}px)`,
         }}
       >
-        <Header height={doodleHeight} />
+        <Header height={doodleHeight} scrollProgress={scrollProgress} />
         <Computer sectionProgress={scrollProgress} />
         {Projects.map((project, index) => (
           <Project

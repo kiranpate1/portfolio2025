@@ -21,7 +21,7 @@ const Computer = ({ sectionProgress }: props) => {
   }, [sectionProgress]);
 
   return (
-    <div className="window absolute flex flex-col items-stretch w-full border-[var(--shade-750)] border rounded-[16px] overflow-hidden z-1">
+    <div className="window absolute flex flex-col items-stretch w-full border-[var(--shade-750)] border rounded-[16px] overflow-hidden z-1 bg-[var(--shade-900)]">
       <div className="absolute inset-0 flex justify-center items-center">
         <div className="absolute transform-3d perspective-distant">
           <div
@@ -60,6 +60,11 @@ const Computer = ({ sectionProgress }: props) => {
                 // src="https://i.pinimg.com/originals/6d/46/f9/6d46f977733e6f9a9fa8f356e2b3e0fa.gif"
                 // src="https://i.pinimg.com/originals/5b/8a/5a/5b8a5aaa765a0b6096a5175588a2caef.gif"
                 src="https://i.imgflip.com/7xbpel.gif"
+                style={{
+                  filter: `brightness(${1 + easedProgress * 0.5}) contrast(${
+                    1 - easedProgress * 0.5
+                  }) saturate(${1 - easedProgress * 0.5})`,
+                }}
               />
               <div className="gradient-blur absolute inset-0">
                 <div></div>

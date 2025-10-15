@@ -24,9 +24,9 @@ const Dropbox = ({ sectionProgress }: props) => {
   }, [sectionProgress]);
 
   return (
-    <div>
-      {/* <DropboxTiles rawProgress={rawProgress} /> */}
-      <Image
+    <div className="dbx">
+      <DropboxTiles rawProgress={rawProgress} />
+      {/* <Image
         className="stick absolute w-full object-cover"
         style={{
           minHeight: `calc(100vh - ${16 * 2}px)`,
@@ -48,7 +48,13 @@ const Dropbox = ({ sectionProgress }: props) => {
         height={1000}
         src={src}
         alt="Filter Image"
-      />
+      /> */}
+      <div
+        ref={filter}
+        className="absolute inset-0 filter mix-blend-plus-lighter blur-xl"
+      >
+        <DropboxTiles rawProgress={rawProgress} />
+      </div>
     </div>
   );
 };
