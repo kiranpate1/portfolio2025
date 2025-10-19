@@ -1,23 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 type props = {
   sectionProgress?: number;
 };
 
 const Computer = ({ sectionProgress }: props) => {
-  const [easedProgress, setEasedProgress] = useState(0);
-  const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+  const computerRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
   const easeIn = (t: number) => t * t * (3 - 2 * t);
-  const easeInOut = (t: number) =>
-    t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
 
   useEffect(() => {
-    if (sectionProgress === undefined) return;
+    if (
+      sectionProgress === undefined ||
+      !computerRef.current ||
+      !imageRef.current
+    )
+      return;
+
+    // Calculate progress values
     const progressAdj =
       sectionProgress > 1 ? (sectionProgress < 2 ? sectionProgress - 1 : 1) : 0;
-    const eased = easeIn(progressAdj);
+    const easedProgress = progressAdj;
 
-    setEasedProgress(progressAdj);
+    // Apply transforms directly to DOM for smooth animation
+    computerRef.current.style.transform = `rotateX(${easedProgress * 100}deg)`;
+    imageRef.current.style.filter = `brightness(${
+      1 + easedProgress * 0.5
+    }) contrast(${1 - easedProgress * 0.5}) saturate(${
+      1 - easedProgress * 0.5
+    })`;
   }, [sectionProgress]);
 
   return (
@@ -25,12 +36,8 @@ const Computer = ({ sectionProgress }: props) => {
       <div className="absolute inset-0 flex justify-center items-center">
         <div className="absolute transform-3d perspective-distant">
           <div
+            ref={computerRef}
             className="computer w-[517px] relative flex justify-center items-center transform-3d"
-            style={{
-              transform: sectionProgress
-                ? `rotateX(${easedProgress * 100}deg)`
-                : "rotateX(0deg)",
-            }}
           >
             <svg
               className="relative w-full"
@@ -55,16 +62,12 @@ const Computer = ({ sectionProgress }: props) => {
               }}
             >
               <img
+                ref={imageRef}
                 className="w-full h-full object-cover"
                 // src="https://blog.sciencemuseum.org.uk/wp-content/uploads/2017/10/Pacman.gif"
-                // src="https://i.pinimg.com/originals/6d/46/f9/6d46f977733e6f9a9fa8f356e2b3e0fa.gif"
+                src="https://i.pinimg.com/originals/6d/46/f9/6d46f977733e6f9a9fa8f356e2b3e0fa.gif"
                 // src="https://i.pinimg.com/originals/5b/8a/5a/5b8a5aaa765a0b6096a5175588a2caef.gif"
-                src="https://i.imgflip.com/7xbpel.gif"
-                style={{
-                  filter: `brightness(${1 + easedProgress * 0.5}) contrast(${
-                    1 - easedProgress * 0.5
-                  }) saturate(${1 - easedProgress * 0.5})`,
-                }}
+                // src="https://i.imgflip.com/7xbpel.gif"
               />
               <div className="gradient-blur absolute inset-0">
                 <div></div>

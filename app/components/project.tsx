@@ -27,9 +27,9 @@ const Project = ({ index, title, padding, src, sectionProgress }: props) => {
         {index === 0 ? (
           <Dropbox sectionProgress={sectionProgress} />
         ) : index === 1 ? (
-          <Superpower sectionProgress={sectionProgress} />
-        ) : index === 2 ? (
           <TorontoTechWeek sectionProgress={sectionProgress} />
+        ) : index === 2 ? (
+          <Superpower sectionProgress={sectionProgress} />
         ) : index === Projects.length - 1 ? (
           <Art sectionProgress={sectionProgress} />
         ) : (
@@ -38,7 +38,7 @@ const Project = ({ index, title, padding, src, sectionProgress }: props) => {
             style={{
               minHeight: `calc(100vh - ${padding * 2}px)`,
               maxHeight: `calc(100vh - ${padding * 2}px)`,
-              objectFit: title == "Codepen" ? "contain" : "cover",
+              objectFit: title == "Codepen" ? "cover" : "cover",
             }}
             width={1000}
             height={1000}

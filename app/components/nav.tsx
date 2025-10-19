@@ -79,6 +79,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
     >
       <div className="flex flex-col gap-4">
         <Doodle height={doodleHeight} activeIndex={activeIndex} />
+        <div className="relative w-full h-8 rounded-2xl border-[var(--shade-750)] border overflow-ellipsis"></div>
         <div className="relative flex items-stretch w-full h-3 p-0.5 bg-[var(--shade-850)] rounded-2xl">
           {Projects.map((project, index) => (
             <div

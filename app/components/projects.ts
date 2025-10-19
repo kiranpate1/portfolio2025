@@ -8,20 +8,20 @@ const Projects = [
       "Brand site for Dropbox with playful widgets and interactive sandboxes sprinkled throughout. As the lead developer, I created and guided most of the site, architected core components, and implemented many of the interactive experiences.",
   },
   {
-    title: "Superpower",
-    project: "Superpower Site",
-    src: "/images/superpower.png",
-    color: "#FC5F2B",
-    description:
-      "Marketing landing page for Superpower, a digital health clinic. I was the lead designer and developer who directed production of the site and created its most memorable interactions, including onboarding animations, interactive clinician profiles, and responsive, accessible UI.",
-  },
-  {
     title: "Toronto Tech Week",
     project: "Toronto Tech Week 2025",
     src: "/images/fuckthisshit.png",
     color: "#D3CDB7",
     description:
       "Marketing site for Toronto Tech Week 2025. I was the sole developer who built the site from the ground up, implementing a custom CMS and creating interactive features like a dynamic schedule, animated transitions, and responsive design.",
+  },
+  {
+    title: "Superpower",
+    project: "Superpower Site",
+    src: "/images/superpower.png",
+    color: "#FC5F2B",
+    description:
+      "Marketing landing page for Superpower, a digital health clinic. I was the lead designer and developer who directed production of the site and created its most memorable interactions, including onboarding animations, interactive clinician profiles, and responsive, accessible UI.",
   },
   {
     title: "Codepen",

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import Projects from "./projects";
-const src = Projects[2].src; // Toronto Tech Week image
+const src = Projects[1].src; // Toronto Tech Week image
 
 type props = {
   sectionProgress?: number;
@@ -52,7 +52,7 @@ const TorontoTechWeek = ({ sectionProgress }: props) => {
     const objects = document.querySelectorAll(
       ".toronto svg g"
     ) as NodeListOf<SVGElement>;
-    const raw = typeof sectionProgress === "number" ? sectionProgress - 3 : 1;
+    const raw = typeof sectionProgress === "number" ? sectionProgress - 2 : 1;
     const scale = Math.min(1, Math.max(0, raw));
     const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
     const easedScale = easeOut(scale);

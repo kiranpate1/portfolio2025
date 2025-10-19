@@ -10,18 +10,25 @@ type props = {
 
 const Dropbox = ({ sectionProgress }: props) => {
   const filter = useRef<HTMLImageElement>(null);
-  const [rawProgress, setRawProgress] = React.useState(0);
+  const tilesRef = useRef<any>(null);
 
   useEffect(() => {
     if (sectionProgress && filter.current) {
       const adjustedProgress = sectionProgress - 1;
-      setRawProgress(Math.min(1, Math.max(0, adjustedProgress)));
+      const clampedProgress = Math.min(1, Math.max(0, adjustedProgress));
+
+      // Apply styles directly to DOM for smooth animation
       filter.current.style.opacity = `${1 - adjustedProgress}`;
       filter.current.style.filter = `blur(20px) brightness(${
         3 - adjustedProgress * 2
       })`;
     }
   }, [sectionProgress]);
+
+  // Calculate rawProgress directly without state
+  const rawProgress = sectionProgress
+    ? Math.min(1, Math.max(0, sectionProgress - 1))
+    : 0;
 
   return (
     <div className="dbx">

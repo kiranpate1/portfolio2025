@@ -35,8 +35,8 @@ export default function Home() {
     function updateWindows() {
       const now = performance.now();
 
-      // Throttle to 60fps (16.67ms between frames)
-      if (now - lastFrameTime < 16.67) {
+      // Light throttling only to prevent excessive calls, maintain 60fps
+      if (now - lastFrameTime < 8) {
         ticking = false;
         return;
       }
@@ -93,8 +93,8 @@ export default function Home() {
       const sectionOne = Math.floor(sectionProgress);
       const sectionTwo = sectionOne + 1;
       setScrollProgress((prev) => {
-        // only update state if the value changed significantly to avoid excessive re-renders
-        if (Math.abs(prev - sectionProgress) < 0.01) return prev;
+        // Update React state more frequently for smooth component updates
+        if (Math.abs(prev - sectionProgress) < 0.001) return prev;
         return sectionProgress;
       });
 

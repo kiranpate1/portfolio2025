@@ -1,22 +1,39 @@
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import Projects from "./projects";
-const src = Projects[1].src;
+const src = Projects[2].src;
 
 type props = {
   sectionProgress?: number;
 };
 
 const Superpower = ({ sectionProgress }: props) => {
-  const [rawProgress, setRawProgress] = React.useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+
   useEffect(() => {
     if (sectionProgress === undefined) return;
-    const raw = typeof sectionProgress === "number" ? sectionProgress - 2 : 1;
+    const raw = typeof sectionProgress === "number" ? sectionProgress - 3 : 1;
     const rawProgress = Math.min(1, Math.max(0, raw));
-    setRawProgress(rawProgress);
 
     const easeIn = (t: number) => t * t * t;
     const easedProgress = easeIn(raw);
+
+    // Apply styles directly to DOM elements for smooth animation
+    if (containerRef.current) {
+      containerRef.current.style.transform = sectionProgress
+        ? `scale(${rawProgress})`
+        : "1";
+      containerRef.current.style.borderRadius = sectionProgress
+        ? `${100 - rawProgress * 100}%`
+        : "0%";
+    }
+
+    if (imageRef.current) {
+      imageRef.current.style.scale = sectionProgress
+        ? `${2.75 - rawProgress * 1.75}`
+        : "1";
+    }
 
     const spGradientBlurs = document.querySelectorAll(
       ".sp .gradient-blur > div"
@@ -34,18 +51,15 @@ const Superpower = ({ sectionProgress }: props) => {
   return (
     <div className="sp absolute inset-0 bg-[#000000]">
       <div
+        ref={containerRef}
         className="absolute min-w-full min-h-full aspect-square overflow-hidden left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] flex items-center justify-center"
-        style={{
-          transform: sectionProgress ? `scale(${rawProgress})` : "1",
-          borderRadius: sectionProgress ? `${100 - rawProgress * 100}%` : "0%",
-        }}
       >
         <Image
+          ref={imageRef}
           className="absolute w-full object-cover"
           style={{
             minHeight: `calc(100vh - ${16 * 2}px)`,
             maxHeight: `calc(100vh - ${16 * 2}px)`,
-            scale: sectionProgress ? 2.75 - rawProgress * 1.75 : 1,
           }}
           width={1000}
           height={1000}
