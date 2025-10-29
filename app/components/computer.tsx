@@ -5,6 +5,7 @@ type props = {
 };
 
 const Computer = ({ sectionProgress }: props) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const computerRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const easeIn = (t: number) => t * t * (3 - 2 * t);
@@ -12,6 +13,7 @@ const Computer = ({ sectionProgress }: props) => {
   useEffect(() => {
     if (
       sectionProgress === undefined ||
+      !containerRef.current ||
       !computerRef.current ||
       !imageRef.current
     )
@@ -32,9 +34,12 @@ const Computer = ({ sectionProgress }: props) => {
   }, [sectionProgress]);
 
   return (
-    <div className="window absolute flex flex-col items-stretch w-full border-[var(--shade-750)] border rounded-[16px] overflow-hidden z-1 bg-[var(--shade-900)]">
+    <div
+      ref={containerRef}
+      className="window absolute flex flex-col items-stretch w-full border-[var(--shade-750)] border rounded-[16px] overflow-hidden z-1 bg-[var(--shade-900)]"
+    >
       <div className="absolute inset-0 flex justify-center items-center">
-        <div className="absolute transform-3d perspective-distant">
+        <div className="absolute transform-3d perspective-distant md:scale-100 scale-50">
           <div
             ref={computerRef}
             className="computer w-[517px] relative flex justify-center items-center transform-3d"
@@ -69,7 +74,7 @@ const Computer = ({ sectionProgress }: props) => {
                 // src="https://i.pinimg.com/originals/5b/8a/5a/5b8a5aaa765a0b6096a5175588a2caef.gif"
                 // src="https://i.imgflip.com/7xbpel.gif"
               />
-              <div className="gradient-blur absolute inset-0">
+              {/* <div className="gradient-blur absolute inset-0">
                 <div></div>
                 <div></div>
                 <div></div>
@@ -78,7 +83,7 @@ const Computer = ({ sectionProgress }: props) => {
                 <div></div>
                 <div></div>
                 <div></div>
-              </div>
+              </div> */}
               <div className="absolute inset-0 flex flex-col justify-stretch gap-1 blur-[2px] mix-blend-color-dodge z-10">
                 {Array.from({ length: 40 }).map((_, i) => (
                   <div key={i} className="w-full h-1 bg-[#1daef1]" />

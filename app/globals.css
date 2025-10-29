@@ -390,7 +390,6 @@ input {
 }
 
 .computer *,
-.dbx svg *,
 .stick svg *,
 .keyboard * {
   vector-effect: non-scaling-stroke;

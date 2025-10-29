@@ -597,11 +597,13 @@ const TorontoTechWeek = ({ sectionProgress }: props) => {
       </div>
 
       <Image
-        className="stick absolute w-full object-cover"
-        style={{
-          minHeight: `calc(100vh - ${16 * 2}px)`,
-          maxHeight: `calc(100vh - ${16 * 2}px)`,
-        }}
+        className="stick absolute w-full object-cover md:h-[calc(100vh-32px)] h-[calc(100dvh-48px-84px)]"
+        style={
+          {
+            // minHeight: `calc(100vh - ${16 * 2}px)`,
+            // maxHeight: `calc(100vh - ${16 * 2}px)`,
+          }
+        }
         width={1000}
         height={1000}
         src={src}

@@ -9,7 +9,7 @@ const DropboxTiles = ({ rawProgress }: props) => {
     if (rawProgress === undefined) return;
     const easeOut = (t: number) => t * (2 - t);
     const easedProgress = easeOut(rawProgress);
-    const factor = 400;
+    const factor = 600;
 
     const dbx1 = document.querySelectorAll(".dbx-1") as NodeListOf<SVGGElement>;
     dbx1.forEach((el) => {
@@ -69,7 +69,7 @@ const DropboxTiles = ({ rawProgress }: props) => {
             x2="1486.76"
             y2="1450.98"
             stroke="#C5DBFF"
-            strokeWidth="1"
+            strokeWidth="2"
             strokeLinecap="round"
           />
           <line
@@ -78,19 +78,19 @@ const DropboxTiles = ({ rawProgress }: props) => {
             x2="1936.46"
             y2="1450.98"
             stroke="#C5DBFF"
-            strokeWidth="1"
+            strokeWidth="2"
             strokeLinecap="round"
           />
         </g>
-        <path d="M5 1115.68H2447" stroke="#C5DBFF" strokeWidth="1" />
-        <path d="M5 431H2447" stroke="#C5DBFF" strokeWidth="1" />
+        <path d="M5 1115.68H2447" stroke="#C5DBFF" strokeWidth="2" />
+        <path d="M5 431H2447" stroke="#C5DBFF" strokeWidth="2" />
         <line
           x1="1016.8"
           y1="-174.979"
           x2="1016.8"
           y2="1450.98"
           stroke="#C5DBFF"
-          strokeWidth="1"
+          strokeWidth="2"
           strokeLinecap="round"
         />
         <line
@@ -99,10 +99,10 @@ const DropboxTiles = ({ rawProgress }: props) => {
           x2="1425.8"
           y2="1450.98"
           stroke="#C5DBFF"
-          strokeWidth="1"
+          strokeWidth="2"
           strokeLinecap="round"
         />
-        <path d="M5 840H2447" stroke="#C5DBFF" strokeWidth="1" />
+        <path d="M5 840H2447" stroke="#C5DBFF" strokeWidth="2" />
         <g className="dbx-2">
           <line
             x1="955.842"
@@ -110,7 +110,7 @@ const DropboxTiles = ({ rawProgress }: props) => {
             x2="955.842"
             y2="1450.98"
             stroke="#C5DBFF"
-            strokeWidth="1"
+            strokeWidth="2"
             strokeLinecap="round"
           />
           <line
@@ -119,11 +119,11 @@ const DropboxTiles = ({ rawProgress }: props) => {
             x2="506.143"
             y2="1450.98"
             stroke="#C5DBFF"
-            strokeWidth="1"
+            strokeWidth="2"
             strokeLinecap="round"
           />
         </g>
-        <path d="M5 154.957H2447" stroke="#C5DBFF" strokeWidth="1" />
+        <path d="M5 154.957H2447" stroke="#C5DBFF" strokeWidth="2" />
         <g className="dbx-3">
           <line
             x1="419.172"
@@ -131,22 +131,22 @@ const DropboxTiles = ({ rawProgress }: props) => {
             x2="419.172"
             y2="1450.98"
             stroke="#C5DBFF"
-            strokeWidth="1"
+            strokeWidth="2"
             strokeLinecap="round"
           />
         </g>
-        <path d="M9.37305 747.654H2451.37" stroke="#C5DBFF" strokeWidth="1" />
+        <path d="M9.37305 747.654H2451.37" stroke="#C5DBFF" strokeWidth="2" />
         <line
           x1="1578.79"
           y1="-174.979"
           x2="1578.79"
           y2="1450.98"
           stroke="#C5DBFF"
-          strokeWidth="1"
+          strokeWidth="2"
           strokeLinecap="round"
         />
         <g className="dbx-4">
-          <path d="M5 337.834H2447" stroke="#C5DBFF" strokeWidth="1" />
+          <path d="M5 337.834H2447" stroke="#C5DBFF" strokeWidth="2" />
           <rect
             width="561.747"
             height="337.048"
@@ -177,22 +177,22 @@ const DropboxTiles = ({ rawProgress }: props) => {
             x2="2028.3"
             y2="1450.98"
             stroke="#C5DBFF"
-            strokeWidth="1"
+            strokeWidth="2"
             strokeLinecap="round"
           />
         </g>
-        <path d="M5 522.258H2447" stroke="#C5DBFF" strokeWidth="1" />
+        <path d="M5 522.258H2447" stroke="#C5DBFF" strokeWidth="2" />
         <line
           x1="863.539"
           y1="-174.979"
           x2="863.539"
           y2="1450.98"
           stroke="#C5DBFF"
-          strokeWidth="1"
+          strokeWidth="2"
           strokeLinecap="round"
         />
         <g className="dbx-6">
-          <path d="M5 931.805H2447" stroke="#C5DBFF" strokeWidth="1" />
+          <path d="M5 931.805H2447" stroke="#C5DBFF" strokeWidth="2" />
           <rect
             width="561.747"
             height="349.304"

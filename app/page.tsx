@@ -190,7 +190,7 @@ export default function Home() {
         y: e.clientY,
       };
       dragStartHeightRef.current = doodleHeight;
-      drag.style.backgroundColor = "#4b525f";
+      drag.style.backgroundColor = "var(--shade-750)";
       document.body.style.userSelect = "none";
       document.body.style.cursor = "ns-resize";
       e.preventDefault();
@@ -210,7 +210,7 @@ export default function Home() {
 
     const handleMouseUp = () => {
       isDraggingRef.current = false;
-      drag.style.backgroundColor = "#323740";
+      drag.style.backgroundColor = "transparent";
       document.body.style.userSelect = "auto";
       document.body.style.cursor = "auto";
     };
@@ -251,12 +251,14 @@ export default function Home() {
   return (
     <main ref={main}>
       <div
-        className="fixed w-[250px]"
-        style={{
-          top: `${padding}px`,
-          left: `${padding}px`,
-          height: `calc(100vh - ${padding * 2}px)`,
-        }}
+        className="fixed md:w-[250px] w-[calc(100vw-32px)] top-4 left-4 md:h-[calc(100vh-32px)] h-21"
+        style={
+          {
+            // top: `${padding}px`,
+            // left: `${padding}px`,
+            // height: `calc(100vh - ${padding * 2}px)`,
+          }
+        }
       >
         <Nav
           scrollProgress={scrollProgress}
@@ -266,13 +268,15 @@ export default function Home() {
       </div>
       <div
         ref={scrollWindow}
-        className="fixed overflow-hidden"
-        style={{
-          top: `${padding}px`,
-          right: `${padding}px`,
-          width: `calc(100% - 250px - ${padding * 3}px)`,
-          height: `calc(100vh - ${padding * 2}px)`,
-        }}
+        className="fixed overflow-hidden md:top-4 md:bottom-auto bottom-4 right-4 md:w-[calc(100%-250px-48px)] w-[calc(100vw-32px)] md:h-[calc(100vh-32px)] h-[calc(100dvh-48px-84px)]"
+        style={
+          {
+            // top: `${padding}px`,
+            // right: `${padding}px`,
+            // width: `calc(100% - 250px - ${padding * 3}px)`,
+            // height: `calc(100vh - ${padding * 2}px)`,
+          }
+        }
       >
         <Header height={doodleHeight} scrollProgress={scrollProgress} />
         <Computer sectionProgress={scrollProgress} />

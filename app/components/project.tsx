@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import Image from "next/image";
 import Projects from "./projects";
 import Dropbox from "./dropbox";
@@ -15,14 +15,27 @@ type props = {
 };
 
 const Project = ({ index, title, padding, src, sectionProgress }: props) => {
+  const desktopRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!sectionProgress || !desktopRef.current) return;
+
+    if (sectionProgress > Projects.length + 1.5) {
+      desktopRef.current.style.opacity = "1";
+    } else {
+      desktopRef.current.style.opacity = "0";
+    }
+  }, [sectionProgress]);
   return (
     <div className="window absolute flex flex-col items-stretch w-full rounded-2xl overflow-hidden z-1">
       <div
-        className="stick absolute min-w-full"
-        style={{
-          minHeight: `calc(100vh - ${padding * 2}px)`,
-          maxHeight: `calc(100vh - ${padding * 2}px)`,
-        }}
+        className="stick absolute min-w-full md:h-[calc(100vh-32px)] h-[calc(100dvh-48px-84px)]"
+        style={
+          {
+            // minHeight: `calc(100vh - ${padding * 2}px)`,
+            // maxHeight: `calc(100vh - ${padding * 2}px)`,
+          }
+        }
       >
         {index === 0 ? (
           <Dropbox sectionProgress={sectionProgress} />
@@ -34,12 +47,13 @@ const Project = ({ index, title, padding, src, sectionProgress }: props) => {
           <Art sectionProgress={sectionProgress} />
         ) : (
           <Image
-            className="stick absolute w-full"
-            style={{
-              minHeight: `calc(100vh - ${padding * 2}px)`,
-              maxHeight: `calc(100vh - ${padding * 2}px)`,
-              objectFit: title == "Codepen" ? "cover" : "cover",
-            }}
+            className="stick absolute w-full md:h-[calc(100vh-32px)] h-[calc(100dvh-48px-84px)] object-cover"
+            style={
+              {
+                // minHeight: `calc(100vh - ${padding * 2}px)`,
+                // maxHeight: `calc(100vh - ${padding * 2}px)`,
+              }
+            }
             width={1000}
             height={1000}
             src={src}
@@ -67,6 +81,12 @@ const Project = ({ index, title, padding, src, sectionProgress }: props) => {
         <div></div>
         </div> */}
       </div>
+      {index === Projects.length - 1 ? (
+        <div
+          ref={desktopRef}
+          className="absolute inset-0 z-2 opacity-0 border border-[var(--shade-250)] duration-300 overflow-hidden rounded-2xl"
+        ></div>
+      ) : null}
     </div>
   );
 };

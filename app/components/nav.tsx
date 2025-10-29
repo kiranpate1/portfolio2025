@@ -9,31 +9,46 @@ type props = {
 };
 
 const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
+  const infoContainer = useRef<HTMLDivElement>(null);
   const title = useRef<HTMLDivElement>(null);
   const description = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [normalizedProgress, setNormalizedProgress] = useState(0);
 
   useEffect(() => {
-    if (title.current && description.current && scrollProgress > 2) {
+    if (
+      infoContainer.current &&
+      title.current &&
+      description.current &&
+      scrollProgress > 1.5 &&
+      scrollProgress <= Projects.length + 1.5
+    ) {
       for (let i = 0; i < Projects.length; i++) {
         // map new scrollProgress (1 .. Projects.length) to a 0-based project index
-        const clamped = Math.max(1, Math.min(scrollProgress, Projects.length));
-        const pos = clamped - 1; // 0 .. Projects.length - 1
+        const clamped = Math.max(
+          1,
+          Math.min(scrollProgress, Projects.length + 1)
+        );
+        const pos = clamped - 2; // 0 .. Projects.length - 1
         const activeIndex = Math.min(
           Projects.length - 1,
           Math.max(0, Math.round(pos))
         );
         if (i === activeIndex) {
+          infoContainer.current.style.opacity = "1";
           title.current.innerText = Projects[i].project;
           description.current.innerText = Projects[i].description;
           setActiveIndex(i + 1);
           break;
         }
       }
-    } else if (title.current && description.current && scrollProgress <= 1) {
-      title.current.innerText = "";
-      description.current.innerText = "";
+    } else if (
+      infoContainer.current &&
+      title.current &&
+      description.current &&
+      (scrollProgress <= 1.5 || scrollProgress > Projects.length + 1.5)
+    ) {
+      infoContainer.current.style.opacity = "0";
       setActiveIndex(0);
     }
 
@@ -71,15 +86,16 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
 
   return (
     <nav
-      className="flex flex-col justify-between align-stretch"
-      style={{
-        minHeight: `calc(100vh - ${padding * 2}px)`,
-        maxHeight: `calc(100vh - ${padding * 2}px)`,
-      }}
+      className="flex flex-col justify-between align-stretch h-[calc(100vh-32px)]"
+      style={
+        {
+          // minHeight: `calc(100vh - ${padding * 2}px)`,
+          // maxHeight: `calc(100vh - ${padding * 2}px)`,
+        }
+      }
     >
       <div className="flex flex-col gap-4">
         <Doodle height={doodleHeight} activeIndex={activeIndex} />
-        <div className="relative w-full h-8 rounded-2xl border-[var(--shade-750)] border overflow-ellipsis"></div>
         <div className="relative flex items-stretch w-full h-3 p-0.5 bg-[var(--shade-850)] rounded-2xl">
           {Projects.map((project, index) => (
             <div
@@ -126,7 +142,10 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
           ))}
         </div>
       </div>
-      <div className="flex flex-col gap-2">
+      <div
+        className="flex-col gap-2 duration-200 md:flex hidden"
+        ref={infoContainer}
+      >
         <h1 ref={title} className="heading-small font-medium">
           My Projects
         </h1>
