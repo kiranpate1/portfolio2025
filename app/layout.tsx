@@ -23,6 +23,11 @@ const chivo = localFont({
 const twklausanne = localFont({
   src: [
     {
+      path: "../public/typefaces/TWKLausanne-900Italic.ttf",
+      weight: "900",
+      style: "italic",
+    },
+    {
       path: "../public/typefaces/TWKLausanne-400.ttf",
       weight: "400",
       style: "normal",
@@ -50,7 +55,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${chivo.variable} ${twklausanne.variable} antialiased bg-[var(--shade-900)] text-[var(--shade-50)] selection:bg-[var(--shade-150)] selection:text-black`}
+        className={`${chivo.variable} ${twklausanne.variable} antialiased bg-[var(--shade-900)] text-[var(--shade-50)] selection:bg-[var(--shade-150)] selection:text-[var(--shade-1000)]`}
       >
         {children}
       </body>
