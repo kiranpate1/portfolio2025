@@ -61,7 +61,7 @@ const FooterDesktop = ({ sectionProgress }: props) => {
       className="absolute inset-0 z-2 opacity-0 border border-[var(--shade-250)] duration-300 overflow-hidden rounded-2xl text-[var(--shade-250)] bg-[var(--shade-950)]"
     >
       <div className="absolute top-0 left-0 w-full h-6 border-b border-[var(--shade-250)] flex items-center justify-between pl-3 pr-2 caption-small">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4">
           <div className="flex items-center gap-1">
             <div className="w-1.5 h-1.5 rounded-full bg-orange-500"></div>
             <div className="w-1.5 h-1.5 rounded-full bg-amber-300"></div>
