@@ -23,21 +23,21 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
       scrollProgress > 1.5 &&
       scrollProgress <= Projects.length + 1.5
     ) {
-      for (let i = 0; i < Projects.length; i++) {
+      for (let i = 0; i < Projects.length + 1; i++) {
         // map new scrollProgress (1 .. Projects.length) to a 0-based project index
         const clamped = Math.max(
           1,
           Math.min(scrollProgress, Projects.length + 1)
         );
-        const pos = clamped - 2; // 0 .. Projects.length - 1
+        const pos = clamped - 1; // 0 .. Projects.length - 1
         const activeIndex = Math.min(
-          Projects.length - 1,
-          Math.max(0, Math.round(pos))
+          Projects.length,
+          Math.max(1, Math.round(pos))
         );
         if (i === activeIndex) {
           infoContainer.current.style.opacity = "1";
-          title.current.innerText = Projects[i].project;
-          description.current.innerText = Projects[i].description;
+          title.current.innerText = Projects[i - 1].project;
+          description.current.innerText = Projects[i - 1].description;
           setActiveIndex(i + 1);
           break;
         }
@@ -70,13 +70,42 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
     const closingWidth = (1 - barScrollProgress) * maxWidth;
 
     bars.forEach((bar, index) => {
-      if (scrollProgress > 2 && scrollProgress < Projects.length + 1) {
+      if (scrollProgress > 1.5 && scrollProgress < 2) {
+        const progress = (scrollProgress - 1.5) * 2;
+        const firstWidth =
+          (100 / Projects.length) * (1 - progress) +
+          maxWidth * progress +
+          minWidth * progress;
+        const otherWidth =
+          (100 - firstWidth) / (Projects.length - 1 - 1 * progress);
+        if (index === 0) {
+          bar.style.width = `${firstWidth}%`;
+        } else {
+          bar.style.width = `${otherWidth}%`;
+        }
+      } else if (scrollProgress > 2 && scrollProgress < Projects.length + 1) {
         if (index === normalizedActiveIndex - 2) {
           bar.style.width = `${closingWidth + minWidth}%`;
         } else if (index === normalizedActiveIndex - 1) {
           bar.style.width = `${openingWidth + minWidth}%`;
         } else {
           bar.style.width = `${minWidth}%`;
+        }
+      } else if (
+        scrollProgress > Projects.length + 1 &&
+        scrollProgress <= Projects.length + 1.5
+      ) {
+        const progress = (scrollProgress - (Projects.length + 1)) * 2;
+        const lastWidth =
+          (100 / Projects.length) * progress +
+          maxWidth * (1 - progress) +
+          minWidth * (1 - progress);
+        const otherWidth =
+          (100 - lastWidth) / (Projects.length - 1 - 1 * (1 - progress));
+        if (index === Projects.length - 1) {
+          bar.style.width = `${lastWidth}%`;
+        } else {
+          bar.style.width = `${otherWidth}%`;
         }
       } else {
         bar.style.width = `${100 / Projects.length}%`;
@@ -85,15 +114,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
   }, [scrollProgress]);
 
   return (
-    <nav
-      className="flex flex-col justify-between align-stretch h-[calc(100vh-32px)]"
-      style={
-        {
-          // minHeight: `calc(100vh - ${padding * 2}px)`,
-          // maxHeight: `calc(100vh - ${padding * 2}px)`,
-        }
-      }
-    >
+    <nav className="flex flex-col justify-between align-stretch h-[calc(100vh-32px)]">
       <div className="flex flex-col gap-4">
         <Doodle height={doodleHeight} activeIndex={activeIndex} />
         <div className="relative flex items-stretch w-full h-3 p-0.5 bg-[var(--shade-850)] rounded-2xl">
@@ -109,7 +130,8 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
                 className="h-full rounded-xl duration-700"
                 style={{
                   backgroundColor:
-                    scrollProgress > 2 && scrollProgress < Projects.length + 1
+                    scrollProgress > 1.5 &&
+                    scrollProgress < Projects.length + 1.5
                       ? project.color
                       : "#656D7F",
                 }}
@@ -119,7 +141,8 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
           <div
             className="absolute w-[1.5px] h-full bg-[#8C95BD] top-0 bottom-0"
             style={{
-              left: scrollProgress > 2 ? `${normalizedProgress * 100}%` : "0%",
+              left:
+                scrollProgress > 1.5 ? `${normalizedProgress * 100}%` : "0%",
             }}
           ></div>
         </div>
@@ -130,7 +153,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
               className="text-xs px-1.5 py-1 rounded cursor-pointer bg-[#252931] hover:bg-[#323740]"
               style={{
                 opacity:
-                  scrollProgress > 2 && scrollProgress < Projects.length + 1
+                  scrollProgress > 1.5 && scrollProgress < Projects.length + 1.5
                     ? index === activeIndex - 2
                       ? 1
                       : 0.6
