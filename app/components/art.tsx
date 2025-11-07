@@ -17,7 +17,7 @@ const Art = ({ sectionProgress }: props) => {
         src={src}
         alt={`Artwork Image`}
       />
-      <div className="bg-shade absolute inset-0 z-1 opacity-0 p-12 bg-[var(--shade-950)]"></div>
+      {/* <div className="bg-shade absolute inset-0 z-1 opacity-0 p-12 bg-[var(--shade-900)]"></div> */}
     </div>
   );
 };

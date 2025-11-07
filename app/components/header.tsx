@@ -42,12 +42,44 @@ const Header = ({ height, scrollProgress }: props) => {
     }
   }, [scrollProgress]);
 
-  const nameBanner = ` __  ___  __   ______       ___       __   __   ______      ___      ___________  _______  __          ___
-|  |/  / |  | |   _  \\     /   \\     |  \\ |  | |   _  \\    /   \\    |           ||   ____||  |        /  /
-|  '  /  |  | |  |_)  |   /  ^  \\    |   \\|  | |  |_)  |  /  ^  \\   '---|  |----'|  |__   |  |       /  / 
-|    <   |  | |      /   /  /_\\  \\   |  , '  | |   ___/  /  /_\\  \\      |  |     |   __|  |  |      /  /  
-|  .  \\  |  | |  |\\  \\-./  _____  \\  |  |\\   | |  |     /  _____  \\   __|  |     |  |____ |  '----./  /   
-|__|\\__\\ |__| | _| '.__/__/     \\__\\ |__| \\__| |__|    /__/     \\__\\ (__)__|     |_______||_______/__/`;
+  //   const nameBanner = ` __  ___  __   ______       ___       __   __   ______      ___      ___________  _______  __          ___
+  // |  |/  / |  | |   _  \\     /   \\     |  \\ |  | |   _  \\    /   \\    |           ||   ____||  |        /  /
+  // |  '  /  |  | |  |_)  |   /  ^  \\    |   \\|  | |  |_)  |  /  ^  \\   '---|  |----'|  |__   |  |       /  /
+  // |    <   |  | |      /   /  /_\\  \\   |  , '  | |   ___/  /  /_\\  \\      |  |     |   __|  |  |      /  /
+  // |  .  \\  |  | |  |\\  \\-./  _____  \\  |  |\\   | |  |     /  _____  \\   __|  |     |  |____ |  '----./  /
+  // |__|\\__\\ |__| | _| '.__/__/     \\__\\ |__| \\__| |__|    /__/     \\__\\ (__)__|     |_______||_______/__/`;
+
+  //   const nameBanner = `
+  //     __   _                                 __       __
+  //    / /__(_)________ _____  ____  ____ _   / /_ __  / /
+  //   / //_/ / ___/ __ '/ __ \\/ __ \\/ __ '/  / __/ _ \\/ /
+  //  / ,< / / /  / /_/ / / / / /_/ / /_/ /_ / /_/  __/ /
+  // /_/|_/_/_/   \\__,_/_/ /_/ .___/\\_,__/(_)\\__/\\___/_/
+  //                        /_/`;
+
+  const nameBanner = (
+    <>
+      <pre>
+        {`    __ __ ________  ___    _   ______  ___      `}
+        <span className="text-[var(--accent)]">______________</span>
+        {`
+   / //_//  _/ __ \\/   |  / | / / __ \\/   |    `}
+        <span className="text-[var(--accent)]">/_{`  `}__/ ____/ / </span>
+        {`
+  / ,<   / // /_/ / /| | /  |/ / /_/ / /| |     `}
+        <span className="text-[var(--accent)]">/ / / __/ / / </span>
+        {`
+ / /| |_/ // _, _/ ___ |/ /|  / ____/ ___ | _  `}
+        <span className="text-[var(--accent)]">/ / / /___/ /___</span>
+        {`
+/_/ |_/___/_/ |_/_/  |_/_/ |_/_/   /_/  |_|(_)`}
+        <span className="text-[var(--accent)]">/_/ /_____/_____/</span>
+        {`
+        `}
+      </pre>
+    </>
+  );
+
   const firstLine = `Last login: ${isMounted ? fullDate : ""} on ttys013`;
   const [lines, setLines] = useState<string[]>([firstLine]);
 
@@ -124,6 +156,192 @@ const Header = ({ height, scrollProgress }: props) => {
     setCursorPosition(Math.min(cursorPosition, currentInput.length));
   }, [currentInput, cursorPosition]);
 
+  const themes = [
+    ["#00030a", "#e0e4f0", "#002d00"],
+    ["#0a0e15", "#d3d8e5", "#004400"],
+    ["#181b22", "#c6ccd9", "#005c00"],
+    ["#252931", "#b9c0cd", "#007400"],
+    ["#323740", "#acb4c1", "#008c00"],
+    ["#3f4450", "#9fa8b5", "#00a400"],
+    ["#4b525f", "#929ca9", "#00bc00"],
+    ["#58606f", "#85909d", "#00d400"],
+    ["#656d7f", "#788491", "#00ec00"],
+    ["#717b8e", "#6b7885", "#00ff00"],
+    ["#7e889e", "#5e6c79", "#1aff1a"],
+    ["#8b96ad", "#51606d", "#33ff33"],
+    ["#98a4bd", "#445461", "#4dff4d"],
+    ["#a4b1cc", "#374855", "#66ff66"],
+    ["#b1bfdb", "#2a3c49", "#80ff80"],
+    ["#beccea", "#1d303d", "#99ff99"],
+    ["#cbdaf9", "#102431", "#b3ffb3"],
+    ["#d8e5ff", "#031825", "#ccffcc"],
+    ["#e6eeff", "#000c19", "#e6ffe6"],
+    ["#f3f7ff", "#00000d", "#ffffe6"],
+  ];
+
+  const themeChange = (theme: string) => {
+    document.documentElement.style.setProperty(
+      "--shade-1000",
+      theme === "dark"
+        ? themes[0][0]
+        : theme === "light"
+        ? themes[0][1]
+        : themes[0][2]
+    );
+    document.documentElement.style.setProperty(
+      "--shade-950",
+      theme === "dark"
+        ? themes[1][0]
+        : theme === "light"
+        ? themes[1][1]
+        : themes[1][2]
+    );
+    document.documentElement.style.setProperty(
+      "--shade-900",
+      theme === "dark"
+        ? themes[2][0]
+        : theme === "light"
+        ? themes[2][1]
+        : themes[2][2]
+    );
+    document.documentElement.style.setProperty(
+      "--shade-850",
+      theme === "dark"
+        ? themes[3][0]
+        : theme === "light"
+        ? themes[3][1]
+        : themes[3][2]
+    );
+    document.documentElement.style.setProperty(
+      "--shade-800",
+      theme === "dark"
+        ? themes[4][0]
+        : theme === "light"
+        ? themes[4][1]
+        : themes[4][2]
+    );
+    document.documentElement.style.setProperty(
+      "--shade-750",
+      theme === "dark"
+        ? themes[5][0]
+        : theme === "light"
+        ? themes[5][1]
+        : themes[5][2]
+    );
+    document.documentElement.style.setProperty(
+      "--shade-700",
+      theme === "dark"
+        ? themes[6][0]
+        : theme === "light"
+        ? themes[6][1]
+        : themes[6][2]
+    );
+    document.documentElement.style.setProperty(
+      "--shade-650",
+      theme === "dark"
+        ? themes[7][0]
+        : theme === "light"
+        ? themes[7][1]
+        : themes[7][2]
+    );
+    document.documentElement.style.setProperty(
+      "--shade-600",
+      theme === "dark"
+        ? themes[8][0]
+        : theme === "light"
+        ? themes[8][1]
+        : themes[8][2]
+    );
+    document.documentElement.style.setProperty(
+      "--shade-550",
+      theme === "dark"
+        ? themes[9][0]
+        : theme === "light"
+        ? themes[9][1]
+        : themes[9][2]
+    );
+    document.documentElement.style.setProperty(
+      "--shade-500",
+      theme === "dark"
+        ? themes[10][0]
+        : theme === "light"
+        ? themes[10][1]
+        : themes[10][2]
+    );
+    document.documentElement.style.setProperty(
+      "--shade-450",
+      theme === "dark"
+        ? themes[11][0]
+        : theme === "light"
+        ? themes[11][1]
+        : themes[11][2]
+    );
+    document.documentElement.style.setProperty(
+      "--shade-400",
+      theme === "dark"
+        ? themes[12][0]
+        : theme === "light"
+        ? themes[12][1]
+        : themes[12][2]
+    );
+    document.documentElement.style.setProperty(
+      "--shade-350",
+      theme === "dark"
+        ? themes[13][0]
+        : theme === "light"
+        ? themes[13][1]
+        : themes[13][2]
+    );
+    document.documentElement.style.setProperty(
+      "--shade-300",
+      theme === "dark"
+        ? themes[14][0]
+        : theme === "light"
+        ? themes[14][1]
+        : themes[14][2]
+    );
+    document.documentElement.style.setProperty(
+      "--shade-250",
+      theme === "dark"
+        ? themes[15][0]
+        : theme === "light"
+        ? themes[15][1]
+        : themes[15][2]
+    );
+    document.documentElement.style.setProperty(
+      "--shade-200",
+      theme === "dark"
+        ? themes[16][0]
+        : theme === "light"
+        ? themes[16][1]
+        : themes[16][2]
+    );
+    document.documentElement.style.setProperty(
+      "--shade-150",
+      theme === "dark"
+        ? themes[17][0]
+        : theme === "light"
+        ? themes[17][1]
+        : themes[17][2]
+    );
+    document.documentElement.style.setProperty(
+      "--shade-100",
+      theme === "dark"
+        ? themes[18][0]
+        : theme === "light"
+        ? themes[18][1]
+        : themes[18][2]
+    );
+    document.documentElement.style.setProperty(
+      "--shade-50",
+      theme === "dark"
+        ? themes[19][0]
+        : theme === "light"
+        ? themes[19][1]
+        : themes[19][2]
+    );
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       // Add current line to history
@@ -141,7 +359,7 @@ const Header = ({ height, scrollProgress }: props) => {
         } else if (currentInput.trim() === "help") {
           setLines((prev) => [
             ...prev,
-            "Available commands: about, clear, connect, ethos, help, skills, projects, pwd",
+            "Available commands: about, clear, connect, ethos, help, skills, projects, pwd, theme",
           ]);
         } else if (currentInput.trim() === "about") {
           setLines((prev) => [
@@ -180,6 +398,21 @@ const Header = ({ height, scrollProgress }: props) => {
           }
         } else if (currentInput.trim() === "pwd") {
           setLines((prev) => [...prev, "https://kiranpa.tel/"]);
+        } else if (currentInput.trim().startsWith("theme")) {
+          setLines((prev) => [
+            ...prev,
+            "Available themes: dark, light, system",
+          ]);
+          if (currentInput.trim() === "theme dark") {
+            themeChange("dark");
+            setLines((prev) => [...prev, "Theme set to dark."]);
+          } else if (currentInput.trim() === "theme light") {
+            themeChange("light");
+            setLines((prev) => [...prev, "Theme set to light."]);
+          } else if (currentInput.trim() === "theme system") {
+            themeChange("system");
+            setLines((prev) => [...prev, "Theme set to system."]);
+          }
         } else {
           setLines((prev) => [
             ...prev,
@@ -270,11 +503,11 @@ const Header = ({ height, scrollProgress }: props) => {
           }}
         >
           <div>
-            <div className="text-[#8b96ad]">
+            <div className="text-[var(--shade-450)]">
               Designer · developer · artist · open to work
             </div>
             <pre>{nameBanner}</pre>
-            <div className="text-[#8b96ad]">
+            <div className="text-[var(--shade-450)]">
               ==========================================================================================================
             </div>
           </div>
@@ -289,9 +522,9 @@ const Header = ({ height, scrollProgress }: props) => {
             ))}
 
             <div className="flex select-text leading-4">
-              <span className="text-green-400 select-text">{prompt}</span>
+              <span className="text-[var(--accent)] select-text">{prompt}</span>
               <div className="flex-1 relative">
-                <span className="text-green-400 select-text">
+                <span className="text-[var(--accent)] select-text">
                   {currentInput}
                 </span>
                 <span

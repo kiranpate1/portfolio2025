@@ -115,7 +115,7 @@ export default function Home() {
 
         if (sectionOne >= 0) {
           const windowOne = windows[sectionOne];
-          const shade = document.querySelector(".bg-shade") as HTMLElement;
+          // const shade = document.querySelector(".bg-shade") as HTMLElement;
           if (sectionOne == 0) {
             windowOne.style.height = `calc(${doodleHeight}px - ${
               padding * adjustedProgress
@@ -125,7 +125,7 @@ export default function Home() {
             windowOne.style.height = `calc(100% - ${
               adjustedProgress * footerHeight
             }px)`;
-            shade.style.opacity = `${adjustedProgress * 2}`;
+            // shade.style.opacity = `${adjustedProgress * 2}`;
           } else {
             windowOne.style.height = `calc(${100 - adjustedProgress * 100}% - ${
               padding * adjustedProgress
@@ -190,7 +190,7 @@ export default function Home() {
         y: e.clientY,
       };
       dragStartHeightRef.current = doodleHeight;
-      drag.style.backgroundColor = "var(--shade-750)";
+      drag.style.backgroundColor = "var(--accent)";
       document.body.style.userSelect = "none";
       document.body.style.cursor = "ns-resize";
       e.preventDefault();
@@ -225,10 +225,10 @@ export default function Home() {
     handleFooterResize();
 
     function handleFooterResize() {
-      setFooterHeight(((window.innerWidth - 150) * 647) / 1432);
-      if (window.innerWidth >= 1470) {
-        setFooterHeight((1290 * 647) / 1432);
-      }
+      setFooterHeight(window.innerHeight / 2 - 32);
+      // if (window.innerWidth >= 1470) {
+      //   setFooterHeight((1290 * 647) / 1432);
+      // }
       requestTick();
     }
 

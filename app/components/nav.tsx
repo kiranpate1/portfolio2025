@@ -133,13 +133,13 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
                     scrollProgress > 1.5 &&
                     scrollProgress < Projects.length + 1.5
                       ? project.color
-                      : "#656D7F",
+                      : "var(--shade-600)",
                 }}
               ></div>
             </div>
           ))}
           <div
-            className="absolute w-[1.5px] h-full bg-[#8C95BD] top-0 bottom-0"
+            className="absolute w-[1.5px] h-full bg-[var(--shade-500)] top-0 bottom-0"
             style={{
               left:
                 scrollProgress > 1.5 ? `${normalizedProgress * 100}%` : "0%",
@@ -150,7 +150,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
           {Projects.map((project, index) => (
             <span
               key={index}
-              className="text-xs px-1.5 py-1 rounded cursor-pointer bg-[#252931] hover:bg-[#323740]"
+              className="text-xs px-1.5 py-1 rounded cursor-pointer bg-[var(--shade-850)] hover:bg-[var(--shade-800)]"
               style={{
                 opacity:
                   scrollProgress > 1.5 && scrollProgress < Projects.length + 1.5
@@ -172,10 +172,13 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
         <h1 ref={title} className="heading-small font-medium">
           My Projects
         </h1>
-        <p ref={description} className="text-sm text-[#97a4bd] text-pretty">
+        <p
+          ref={description}
+          className="text-sm text-[var(--shade-400)] text-pretty"
+        >
           Description
         </p>
-        <button className="flex items-center gap-2 mt-2 px-3 py-2 bg-[#252931] rounded-lg w-max text-sm font-medium hover:bg-[#323740] cursor-pointer">
+        <button className="flex items-center gap-2 mt-2 px-3 py-2 bg-[var(--shade-850)] rounded-lg w-max text-sm font-medium hover:bg-[var(--shade-800)] cursor-pointer">
           Visit
           <svg
             width="11"
