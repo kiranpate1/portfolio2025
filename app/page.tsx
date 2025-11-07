@@ -190,7 +190,7 @@ export default function Home() {
         y: e.clientY,
       };
       dragStartHeightRef.current = doodleHeight;
-      drag.style.backgroundColor = "var(--shade-750)";
+      drag.style.color = "var(--shade-300)";
       document.body.style.userSelect = "none";
       document.body.style.cursor = "ns-resize";
       e.preventDefault();
@@ -210,7 +210,7 @@ export default function Home() {
 
     const handleMouseUp = () => {
       isDraggingRef.current = false;
-      drag.style.backgroundColor = "transparent";
+      drag.style.color = "var(--shade-600)";
       document.body.style.userSelect = "auto";
       document.body.style.cursor = "auto";
     };

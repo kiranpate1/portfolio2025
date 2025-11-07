@@ -555,9 +555,11 @@ const Header = ({ height, scrollProgress }: props) => {
       </div>
       <div
         ref={drag}
-        className="drag absolute w-full h-1.5 rounded-full -bottom-1 left-0 translate-y-[100%] after:content-[''] after:absolute after:inset-[-16px_auto_-16px_auto] after:w-[calc(100vw-250px)] after:left-[50%] after:translate-x-[-50%] cursor-ns-resize z-100 duration-100 transition-opacity"
+        className="drag absolute w-12 h-1.5 rounded-full flex flex-col gap-0.5 text-[var(--shade-600)] left-[50%] -bottom-1 translate-y-[100%] translate-x-[-50%] cursor-ns-resize z-100 duration-100 transition-opacity after:content-[''] after:absolute after:h-4 after:w-[calc(100vw-250px)] after:left-[50%] after:top-[50%] after:translate-x-[-50%] after:translate-y-[-50%]"
       >
-        <div className="relative w-12 h-full rounded-full bg-[var(--shade-750)] left-[50%] translate-x-[-50%]"></div>
+        {Array.from({ length: 3 }).map((_, index) => (
+          <div key={index} className="w-full border-b border-b-[inherit]"></div>
+        ))}
       </div>
     </div>
   );
