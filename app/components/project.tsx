@@ -5,7 +5,7 @@ import Dropbox from "./dropbox";
 import Superpower from "./superpower";
 import TorontoTechWeek from "./ttw";
 import Art from "./art";
-import FooterDesktop from "./footerdesktop";
+import FooterDesktop from "./computer";
 
 type props = {
   index: number;

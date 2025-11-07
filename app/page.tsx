@@ -7,7 +7,7 @@ import Projects from "./components/projects";
 import Project from "./components/project";
 import Footer from "./components/footer";
 import Lenis from "lenis";
-import Computer from "./components/computer";
+import Computer from "./components/openingDesktop";
 
 export default function Home() {
   const padding = 16;
@@ -190,7 +190,7 @@ export default function Home() {
         y: e.clientY,
       };
       dragStartHeightRef.current = doodleHeight;
-      drag.style.backgroundColor = "var(--accent)";
+      drag.style.backgroundColor = "var(--shade-750)";
       document.body.style.userSelect = "none";
       document.body.style.cursor = "ns-resize";
       e.preventDefault();

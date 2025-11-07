@@ -14,7 +14,7 @@ const Footer = ({ height, sectionProgress }: props) => {
     >
       <div className="w-full h-full flex items-center justify-center relative transform-3d p-[4vw_3vw_3vw_3vw] perspective-[2000px]">
         <div
-          className="relative w-full max-w-[1076px] flex items-center justify-center transform-3d"
+          className="relative w-[calc((50vh-32px)*2)] max-w-[1076px] flex items-center justify-center transform-3d"
           style={{
             perspective:
               sectionProgress > Projects.length + 1
