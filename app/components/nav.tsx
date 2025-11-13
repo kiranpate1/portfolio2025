@@ -150,7 +150,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
           {Projects.map((project, index) => (
             <span
               key={index}
-              className="text-xs px-1.5 py-1 rounded cursor-pointer bg-[var(--shade-850)] hover:bg-[var(--shade-800)]"
+              className="text-xs px-1.75 py-1 rounded-md cursor-pointer bg-[var(--shade-850)] hover:bg-[var(--shade-800)]"
               style={{
                 opacity:
                   scrollProgress > 1.5 && scrollProgress < Projects.length + 1.5

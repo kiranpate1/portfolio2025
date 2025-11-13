@@ -19,19 +19,23 @@ const Computer = ({ sectionProgress }: props) => {
     )
       return;
 
+    const applications = screen.current.querySelectorAll(
+      ":scope > *"
+    ) as NodeListOf<Element>;
+
     if (sectionProgress > 1.5 && !showLinks.current) {
       showLinks.current = true;
 
-      screen.current.querySelectorAll(":scope > *").forEach((a, i) => {
+      applications.forEach((a, i) => {
         setTimeout(() => {
           (a as HTMLElement).style.pointerEvents = "none";
           (a as HTMLElement).style.opacity = "0";
-        }, 10 * i);
+        }, (applications.length - i) * 50);
       });
     } else if (sectionProgress <= 1.5 && showLinks.current) {
       showLinks.current = false;
 
-      screen.current.querySelectorAll(":scope > *").forEach((a, i) => {
+      applications.forEach((a, i) => {
         setTimeout(() => {
           (a as HTMLElement).style.pointerEvents = "auto";
           (a as HTMLElement).style.opacity = "1";
@@ -45,6 +49,7 @@ const Computer = ({ sectionProgress }: props) => {
 
   const aboutMe = useRef<HTMLDivElement>(null);
   const shoutOuts = useRef<HTMLDivElement>(null);
+  const notes = useRef<HTMLDivElement>(null);
   const myMusic = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -52,6 +57,7 @@ const Computer = ({ sectionProgress }: props) => {
       !screen.current ||
       !aboutMe.current ||
       !shoutOuts.current ||
+      !notes.current ||
       !myMusic.current
     )
       return;
@@ -77,9 +83,11 @@ const Computer = ({ sectionProgress }: props) => {
           a.removeChild(clone);
         }, 300);
 
-        const href = a.getAttribute("href");
+        const href = a.querySelector(":scope > *")?.getAttribute("href");
+        console.log("sdfd");
         if (href) {
           setTimeout(() => {
+            console.log("opening");
             window.open(href, "_blank");
           }, 600);
         }
@@ -141,6 +149,12 @@ const Computer = ({ sectionProgress }: props) => {
       createModal(title, content);
     });
 
+    notes.current.addEventListener("click", () => {
+      const title = "Notes";
+      const content = `Nothing here yet, but stay tuned for when I jot down some thoughts!`;
+      createModal(title, content);
+    });
+
     myMusic.current.addEventListener("click", () => {
       const title = "My Music";
       const songs = [
@@ -168,21 +182,109 @@ const Computer = ({ sectionProgress }: props) => {
       const modal = document.createElement("div");
       modal.className =
         "absolute top-[50%] left-[50%] w-[40%] max-w-[600px] min-w-[300px] h-[80%] min-h-[300px] bg-[var(--shade-900)] overflow-scroll border border-[var(--shade-300)] rounded-2xl p-6 translate-x-[-50%] translate-y-[-50%] z-50";
+      modal.style.transition =
+        "width 0.3s ease, min-width 0.3s ease, max-width 0.3s ease, min-height 0.3s ease, height 0.3s ease";
       modal.innerHTML =
         `
-      <div class='absolute top-0 left-0 w-full h-6 border-b border-[var(--shade-300)] bg-[var(--shade-900)] flex items-center justify-between pl-3 pr-2 caption-small'>
+      <div class='reposition absolute top-0 left-0 w-full h-6 border-b border-[var(--shade-300)] bg-[var(--shade-900)] flex items-center justify-between pl-3 caption-small cursor-all-scroll'>
         <div class='flex items-center gap-4'>` +
         title +
         `</div>
-        <div class='flex items-center gap-1'>
-          <div class='w-1.5 h-1.5 rounded-full bg-orange-500'></div>
-          <div class='w-1.5 h-1.5 rounded-full bg-amber-300'></div>
-          <div class='w-1.5 h-1.5 rounded-full bg-green-400'></div>
+        <div class='flex items-center h-full cursor-default'>
+          <div class='resize w-8 h-full flex items-center justify-center border-l border-[var(--shade-300)] text-[var(--shade-300)] hover:text-[var(--shade-900)] hover:bg-[var(--shade-300)]'>
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.28571 3.28571V2.14286C3.28571 1.51167 3.79739 1 4.42857 1H7.85714C8.48833 1 9 1.51167 9 2.14286V5.57143C9 6.20261 8.48833 6.71429 7.85714 6.71429H6.71429M3.28571 3.28571H2.14286C1.51167 3.28571 1 3.79739 1 4.42857V7.85714C1 8.48833 1.51167 9 2.14286 9H5.57143C6.20261 9 6.71429 8.48833 6.71429 7.85714V6.71429M3.28571 3.28571H5.57143C6.20261 3.28571 6.71429 3.79739 6.71429 4.42857V6.71429" stroke="currentColor"/>
+            </svg>
+          </div>
+          <div class='close-modal w-8 h-full flex items-center justify-center border-l border-[var(--shade-300)] text-[var(--shade-300)] hover:text-[var(--shade-900)] hover:bg-[var(--shade-300)]'>
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1.5 8.5L8.5 1.5M8.5 8.5L1.5 1.5" stroke="currentColor" stroke-width="1.25"/>
+            </svg>
+          </div>
         </div>
       </div>` +
         "<div class='absolute w-full left-0 top-6 py-2 px-3'>" +
         content +
         "</div>";
+
+      const reposition = modal.querySelector(".reposition") as HTMLElement;
+      const resizeButton = modal.querySelector(".resize") as HTMLElement;
+      const closeButton = modal.querySelector(".close-modal") as HTMLElement;
+      let isDragging = false;
+      let dragStart = { x: 0, y: 0 };
+      let dragOffset = { x: 0, y: 0 };
+
+      reposition.addEventListener("mousedown", (e) => {
+        // Ignore if clicking on resize or close buttons
+        if (
+          e.target === resizeButton ||
+          e.target === closeButton ||
+          resizeButton?.contains(e.target as Node) ||
+          closeButton?.contains(e.target as Node)
+        ) {
+          return;
+        }
+        isDragging = true;
+        dragStart = { x: e.clientX, y: e.clientY };
+
+        e.preventDefault();
+      });
+
+      document.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        const deltaX = e.clientX - dragStart.x + dragOffset.x;
+        const deltaY = e.clientY - dragStart.y + dragOffset.y;
+        modal.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+      });
+
+      document.addEventListener("mouseup", (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        dragOffset = {
+          x: dragOffset.x + (e.clientX - dragStart.x),
+          y: dragOffset.y + (e.clientY - dragStart.y),
+        };
+      });
+
+      let isResized = false;
+      if (resizeButton) {
+        resizeButton.addEventListener("click", () => {
+          if (!isResized) {
+            modal.classList.remove(
+              "w-[40%]",
+              "max-w-[600px]",
+              "min-w-[300px]",
+              "h-[80%]",
+              "min-h-[300px]"
+            );
+            modal.style.width = "90%";
+            modal.style.maxWidth = "90%";
+            modal.style.minWidth = "90%";
+            modal.style.height = "90%";
+            modal.style.minHeight = "90%";
+          } else {
+            modal.classList.add(
+              "w-[40%]",
+              "max-w-[600px]",
+              "min-w-[300px]",
+              "h-[80%]",
+              "min-h-[300px]"
+            );
+            modal.style.width = "";
+            modal.style.maxWidth = "";
+            modal.style.minWidth = "";
+            modal.style.height = "";
+            modal.style.minHeight = "";
+          }
+          isResized = !isResized;
+        });
+      }
+
+      if (closeButton) {
+        closeButton.addEventListener("click", () => {
+          modal.remove();
+        });
+      }
       setTimeout(() => {
         if (!screen.current) return;
         screen.current.appendChild(modal);
@@ -196,7 +298,7 @@ const Computer = ({ sectionProgress }: props) => {
       className="window absolute flex flex-col items-stretch w-full border border-[var(--shade-300)] text-[var(--shade-300)] rounded-[16px] overflow-hidden z-1 bg-[var(--shade-900)]"
     >
       <div
-        className="socials absolute w-full h-[calc(100%-24px)] max-h-[calc(100vh-252px)] left-0 top-6 p-[5vh] flex flex-col flex-wrap gap-4 items-start content-start"
+        className="socials absolute w-full h-[calc(100vh-252px)] max-h-[800px] left-0 top-6 p-[5vh] flex flex-col flex-wrap gap-4 items-start content-start"
         ref={screen}
       >
         <div
@@ -319,12 +421,11 @@ const Computer = ({ sectionProgress }: props) => {
           </a>
         </div>
 
-        <div className="relative min-w-[110px] min-h-[110px] flex items-center justify-center">
-          <a
-            target="blank_"
-            href="https://www.codepen.io/kiranpate1"
-            className="w-18 h-22 cursor-default hover:bg-[var(--shade-850)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm"
-          >
+        <div
+          className="relative min-w-[110px] min-h-[110px] flex items-center justify-center"
+          ref={notes}
+        >
+          <div className="w-18 h-22 cursor-default hover:bg-[var(--shade-850)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm">
             <svg
               className="w-full flex-shrink-0 p-2"
               viewBox="0 0 60 52"
@@ -344,7 +445,7 @@ const Computer = ({ sectionProgress }: props) => {
               <circle cx="19" cy="10" r="1" fill="currentColor" />
             </svg>
             <div className="caption-small text-center">Notes</div>
-          </a>
+          </div>
         </div>
         <div
           className="absolute right-[5vh] top-[5vh] min-w-[110px] min-h-[110px] flex items-center justify-center"
@@ -358,12 +459,7 @@ const Computer = ({ sectionProgress }: props) => {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M10 9V42C10 44.2091 11.7909 46 14 46H53C54.1046 46 55 45.1046 55 44V14C55 11.7909 53.2091 10 51 10H32.9225C31.7074 10 30.5581 9.44764 29.799 8.49878L28.201 6.50122C27.4419 5.55236 26.2926 5 25.0775 5H14C11.7909 5 10 6.79086 10 9Z"
-                stroke="currentColor"
-              />
-              <path
-                d="M6 17C6 14.7909 7.79086 13 10 13H47C49.2091 13 51 14.7909 51 17V44C51 45.1046 51.8954 46 53 46H10C7.79086 46 6 44.2091 6 42V17Z"
-                fill="var(--shade-900)"
+                d="M53 46H10C7.79086 46 6 44.2091 6 42V17C6 14.7909 7.79086 13 10 13M53 46C51.8954 46 51 45.1046 51 44V17C51 14.7909 49.2091 13 47 13C32.5506 13 24.4494 13 10 13M53 46C54.1046 46 55 45.1046 55 44V14C55 11.7909 53.2091 10 51 10H32.9225C31.7074 10 30.5581 9.44764 29.799 8.49878L28.201 6.50122C27.4419 5.55236 26.2926 5 25.0775 5H14C11.7909 5 10 6.79086 10 9V13"
                 stroke="currentColor"
               />
             </svg>

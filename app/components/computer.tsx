@@ -52,23 +52,25 @@ const FooterDesktop = ({ sectionProgress }: props) => {
     )
       return;
 
+    const svgElement = typingRef.current.querySelector("svg");
+    if (svgElement) {
+      svgElement.querySelectorAll("path").forEach((path) => {
+        path.style.strokeWidth = `500`;
+      });
+    }
+
     if (sectionProgress > Projects.length + 1.5) {
       const normalizedProgress =
         (sectionProgress - (Projects.length + 1.5)) * 2.04;
       const easeOutQuad = (t: number) => t * (2 - t);
       const easedProgress = easeOutQuad(normalizedProgress);
-
-      const svgElement = typingRef.current.querySelector("svg");
       if (svgElement) {
         svgElement.querySelectorAll("path").forEach((path) => {
-          path.style.strokeWidth = `${Math.max(
-            0,
-            1500 - easedProgress * 1500
-          )}`;
+          path.style.strokeWidth = `${Math.max(0, 500 - easedProgress * 500)}`;
         });
         svgElement.style.transform = `skewX(${
           -40 + normalizedProgress * 40
-        }deg) scaleX(${2 - easedProgress})`;
+        }deg)`;
       }
       // desktopRef.current.style.opacity = "1";
     } else {
@@ -228,18 +230,18 @@ const FooterDesktop = ({ sectionProgress }: props) => {
                 // src="https://i.pinimg.com/originals/5b/8a/5a/5b8a5aaa765a0b6096a5175588a2caef.gif"
                 // src="https://i.imgflip.com/7xbpel.gif"
               /> */}
-              {
-                // <div className="gradient-blur absolute inset-0">
-                //   <div></div>
-                //   <div></div>
-                //   <div></div>
-                //   <div></div>
-                //   <div></div>
-                //   <div></div>
-                //   <div></div>
-                //   <div></div>
-                // </div>
-              }
+
+              {/* <div className="gradient-blur absolute inset-0 z-2">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div> */}
+
               {/* <div className="absolute inset-0 flex flex-col justify-stretch gap-1 blur-[2px] mix-blend-color-dodge z-10">
                 {Array.from({ length: 40 }).map((_, i) => (
                   <div key={i} className="w-full h-1 bg-[#1daef1]" />

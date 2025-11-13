@@ -1248,7 +1248,7 @@ const Footer = ({ height, sectionProgress }: props) => {
             </defs>
           </svg>
           <div
-            className="absolute bottom-0 w-full h-[4vw] border border-[var(--shade-150)] perspective-origin-top bg-[var(--shade-950)]"
+            className="absolute bottom-0 w-full h-[4vw] border border-[var(--shade-150)] perspective-origin-top bg-[var(--shade-900)]"
             style={{
               transform: "translateZ(-2vw) translateY(2vw) rotateX(-90deg)",
             }}

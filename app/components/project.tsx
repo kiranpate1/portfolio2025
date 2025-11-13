@@ -2,8 +2,9 @@ import React from "react";
 import Image from "next/image";
 import Projects from "./projects";
 import Dropbox from "./dropbox";
-import Superpower from "./superpower";
 import TorontoTechWeek from "./ttw";
+import Superpower from "./superpower";
+import Codepen from "./codepen";
 import Art from "./art";
 import FooterDesktop from "./computer";
 
@@ -25,7 +26,7 @@ const Project = ({ index, title, padding, src, sectionProgress }: props) => {
           <TorontoTechWeek sectionProgress={sectionProgress} />
         ) : index === 2 ? (
           <Superpower sectionProgress={sectionProgress} />
-        ) : index === Projects.length - 1 ? (
+        ) : index === 3 ? null : index === Projects.length - 1 ? (
           <Art sectionProgress={sectionProgress} />
         ) : (
           <Image
@@ -59,6 +60,8 @@ const Project = ({ index, title, padding, src, sectionProgress }: props) => {
       </div> */}
       {index === Projects.length - 1 ? (
         <FooterDesktop sectionProgress={sectionProgress} />
+      ) : index === 3 ? (
+        <Codepen sectionProgress={sectionProgress} />
       ) : null}
     </div>
   );
