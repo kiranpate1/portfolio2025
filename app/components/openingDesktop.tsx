@@ -30,7 +30,7 @@ const Computer = ({ sectionProgress }: props) => {
         setTimeout(() => {
           (a as HTMLElement).style.pointerEvents = "none";
           (a as HTMLElement).style.opacity = "0";
-        }, (applications.length - i) * 50);
+        }, (applications.length - i) * 25);
       });
     } else if (sectionProgress <= 1.5 && showLinks.current) {
       showLinks.current = false;

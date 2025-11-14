@@ -18,7 +18,10 @@ type props = {
 
 const Project = ({ index, title, padding, src, sectionProgress }: props) => {
   return (
-    <div className="window absolute flex flex-col items-stretch w-full rounded-2xl overflow-hidden z-1">
+    <div
+      className="window absolute flex flex-col items-stretch w-full rounded-2xl overflow-hidden z-1"
+      style={{ borderRadius: index === 3 ? "0px" : "16px" }}
+    >
       <div className="stick absolute min-w-full md:h-[calc(100vh-32px)] h-[calc(100dvh-48px-84px)]">
         {index === 0 ? (
           <Dropbox sectionProgress={sectionProgress} />
