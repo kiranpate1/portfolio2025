@@ -8,6 +8,10 @@ const DoodleOpening = ({}: props) => {
   const [currentCityIndex, setCurrentCityIndex] = React.useState(0);
   const nextCity = React.useRef<SVGGElement>(null);
   const prevCity = React.useRef<SVGGElement>(null);
+  const tempBarRef = React.useRef<HTMLDivElement>(null);
+  const secondsRef = React.useRef<SVGGElement>(null);
+  const minutesRef = React.useRef<SVGGElement>(null);
+  const hoursRef = React.useRef<SVGGElement>(null);
 
   useEffect(() => {
     async function getDataFromAPI() {
@@ -24,6 +28,10 @@ const DoodleOpening = ({}: props) => {
 
     getDataFromAPI();
   }, []);
+
+  const secondsGroup = secondsRef.current;
+  const minutesGroup = minutesRef.current;
+  const hoursGroup = hoursRef.current;
 
   useEffect(() => {
     // time
@@ -55,10 +63,6 @@ const DoodleOpening = ({}: props) => {
       const minutesAngle = minute * 6 + second * 0.1; // 6deg per minute + small motion from seconds
       const hoursAngle = (hour % 12) * 30 + minute * 0.5 + second * (0.5 / 60); // 30deg per hour
 
-      const secondsGroup = document.querySelector<SVGGElement>(".hand.seconds");
-      const minutesGroup = document.querySelector<SVGGElement>(".hand.minutes");
-      const hoursGroup = document.querySelector<SVGGElement>(".hand.hours");
-
       // rotate around SVG center (160, 90)
       if (secondsGroup)
         secondsGroup.setAttribute(
@@ -84,39 +88,9 @@ const DoodleOpening = ({}: props) => {
         0,
         Math.min(1, (temp - minTemp) / (maxTemp - minTemp))
       );
-      const tempBar = document?.querySelector<SVGPathElement>(".temp-bar");
+      const tempBar = tempBarRef.current;
       if (tempBar) {
-        const duration: number = 800; // ms
-        const startTime = performance.now();
-        const from = 0;
-        const to = ratio;
-        const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
-
-        // cancel any previous animation
-        const prev = (window as any).__tempBarRaf;
-        if (prev) cancelAnimationFrame(prev);
-
-        const step = (now: number) => {
-          const elapsed = Math.min(duration, now - startTime);
-          const t = duration === 0 ? 1 : elapsed / duration;
-          const eased = easeOutCubic(t);
-          const animatedRatio = from + (to - from) * eased;
-
-          tempBar.setAttribute(
-            "d",
-            `M12 ${
-              16 + (144 - animatedRatio * 144)
-            }H21V163.5C21 165.985 18.9853 168 16.5 168V168C14.0147 168 12 165.985 12 163.5V104Z`
-          );
-
-          if (elapsed < duration) {
-            (window as any).__tempBarRaf = requestAnimationFrame(step);
-          } else {
-            (window as any).__tempBarRaf = undefined;
-          }
-        };
-
-        (window as any).__tempBarRaf = requestAnimationFrame(step);
+        tempBar.style.height = `${ratio * 100}%`;
       }
 
       const celsius = Math.round(data.mainTemp - 273.15);
@@ -126,7 +100,6 @@ const DoodleOpening = ({}: props) => {
       if (celsiusEl) celsiusEl.innerText = `${celsius}°C`;
       const fahrenheitEl = document?.querySelector<HTMLElement>(".fahrenheit");
       if (fahrenheitEl) fahrenheitEl.innerText = `${fahrenheit}°F`;
-      console.log(data);
       // for (
       //   let i = 0;
       //   i < document.querySelectorAll(".city-" + slang + " .clouds").length;
@@ -247,6 +220,12 @@ const DoodleOpening = ({}: props) => {
           const newIndex = (prevIndex + 1) % cities.length;
           updateClock(cities[newIndex]);
           weatherUpdate(newIndex);
+          [minutesGroup, hoursGroup].forEach((group) => {
+            if (group) group.style.transition = "transform 0.3s ease-in-out";
+            group?.addEventListener("transitionend", () => {
+              if (group) group.style.transition = "0s";
+            });
+          });
 
           // recreate interval for the new city and cancel the old one
           clearGlobalInterval();
@@ -266,6 +245,12 @@ const DoodleOpening = ({}: props) => {
           const newIndex = (prevIndex - 1 + cities.length) % cities.length;
           updateClock(cities[newIndex]);
           weatherUpdate(newIndex);
+          [minutesGroup, hoursGroup].forEach((group) => {
+            if (group) group.style.transition = "transform 0.3s ease-in-out";
+            group?.addEventListener("transitionend", () => {
+              if (group) group.style.transition = "0s";
+            });
+          });
 
           // recreate interval for the new city and cancel the old one
           clearGlobalInterval();
@@ -444,6 +429,12 @@ const DoodleOpening = ({}: props) => {
           )}
         </svg>
       </div>
+      <div className="absolute top-1/2 left-3 w-2.25 h-[89%] transform -translate-y-1/2 rounded-2xl overflow-hidden flex items-end">
+        <div
+          className="w-full h-0 bg-[var(--shade-600)] duration-300 ease-in-out"
+          ref={tempBarRef}
+        ></div>
+      </div>
       <svg
         width="250"
         height="180"
@@ -459,11 +450,11 @@ const DoodleOpening = ({}: props) => {
           rx="6.5"
           stroke="var(--shade-650)"
         />
-        <path
+        {/* <path
           className="temp-bar"
           d="M12 160H21V163.5C21 165.985 18.9853 168 16.5 168V168C14.0147 168 12 165.985 12 163.5V104Z"
           fill="var(--shade-600)"
-        />
+        /> */}
         <path d="M17 20H21" stroke="var(--shade-300)" />
         <path d="M19 30H21" stroke="var(--shade-600)" />
         <path d="M17 40H21" stroke="var(--shade-300)" />
@@ -1049,11 +1040,11 @@ const DoodleOpening = ({}: props) => {
             fill="var(--shade-300)"
           />
         </g>
-        <g className="hand seconds">
+        <g className="hand seconds" ref={secondsRef}>
           <path d="M160 92L160 160" stroke="var(--shade-1000)" opacity="0" />
           <path d="M160 20L160 88" stroke="var(--shade-50)" />
         </g>
-        <g className="hand minutes ">
+        <g className="hand minutes" ref={minutesRef}>
           <path d="M160 139V92" stroke="var(--shade-1000)" opacity="0" />
           <path
             d="M160 88V83M160 83V83C161.105 83 162 82.1046 162 81V43C162 41.8954 161.105 41 160 41V41C158.895 41 158 41.8954 158 43V81C158 82.1046 158.895 83 160 83V83Z"
@@ -1061,7 +1052,7 @@ const DoodleOpening = ({}: props) => {
             fill="var(--shade-900)"
           />
         </g>
-        <g className="hand hours">
+        <g className="hand hours" ref={hoursRef}>
           <path d="M160 118L160 92" stroke="var(--shade-1000)" opacity="0" />
           <path
             d="M160 88L160 83M160 83V83C161.105 83 162 82.1046 162 81V64C162 62.8954 161.105 62 160 62V62C158.895 62 158 62.8954 158 64V81C158 82.1046 158.895 83 160 83V83Z"
