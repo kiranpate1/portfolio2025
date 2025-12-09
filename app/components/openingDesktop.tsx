@@ -117,10 +117,11 @@ const Computer = ({ sectionProgress }: props) => {
         { name: "Ali R", website: "aliasgers.space" },
         { name: "Alvin L", website: "alvinn.design" },
         { name: "Ben G", website: "bengiannis.com" },
-        { name: "Benya S", website: "benya.com" },
+        { name: "Benya S", website: "sutyanyong.com" },
         { name: "Bernie S", website: "berniesanders.com" },
         { name: "Beyoncé K", website: "beyonce.com" },
         { name: "Ethan M", website: "ethanma.com" },
+        { name: "Grace W", website: "gracewalker.ca" },
         { name: "Jazmine S", website: "jazminesullivanmusic.com" },
         { name: "Jenny R", website: "jenrudz.art" },
         { name: "Jessica L", website: "jessicalai.me" },
@@ -130,6 +131,7 @@ const Computer = ({ sectionProgress }: props) => {
         { name: "Lucy L", website: "lucyliu.net" },
         { name: "Mariah C", website: "mariahcarey.com" },
         { name: "Mitul S", website: "typicalmitul.com" },
+        { name: "Nashid C", website: "nashidchroma.com" },
         { name: "Natalie A", website: "nataliealmosa.ca" },
         { name: "Paco L", website: "pacolui.com" },
         { name: "Sam Y", website: "instagram.com/samdoesarts" },
@@ -137,6 +139,8 @@ const Computer = ({ sectionProgress }: props) => {
         { name: "Thano S", website: "thanosipsis.com" },
         { name: "Tyler O", website: "golfwang.com" },
         { name: "Vanessa B", website: "otherkind.design" },
+        { name: "Virgil A", website: "virgilabloh.com" },
+        { name: "Yu H", website: "luyuhang.net" },
         { name: "Zohran M", website: "zohranfornyc.com" },
       ];
       let content = "";
@@ -203,7 +207,7 @@ const Computer = ({ sectionProgress }: props) => {
           </div>
         </div>
       </div>` +
-        "<div class='absolute w-full left-0 top-6 py-2 px-3'>" +
+        "<div class='absolute w-full left-0 top-6 py-2 px-3 overflow-scroll'>" +
         content +
         "</div>";
 

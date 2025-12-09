@@ -504,7 +504,7 @@ const Header = ({ height, scrollProgress }: props) => {
         >
           <div>
             <div className="text-[var(--shade-450)]">
-              Designer · developer · artist · open to work
+              Designer · developer · artist · freelancer
             </div>
             <pre>{nameBanner}</pre>
             <div className="text-[var(--shade-450)]">
