@@ -5,7 +5,7 @@ type props = {
   sectionProgress?: number;
 };
 
-const FooterDesktop = ({ sectionProgress }: props) => {
+const Computer = ({ sectionProgress }: props) => {
   const desktopRef = useRef<HTMLDivElement | null>(null);
   const computerRef = useRef<HTMLDivElement | null>(null);
   const imageRef = useRef<HTMLImageElement | null>(null);
@@ -33,7 +33,7 @@ const FooterDesktop = ({ sectionProgress }: props) => {
 
     // Apply transforms directly to DOM for smooth animation
     computerRef.current.style.transform = `rotateX(${
-      100 - easedProgress * 100
+      -100 + easedProgress * 100
     }deg)`;
     // imageRef.current.style.filter = `brightness(${
     //   1 + easedProgress * 0.5
@@ -106,7 +106,7 @@ const FooterDesktop = ({ sectionProgress }: props) => {
         <div className="absolute transform-3d perspective-distant">
           <div
             ref={computerRef}
-            className="computer w-[calc((50vh-32px)*1.253)] max-w-[calc(100vw-100px)] md:max-w-[calc(100vw-350px)] relative flex justify-center items-center transform-3d"
+            className="computer w-[calc((50vh-48px)*1.253)] max-w-[calc(100vw-100px)] md:max-w-[calc(100vw-350px)] relative flex justify-center items-center transform-3d"
           >
             <div
               className="absolute w-[82%] aspect-[405/304] bg-[var(--screen)] overflow-hidden"
@@ -286,12 +286,12 @@ const FooterDesktop = ({ sectionProgress }: props) => {
                   />
                 </svg>
                 <div
-                  className="absolute w-[96.8%] aspect-[2/1] bottom-[2.1%] left-[1.6%] transform-3d rounded-[3px]"
+                  className="absolute w-[96.8%] aspect-[2/1] top-[2.1%] left-[1.6%] transform-3d rounded-[3px]"
                   style={{ backgroundColor: primaryDeviceColor }}
                 >
                   <svg
-                    className="absolute w-[90%] bottom-[0%] left-[5%] origin-bottom"
-                    style={{ transform: "rotateX(75deg) translateY(-10%)" }}
+                    className="absolute w-[90%] top-[-60%] left-[5%] origin-bottom"
+                    style={{ transform: "rotateX(105deg) translateY(-10%)" }}
                     viewBox="0 0 449 165"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -304,7 +304,7 @@ const FooterDesktop = ({ sectionProgress }: props) => {
                   </svg>
 
                   <svg
-                    className="absolute w-full bottom-0 left-0 rotate-x-[90deg] origin-bottom"
+                    className="absolute w-full top-[-26%] left-0 rotate-x-[90deg] origin-bottom"
                     viewBox="0 0 569 75"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -367,4 +367,4 @@ const FooterDesktop = ({ sectionProgress }: props) => {
   );
 };
 
-export default FooterDesktop;
+export default Computer;

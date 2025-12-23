@@ -268,7 +268,7 @@ export default function Home() {
       </div>
       <div
         ref={scrollWindow}
-        className="fixed overflow-hidden md:top-4 md:bottom-auto bottom-4 right-4 md:w-[calc(100%-250px-48px)] w-[calc(100vw-32px)] md:h-[calc(100vh-32px)] h-[calc(100dvh-48px-84px)]"
+        className="fixed overflow-hidden md:top-4 md:bottom-auto bottom-4 right-4 md:w-[calc(100%-250px-48px)] w-[calc(100vw-32px)] md:h-[calc(100vh-48px)] h-[calc(100dvh-48px-84px)]"
         style={
           {
             // top: `${padding}px`,
