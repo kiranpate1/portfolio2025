@@ -117,7 +117,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
     <nav className="flex flex-col justify-between align-stretch h-[calc(100vh-32px)]">
       <div className="absolute md:left-full left-0 md:translate-x-4 md:-bottom-1.5 bottom-0 md:min-w-[calc(100vw-250px-48px)] min-w-[calc(100vw-32px)] flex justify-center">
         <div
-          className="relative flex items-stretch w-full h-3 p-0.5 bg-[var(--shade-850)] rounded-2xl duration-300"
+          className="flex items-stretch w-full h-3 p-0.5 bg-[var(--shade-850)] rounded-2xl duration-300"
           style={{
             width:
               scrollProgress > 1.5 && scrollProgress < Projects.length + 1.5
@@ -149,7 +149,15 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
             className="absolute w-[1.5px] h-full bg-[var(--shade-500)] top-0 bottom-0"
             style={{
               left:
-                scrollProgress > 1.5 ? `${normalizedProgress * 100}%` : "0%",
+                scrollProgress > 1.5
+                  ? `${normalizedProgress * 100}%`
+                  : scrollProgress > Projects.length
+                  ? "100%"
+                  : "0%",
+              opacity:
+                scrollProgress > 1.5 && scrollProgress < Projects.length + 1.5
+                  ? 1
+                  : 0,
             }}
           ></div>
         </div>

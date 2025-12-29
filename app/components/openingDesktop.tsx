@@ -321,18 +321,33 @@ const Computer = ({ sectionProgress }: props) => {
   return (
     <div className="window absolute flex w-full" ref={windowsRef}>
       <div
-        className="flex-1 relative w-full h-full flex flex-col border border-[var(--shade-300)] text-[var(--shade-300)] rounded-[16px] overflow-hidden z-1 bg-[var(--shade-900)]"
+        className="flex-1 relative w-full h-full flex flex-col text-[var(--shade-300)] rounded-[16px] overflow-hidden z-1 bg-[var(--screen)]"
         ref={containerRef}
       >
+        <div className="absolute top-4 left-0 right-0 flex flex-col gap-4 items-stretch justify-start">
+          {Array.from({ length: 41 }, (_, i) => (
+            <div key={i} className="h-0.5 w-full bg-[var(--shade-850)]">
+              <div
+                className="h-full w-px"
+                style={{
+                  backgroundColor:
+                    (sectionProgress ?? 0) > i / 22
+                      ? "var(--shade-300)"
+                      : "var(--shade-700)",
+                }}
+              ></div>
+            </div>
+          ))}
+        </div>
         <div
-          className="socials absolute w-full h-[calc(100vh-252px)] max-h-[800px] left-0 top-6 p-[5vh] flex flex-col flex-wrap gap-4 items-start content-start rounded-[16px] overflow-hidden"
+          className="socials absolute w-full h-[calc(100vh-252px)] max-h-[800px] left-0 top-6 p-[5vh] flex flex-col flex-wrap gap-4 items-start content-start overflow-hidden"
           ref={screen}
         >
           <div
             className="relative min-w-[110px] min-h-[110px] flex items-center justify-center"
             ref={aboutMe}
           >
-            <div className="w-18 h-22 cursor-default hover:bg-[var(--shade-850)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm">
+            <div className="w-18 h-22 cursor-default hover:bg-[rgba(255,255,255,0.05)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm">
               <svg
                 className="w-full flex-shrink-0 p-2"
                 viewBox="0 0 60 52"
@@ -351,7 +366,7 @@ const Computer = ({ sectionProgress }: props) => {
             <a
               target="blank_"
               href="https://www.instagram.com/artsbykiran/"
-              className="w-18 h-22 cursor-default hover:bg-[var(--shade-850)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm"
+              className="w-18 h-22 cursor-default hover:bg-[rgba(255,255,255,0.05)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm"
             >
               <svg
                 className="w-full flex-shrink-0 p-2"
@@ -371,7 +386,7 @@ const Computer = ({ sectionProgress }: props) => {
             <a
               target="blank_"
               href="mailto:kp8568@gmail.com"
-              className="w-18 h-22 cursor-default hover:bg-[var(--shade-850)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm"
+              className="w-18 h-22 cursor-default hover:bg-[rgba(255,255,255,0.05)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm"
             >
               <svg
                 className="w-full flex-shrink-0 p-2"
@@ -391,7 +406,7 @@ const Computer = ({ sectionProgress }: props) => {
             <a
               target="blank_"
               href="https://www.x.com/pate1kiran"
-              className="w-18 h-22 cursor-default hover:bg-[var(--shade-850)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm"
+              className="w-18 h-22 cursor-default hover:bg-[rgba(255,255,255,0.05)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm"
             >
               <svg
                 className="w-full flex-shrink-0 p-2"
@@ -411,7 +426,7 @@ const Computer = ({ sectionProgress }: props) => {
             className="relative min-w-[110px] min-h-[110px] flex items-center justify-center"
             ref={shoutOuts}
           >
-            <div className="w-18 h-22 cursor-default hover:bg-[var(--shade-850)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm">
+            <div className="w-18 h-22 cursor-default hover:bg-[rgba(255,255,255,0.05)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm">
               <svg
                 className="w-full flex-shrink-0 p-2"
                 viewBox="0 0 60 52"
@@ -430,7 +445,7 @@ const Computer = ({ sectionProgress }: props) => {
             <a
               target="blank_"
               href="https://www.codepen.io/kiranpate1"
-              className="w-18 h-22 cursor-default hover:bg-[var(--shade-850)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm"
+              className="w-18 h-22 cursor-default hover:bg-[rgba(255,255,255,0.05)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm"
             >
               <svg
                 className="w-full flex-shrink-0 p-2"
@@ -447,12 +462,11 @@ const Computer = ({ sectionProgress }: props) => {
               <div className="caption-small text-center">Codepen</div>
             </a>
           </div>
-
           <div
             className="relative min-w-[110px] min-h-[110px] flex items-center justify-center"
             ref={notes}
           >
-            <div className="w-18 h-22 cursor-default hover:bg-[var(--shade-850)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm">
+            <div className="w-18 h-22 cursor-default hover:bg-[rgba(255,255,255,0.05)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm">
               <svg
                 className="w-full flex-shrink-0 p-2"
                 viewBox="0 0 60 52"
@@ -478,7 +492,7 @@ const Computer = ({ sectionProgress }: props) => {
             className="absolute right-[5vh] top-[5vh] min-w-[110px] min-h-[110px] flex items-center justify-center"
             ref={myMusic}
           >
-            <div className="w-18 h-22 cursor-default hover:bg-[var(--shade-850)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm">
+            <div className="w-18 h-22 cursor-default hover:bg-[rgba(255,255,255,0.05)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm">
               <svg
                 className="w-full flex-shrink-0 p-2"
                 viewBox="0 0 60 52"
@@ -494,10 +508,24 @@ const Computer = ({ sectionProgress }: props) => {
             </div>
           </div>
         </div>
-        <div className="absolute top-0 left-0 w-full h-6 border-b border-[var(--shade-300)] bg-[var(--shade-900)] flex items-center justify-between pl-3 pr-2 caption-small">
-          <div className="flex items-center gap-4">
-            <div>File</div>
-            <div>Edit</div>
+        <div className="absolute top-0 left-0 w-full h-6 bg-[var(--surface)] flex items-center gap-4 pl-3 pr-2 caption-small">
+          <div className="flex-1 flex items-center gap-4 overflow-hidden">
+            <div className="italic">kiranpa.tel</div>
+            <div className="flex-1 flex items-center overflow-hidden">
+              {Array.from({ length: 41 }, (_, i) => (
+                <div
+                  key={i}
+                  style={{
+                    color:
+                      (sectionProgress ?? 0) > i / 22
+                        ? "var(--shade-300)"
+                        : "var(--shade-700)",
+                  }}
+                >
+                  =
+                </div>
+              ))}
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <svg

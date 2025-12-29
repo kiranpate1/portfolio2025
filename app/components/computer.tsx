@@ -12,7 +12,7 @@ const Computer = ({ sectionProgress }: props) => {
   const typingRef = useRef<HTMLDivElement | null>(null);
   let showLinks = useRef(false);
   const primaryDeviceColor = "#1D1E20";
-  const secondaryDeviceColor = "#2E2C2A";
+  const secondaryDeviceColor = "var(--surface)";
 
   useEffect(() => {
     if (

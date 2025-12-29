@@ -177,6 +177,8 @@ const Header = ({ height, scrollProgress }: props) => {
     ["#d8e5ff", "#031825", "#ccffcc"],
     ["#e6eeff", "#000c19", "#e6ffe6"],
     ["#f3f7ff", "#00000d", "#ffffe6"],
+    ["#1E2527", "#F5F7FA", "#0A260F"],
+    ["#4ade80", "#16a34a", "#4ade80"],
   ];
 
   const themeChange = (theme: string) => {
@@ -339,6 +341,22 @@ const Header = ({ height, scrollProgress }: props) => {
         : theme === "light"
         ? themes[19][1]
         : themes[19][2]
+    );
+    document.documentElement.style.setProperty(
+      "--screen",
+      theme === "dark"
+        ? themes[20][0]
+        : theme === "light"
+        ? themes[20][1]
+        : themes[20][2]
+    );
+    document.documentElement.style.setProperty(
+      "--accent",
+      theme === "dark"
+        ? themes[21][0]
+        : theme === "light"
+        ? themes[21][1]
+        : themes[21][2]
     );
   };
 
