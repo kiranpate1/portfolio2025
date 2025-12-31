@@ -119,6 +119,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
         <div
           className="flex items-stretch w-full h-3 p-0.5 bg-[var(--shade-850)] rounded-2xl duration-300"
           style={{
+            opacity: scrollProgress > 1 ? 1 : 0,
             width:
               scrollProgress > 1.5 && scrollProgress < Projects.length + 1.5
                 ? "100%"

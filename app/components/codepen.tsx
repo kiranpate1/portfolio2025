@@ -49,10 +49,7 @@ const Codepen = ({ sectionProgress }: props) => {
   }, [sectionProgress]);
 
   return (
-    <div
-      className="relative h-full w-full grid grid-rows-2 gap-2"
-      ref={windowRef}
-    >
+    <div className="absolute inset-0 grid grid-rows-2 gap-2" ref={windowRef}>
       <div className="h-full w-full grid grid-rows-1 gap-2" ref={windowRef1}>
         <div className="h-full w-full bg-white rounded-2xl overflow-hidden flex justify-center items-center">
           <video

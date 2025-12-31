@@ -7,7 +7,7 @@ import Projects from "./components/projects";
 import Project from "./components/project";
 import Footer from "./components/footer";
 import Lenis from "lenis";
-import Computer from "./components/openingDesktop";
+import OpeningDesktop from "./components/openingDesktop";
 
 export default function Home() {
   const padding = 16;
@@ -251,7 +251,7 @@ export default function Home() {
   return (
     <main ref={main}>
       <div
-        className="fixed md:w-[250px] w-[calc(100vw-32px)] top-4 left-4 md:h-[calc(100vh-32px)] h-21"
+        className="fixed top-4 left-4 z-2 md:w-[250px] w-[calc(100vw-32px)] md:h-[calc(100vh-32px)] h-21"
         style={
           {
             // top: `${padding}px`,
@@ -268,7 +268,7 @@ export default function Home() {
       </div>
       <div
         ref={scrollWindow}
-        className="fixed overflow-hidden md:top-4 md:bottom-auto bottom-4 right-4 md:w-[calc(100%-250px-48px)] w-[calc(100vw-32px)] md:h-[calc(100vh-48px)] h-[calc(100dvh-48px-84px)]"
+        className="fixed md:top-4 md:bottom-auto bottom-4 right-4 z-1 md:w-[calc(100%-250px-48px)] w-[calc(100vw-32px)] md:h-[calc(100vh-48px)] h-[calc(100dvh-48px-84px)]"
         style={
           {
             // top: `${padding}px`,
@@ -279,7 +279,7 @@ export default function Home() {
         }
       >
         <Header height={doodleHeight} scrollProgress={scrollProgress} />
-        <Computer sectionProgress={scrollProgress} />
+        <OpeningDesktop sectionProgress={scrollProgress} />
         {Projects.map((project, index) => (
           <Project
             key={index}
