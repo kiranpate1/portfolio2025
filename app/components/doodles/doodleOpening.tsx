@@ -67,12 +67,12 @@ const DoodleOpening = ({}: props) => {
       if (secondsGroup)
         secondsGroup.setAttribute(
           "transform",
-          `rotate(${secondsAngle} 160 90)`
+          `rotate(${secondsAngle} 160 90)`,
         );
       if (minutesGroup)
         minutesGroup.setAttribute(
           "transform",
-          `rotate(${minutesAngle} 160 90)`
+          `rotate(${minutesAngle} 160 90)`,
         );
       if (hoursGroup)
         hoursGroup.setAttribute("transform", `rotate(${hoursAngle} 160 90)`);
@@ -86,7 +86,7 @@ const DoodleOpening = ({}: props) => {
       const maxTemp = 40;
       const ratio = Math.max(
         0,
-        Math.min(1, (temp - minTemp) / (maxTemp - minTemp))
+        Math.min(1, (temp - minTemp) / (maxTemp - minTemp)),
       );
       const tempBar = tempBarRef.current;
       if (tempBar) {
@@ -172,10 +172,13 @@ const DoodleOpening = ({}: props) => {
         ? (Array.from(LinesList) as SVGPathElement[])
         : [];
       lines.forEach((line, index) => {
-        setTimeout(() => {
-          line.style.opacity = "1";
-          line.style.transform = "scale(1)";
-        }, (LinesLength - index) * 10);
+        setTimeout(
+          () => {
+            line.style.opacity = "1";
+            line.style.transform = "scale(1)";
+          },
+          (LinesLength - index) * 10,
+        );
       });
 
       const numbersList = document?.querySelectorAll(".numbers path");
@@ -184,9 +187,12 @@ const DoodleOpening = ({}: props) => {
         ? (Array.from(numbersList) as SVGPathElement[])
         : [];
       numbers.forEach((number, index) => {
-        setTimeout(() => {
-          number.style.opacity = "1";
-        }, (numbersLength - index) * 25);
+        setTimeout(
+          () => {
+            number.style.opacity = "1";
+          },
+          (numbersLength - index) * 25,
+        );
       });
     }
 
@@ -209,7 +215,7 @@ const DoodleOpening = ({}: props) => {
     if (typeof window !== "undefined") {
       const id = window.setInterval(
         () => updateClock(cities[currentCityIndex]),
-        1000
+        1000,
       );
       (window as any).__doodleInterval = id;
     }
@@ -232,7 +238,7 @@ const DoodleOpening = ({}: props) => {
           if (typeof window !== "undefined") {
             const id = window.setInterval(
               () => updateClock(cities[newIndex]),
-              1000
+              1000,
             );
             (window as any).__doodleInterval = id;
           }
@@ -257,7 +263,7 @@ const DoodleOpening = ({}: props) => {
           if (typeof window !== "undefined") {
             const id = window.setInterval(
               () => updateClock(cities[newIndex]),
-              1000
+              1000,
             );
             (window as any).__doodleInterval = id;
           }
@@ -474,7 +480,13 @@ const DoodleOpening = ({}: props) => {
         <g className="rings">
           <circle cx="160" cy="90" r="70" stroke="var(--shade-650)" />
           <circle cx="160" cy="90" r="49" stroke="var(--shade-650)" />
-          <circle cx="160" cy="90" r="28" stroke="var(--shade-650)" />
+          <circle
+            cx="160"
+            cy="90"
+            r="28"
+            fill="var(--screen)"
+            stroke="var(--shade-650)"
+          />
         </g>
         <g className="lines">
           <g className="hours">

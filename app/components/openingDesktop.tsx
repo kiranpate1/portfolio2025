@@ -25,26 +25,32 @@ const OpeningDesktop = ({ sectionProgress }: props) => {
       return;
 
     const applications = screen.current.querySelectorAll(
-      ":scope > *"
+      ":scope > *",
     ) as NodeListOf<Element>;
 
     if (sectionProgress > 1.5 && !showLinks.current) {
       showLinks.current = true;
 
       applications.forEach((a, i) => {
-        setTimeout(() => {
-          (a as HTMLElement).style.pointerEvents = "none";
-          (a as HTMLElement).style.opacity = "0";
-        }, (applications.length - i) * 25);
+        setTimeout(
+          () => {
+            (a as HTMLElement).style.pointerEvents = "none";
+            (a as HTMLElement).style.opacity = "0";
+          },
+          (applications.length - i) * 25,
+        );
       });
     } else if (sectionProgress <= 1.5 && showLinks.current) {
       showLinks.current = false;
 
       applications.forEach((a, i) => {
-        setTimeout(() => {
-          (a as HTMLElement).style.pointerEvents = "auto";
-          (a as HTMLElement).style.opacity = "1";
-        }, 100 * i + 50);
+        setTimeout(
+          () => {
+            (a as HTMLElement).style.pointerEvents = "auto";
+            (a as HTMLElement).style.opacity = "1";
+          },
+          100 * i + 50,
+        );
       });
     }
 
@@ -102,7 +108,7 @@ const OpeningDesktop = ({ sectionProgress }: props) => {
     const createModal = (title: string, content: string) => {
       const modal = document.createElement("div");
       modal.className =
-        "absolute top-[50%] left-[50%] w-[40%] max-w-[600px] min-w-[300px] h-[80%] min-h-[300px] max-h-[50vh] bg-[var(--shade-900)] overflow-scroll border border-[var(--shade-300)] rounded-2xl p-6 translate-x-[-50%] translate-y-[-50%] z-1";
+        "absolute top-[50%] left-[50%] w-[40%] max-w-[600px] min-w-[300px] h-[80%] min-h-[300px] max-h-[50vh] bg-[var(--shade-900)] overflow-scroll border border-[var(--shade-300)] rounded-2xl translate-x-[-50%] translate-y-[-50%] z-1";
       modal.style.transition =
         "width 0.3s ease, min-width 0.3s ease, max-width 0.3s ease, min-height 0.3s ease, height 0.3s ease";
       modal.innerHTML =

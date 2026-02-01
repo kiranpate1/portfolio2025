@@ -13,7 +13,7 @@ const TorontoTechWeek = ({ sectionProgress }: props) => {
   useEffect(() => {
     const svg = document.querySelector(".toronto svg") as SVGSVGElement;
     const objects = document.querySelectorAll(
-      ".toronto svg g"
+      ".toronto svg g",
     ) as NodeListOf<SVGElement>;
     objects.forEach((obj, index) => {
       const svgRect = svg.getBoundingClientRect();
@@ -52,7 +52,7 @@ const TorontoTechWeek = ({ sectionProgress }: props) => {
 
   useEffect(() => {
     const objects = document.querySelectorAll(
-      ".toronto svg g"
+      ".toronto svg g",
     ) as NodeListOf<SVGElement>;
     const raw = typeof sectionProgress === "number" ? sectionProgress - 2 : 1;
     const scale = Math.min(1, Math.max(0, raw));
@@ -68,7 +68,7 @@ const TorontoTechWeek = ({ sectionProgress }: props) => {
     });
 
     const ttwLines = document.querySelectorAll(
-      ".ttw-lines div"
+      ".ttw-lines div",
     ) as NodeListOf<HTMLDivElement>;
     const translateZ = 10000 - easedScale * 10000;
     ttwLines.forEach((line) => {
@@ -91,7 +91,7 @@ const TorontoTechWeek = ({ sectionProgress }: props) => {
           style={{ backgroundColor: skyColor }}
         >
           <div className="relative min-w-[1085px] w-[82.4%] transform-3d perspective-distant">
-            <div className="ttw-lines absolute inset-[0_-50%-200%-50%] transform-3d perspective-distant z-0">
+            <div className="ttw-lines absolute inset-[0_-50%-200%-50%] transform-3d perspective-distant z-0 translate-z-0">
               {/* <div
             className="absolute top-[-20%] left-[7%] w-0.25 h-100 bg-[var(--shade-300)]"
             style={{ transform: "rotateX(90deg) translateZ(-20px)" }}
