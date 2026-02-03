@@ -28,7 +28,7 @@ const Codepen = ({ sectionProgress }: props) => {
     }% ${rawProgress * 50}%`;
 
     const videos = windowRef.current!.querySelectorAll(
-      "video"
+      "video",
     ) as NodeListOf<HTMLVideoElement>;
     if (rawProgress < 0.5 && videos) {
       videos.forEach((video, index) => {
@@ -58,6 +58,7 @@ const Codepen = ({ sectionProgress }: props) => {
             autoPlay
             loop
             muted
+            playsInline
           ></video>
         </div>
         <div className="h-full w-[calc(100%-8px)] bg-black rounded-2xl overflow-hidden flex justify-center items-center">
@@ -67,6 +68,7 @@ const Codepen = ({ sectionProgress }: props) => {
             autoPlay
             loop
             muted
+            playsInline
           ></video>
         </div>
       </div>
@@ -78,6 +80,7 @@ const Codepen = ({ sectionProgress }: props) => {
             autoPlay
             loop
             muted
+            playsInline
           ></video>
         </div>
         <div className="h-full w-[calc(100%-8px)] bg-[#151515] rounded-2xl overflow-hidden flex justify-center items-center">
@@ -87,6 +90,7 @@ const Codepen = ({ sectionProgress }: props) => {
             autoPlay
             loop
             muted
+            playsInline
           ></video>
         </div>
       </div>

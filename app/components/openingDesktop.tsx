@@ -278,7 +278,9 @@ const OpeningDesktop = ({ sectionProgress }: props) => {
       appendModal(immediate);
     };
 
-    openAboutMe(true); // Run on load with immediate opening
+    if (window.innerWidth >= 768) {
+      openAboutMe(true); // Run on load with immediate opening
+    }
 
     aboutMe.current.addEventListener("click", () => {
       openAboutMe();
@@ -332,7 +334,7 @@ const OpeningDesktop = ({ sectionProgress }: props) => {
   return (
     <div className="window absolute flex w-full">
       <div
-        className="flex w-full"
+        className="flex flex-col lg:flex-row w-full"
         ref={windowsRef}
         style={{
           height: sectionProgress
@@ -362,11 +364,11 @@ const OpeningDesktop = ({ sectionProgress }: props) => {
             ))}
           </div>
           <div
-            className="socials absolute w-full h-[calc(100vh-252px)] max-h-[800px] left-0 top-6 p-[5vh] flex flex-col flex-wrap gap-4 items-start content-start overflow-hidden"
+            className="socials absolute w-full h-[calc(100vh-252px)] max-h-[350px] lg:max-h-[800px] left-0 top-6 p-4 lg:p-[5vh] flex flex-col flex-wrap gap-4 items-start content-start overflow-hidden"
             ref={screen}
           >
             <div
-              className="relative min-w-[110px] min-h-[110px] flex items-center justify-center"
+              className="relative max-w-[80px] lg:min-w-[110px] max-h-[80px] lg:min-h-[110px] flex items-center justify-center"
               ref={aboutMe}
             >
               <div className="w-18 h-22 cursor-default hover:bg-[rgba(255,255,255,0.05)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm">
@@ -384,7 +386,7 @@ const OpeningDesktop = ({ sectionProgress }: props) => {
                 <div className="caption-small text-center">About me</div>
               </div>
             </div>
-            <div className="relative min-w-[110px] min-h-[110px] flex items-center justify-center">
+            <div className="relative max-w-[80px] lg:min-w-[110px] max-h-[80px] lg:min-h-[110px] flex items-center justify-center">
               <a
                 target="blank_"
                 href="https://www.instagram.com/artsbykiran/"
@@ -404,7 +406,7 @@ const OpeningDesktop = ({ sectionProgress }: props) => {
                 <div className="caption-small text-center">Instagram</div>
               </a>
             </div>
-            <div className="relative min-w-[110px] min-h-[110px] flex items-center justify-center">
+            <div className="relative max-w-[80px] lg:min-w-[110px] max-h-[80px] lg:min-h-[110px] flex items-center justify-center">
               <a
                 target="blank_"
                 href="mailto:kp8568@gmail.com"
@@ -424,7 +426,7 @@ const OpeningDesktop = ({ sectionProgress }: props) => {
                 <div className="caption-small text-center">Email</div>
               </a>
             </div>
-            <div className="relative min-w-[110px] min-h-[110px] flex items-center justify-center">
+            <div className="relative max-w-[80px] lg:min-w-[110px] max-h-[80px] lg:min-h-[110px] flex items-center justify-center">
               <a
                 target="blank_"
                 href="https://www.x.com/pate1kiran"
@@ -445,7 +447,7 @@ const OpeningDesktop = ({ sectionProgress }: props) => {
               </a>
             </div>
             <div
-              className="relative min-w-[110px] min-h-[110px] flex items-center justify-center"
+              className="relative max-w-[80px] lg:min-w-[110px] max-h-[80px] lg:min-h-[110px] flex items-center justify-center"
               ref={shoutOuts}
             >
               <div className="w-18 h-22 cursor-default hover:bg-[rgba(255,255,255,0.05)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm">
@@ -463,7 +465,7 @@ const OpeningDesktop = ({ sectionProgress }: props) => {
                 <div className="caption-small text-center">Shout outs</div>
               </div>
             </div>
-            <div className="relative min-w-[110px] min-h-[110px] flex items-center justify-center">
+            <div className="relative max-w-[80px] lg:min-w-[110px] max-h-[80px] lg:min-h-[110px] flex items-center justify-center">
               <a
                 target="blank_"
                 href="https://www.codepen.io/kiranpate1"
@@ -485,7 +487,7 @@ const OpeningDesktop = ({ sectionProgress }: props) => {
               </a>
             </div>
             <div
-              className="relative min-w-[110px] min-h-[110px] flex items-center justify-center"
+              className="relative max-w-[80px] lg:min-w-[110px] max-h-[80px] lg:min-h-[110px] flex items-center justify-center"
               ref={notes}
             >
               <div className="w-18 h-22 cursor-default hover:bg-[rgba(255,255,255,0.05)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm">
@@ -511,7 +513,7 @@ const OpeningDesktop = ({ sectionProgress }: props) => {
               </div>
             </div>
             <div
-              className="absolute right-[5vh] top-[5vh] min-w-[110px] min-h-[110px] flex items-center justify-center"
+              className="lg:absolute lg:right-[5vh] lg:top-[5vh] max-w-[80px] lg:min-w-[110px] max-h-[80px] lg:min-h-[110px] flex items-center justify-center"
               ref={myMusic}
             >
               <div className="w-18 h-22 cursor-default hover:bg-[rgba(255,255,255,0.05)] text-[var(--shade-300)] hover:text-[var(--shade-200)] flex flex-col items-center rounded-sm">

@@ -480,13 +480,7 @@ const DoodleOpening = ({}: props) => {
         <g className="rings">
           <circle cx="160" cy="90" r="70" stroke="var(--shade-650)" />
           <circle cx="160" cy="90" r="49" stroke="var(--shade-650)" />
-          <circle
-            cx="160"
-            cy="90"
-            r="28"
-            fill="var(--screen)"
-            stroke="var(--shade-650)"
-          />
+          <circle cx="160" cy="90" r="28" stroke="var(--shade-650)" />
         </g>
         <g className="lines">
           <g className="hours">

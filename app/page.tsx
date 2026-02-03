@@ -23,7 +23,7 @@ export default function Home() {
 
   useEffect(() => {
     const windows = document.querySelectorAll(
-      ".window"
+      ".window",
     ) as NodeListOf<HTMLElement>;
     const main = document.querySelector("main");
     if (main) {
@@ -87,7 +87,7 @@ export default function Home() {
 
         sectionProgress = Math.min(
           Math.max(sectionProgress, 0),
-          segments - 0.01
+          segments - 0.01,
         );
       }
       const sectionOne = Math.floor(sectionProgress);
@@ -268,7 +268,7 @@ export default function Home() {
       </div>
       <div
         ref={scrollWindow}
-        className="fixed md:top-4 md:bottom-auto bottom-4 right-4 z-1 md:w-[calc(100%-250px-48px)] w-[calc(100vw-32px)] md:h-[calc(100vh-48px)] h-[calc(100dvh-48px-84px)]"
+        className="fixed top-[116px] md:top-4 bottom-auto md:bottom-auto right-4 z-1 md:w-[calc(100%-250px-48px)] w-[calc(100vw-32px)] md:h-[calc(100vh-48px)] h-[calc(100vh-48px-84px)]"
         style={
           {
             // top: `${padding}px`,

@@ -22,7 +22,7 @@ const Project = ({ index, title, padding, src, sectionProgress }: props) => {
       className="window absolute flex flex-col items-stretch w-full rounded-2xl overflow-hidden z-1"
       style={{ borderRadius: index === 3 ? "0px" : "16px" }}
     >
-      <div className="stick absolute min-w-full md:h-[calc(100vh-48px)] h-[calc(100dvh-48px-84px)]">
+      <div className="stick absolute min-w-full md:h-[calc(100vh-48px)] h-[calc(100vh-48px-84px)]">
         {index === 0 ? (
           <Dropbox sectionProgress={sectionProgress} />
         ) : index === 1 ? (
@@ -33,7 +33,7 @@ const Project = ({ index, title, padding, src, sectionProgress }: props) => {
           <Art sectionProgress={sectionProgress} />
         ) : (
           <Image
-            className="stick absolute w-full md:h-[calc(100vh-48px)] h-[calc(100dvh-48px-84px)] object-cover"
+            className="stick absolute w-full md:h-[calc(100vh-48px)] h-[calc(100vh-48px-84px)] object-cover"
             width={1000}
             height={1000}
             src={src}

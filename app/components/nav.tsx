@@ -27,12 +27,12 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
         // map new scrollProgress (1 .. Projects.length) to a 0-based project index
         const clamped = Math.max(
           1,
-          Math.min(scrollProgress, Projects.length + 1)
+          Math.min(scrollProgress, Projects.length + 1),
         );
         const pos = clamped - 1; // 0 .. Projects.length - 1
         const activeIndex = Math.min(
           Projects.length,
-          Math.max(1, Math.round(pos))
+          Math.max(1, Math.round(pos)),
         );
         if (i === activeIndex) {
           infoContainer.current.style.opacity = "1";
@@ -114,7 +114,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
   }, [scrollProgress]);
 
   return (
-    <nav className="flex flex-col justify-between align-stretch h-[calc(100vh-32px)]">
+    <nav className="flex flex-col justify-between align-stretch md:h-[calc(100vh-32px)]">
       <div className="absolute md:left-full left-0 md:translate-x-4 md:-bottom-1.5 bottom-0 md:min-w-[calc(100vw-250px-48px)] min-w-[calc(100vw-32px)] flex justify-center">
         <div
           className="flex items-stretch w-full h-3 p-0.5 bg-[var(--shade-850)] rounded-2xl duration-300"
@@ -153,8 +153,8 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
                 scrollProgress > 1.5
                   ? `${normalizedProgress * 100}%`
                   : scrollProgress > Projects.length
-                  ? "100%"
-                  : "0%",
+                    ? "100%"
+                    : "0%",
               opacity:
                 scrollProgress > 1.5 && scrollProgress < Projects.length + 1.5
                   ? 1

@@ -84,13 +84,13 @@ const TorontoTechWeek = ({ sectionProgress }: props) => {
       }}
     >
       <div className="absolute inset-0 bg-[url('/images/ttw-bg.png')] bg-repeat bg-size-[1000px] opacity-30"></div>
-      <div className="absolute top-0 bottom-0 w-full max-w-[1180px] h-full flex flex-col justify-center gap-8 p-8">
+      <div className="absolute top-0 bottom-0 w-full max-w-[1180px] h-full flex flex-col justify-center gap-8 p-4 md:p-8">
         <div className="relative flex-1 bg-[url('/images/ttw-grill.svg')] bg-repeat bg-size-[20px]"></div>
         <div
-          className="relative w-full h-[50%] min-h-[550px] flex justify-center items-center rounded-2xl border-16 border-[#272628] overflow-hidden"
+          className="relative w-full h-[300px] md:h-[50%] md:min-h-[500px] flex justify-center items-center rounded-2xl border-16 border-[#272628] overflow-hidden"
           style={{ backgroundColor: skyColor }}
         >
-          <div className="relative min-w-[1085px] w-[82.4%] transform-3d perspective-distant">
+          <div className="relative w-full min-w-[581px] md:min-w-[1085px] md:w-[82.4%] transform-3d perspective-distant">
             <div className="ttw-lines absolute inset-[0_-50%-200%-50%] transform-3d perspective-distant z-0 translate-z-0">
               {/* <div
             className="absolute top-[-20%] left-[7%] w-0.25 h-100 bg-[var(--shade-300)]"
