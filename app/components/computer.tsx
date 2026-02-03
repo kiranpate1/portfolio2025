@@ -82,10 +82,13 @@ const Computer = ({ sectionProgress }: props) => {
     if (sectionProgress > Projects.length + 1.9 && !showLinks.current) {
       showLinks.current = true;
       typingRef.current.querySelectorAll("a").forEach((a, i) => {
-        setTimeout(() => {
-          (a as HTMLElement).style.pointerEvents = "auto";
-          (a as HTMLElement).style.opacity = "1";
-        }, 100 * i + 150);
+        setTimeout(
+          () => {
+            (a as HTMLElement).style.pointerEvents = "auto";
+            (a as HTMLElement).style.opacity = "1";
+          },
+          100 * i + 150,
+        );
       });
     } else if (sectionProgress <= Projects.length + 1.9 && showLinks.current) {
       showLinks.current = false;
@@ -193,30 +196,30 @@ const Computer = ({ sectionProgress }: props) => {
                     ))}
                   </div>
                 </div>
-                <div className="flex justify-center gap-8 w-full caption-small text-[var(--shade-400)]">
+                <div className="flex justify-center gap-[3vw] md:gap-8 w-full caption-small text-[var(--shade-400)]">
                   <a
-                    href="#"
+                    href="https://www.instagram.com/artsbykiran/"
                     target="_blank"
                     className="opacity-0 hover:text-[var(--shade-50)]"
                   >
                     Instagram
                   </a>
                   <a
-                    href="#"
+                    href="https://twitter.com/pate1kiran/"
                     target="_blank"
                     className="opacity-0 hover:text-[var(--shade-50)]"
                   >
                     Twitter
                   </a>
                   <a
-                    href="#"
+                    href="https://www.linkedin.com/in/ka-patel/"
                     target="_blank"
                     className="opacity-0 hover:text-[var(--shade-50)]"
                   >
                     Linkedin
                   </a>
                   <a
-                    href="#"
+                    href="mailto:kp8568@gmail.com"
                     target="_blank"
                     className="opacity-0 hover:text-[var(--shade-50)]"
                   >

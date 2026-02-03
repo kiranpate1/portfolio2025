@@ -152,10 +152,6 @@ const Header = ({ height, scrollProgress }: props) => {
     inputRef.current?.focus();
   }, []);
 
-  useEffect(() => {
-    setCursorPosition(Math.min(cursorPosition, currentInput.length));
-  }, [currentInput, cursorPosition]);
-
   const themes = [
     ["#00030a", "#e0e4f0", "#002d00"],
     ["#0a0e15", "#d3d8e5", "#004400"],
@@ -187,176 +183,176 @@ const Header = ({ height, scrollProgress }: props) => {
       theme === "dark"
         ? themes[0][0]
         : theme === "light"
-        ? themes[0][1]
-        : themes[0][2]
+          ? themes[0][1]
+          : themes[0][2],
     );
     document.documentElement.style.setProperty(
       "--shade-950",
       theme === "dark"
         ? themes[1][0]
         : theme === "light"
-        ? themes[1][1]
-        : themes[1][2]
+          ? themes[1][1]
+          : themes[1][2],
     );
     document.documentElement.style.setProperty(
       "--shade-900",
       theme === "dark"
         ? themes[2][0]
         : theme === "light"
-        ? themes[2][1]
-        : themes[2][2]
+          ? themes[2][1]
+          : themes[2][2],
     );
     document.documentElement.style.setProperty(
       "--shade-850",
       theme === "dark"
         ? themes[3][0]
         : theme === "light"
-        ? themes[3][1]
-        : themes[3][2]
+          ? themes[3][1]
+          : themes[3][2],
     );
     document.documentElement.style.setProperty(
       "--shade-800",
       theme === "dark"
         ? themes[4][0]
         : theme === "light"
-        ? themes[4][1]
-        : themes[4][2]
+          ? themes[4][1]
+          : themes[4][2],
     );
     document.documentElement.style.setProperty(
       "--shade-750",
       theme === "dark"
         ? themes[5][0]
         : theme === "light"
-        ? themes[5][1]
-        : themes[5][2]
+          ? themes[5][1]
+          : themes[5][2],
     );
     document.documentElement.style.setProperty(
       "--shade-700",
       theme === "dark"
         ? themes[6][0]
         : theme === "light"
-        ? themes[6][1]
-        : themes[6][2]
+          ? themes[6][1]
+          : themes[6][2],
     );
     document.documentElement.style.setProperty(
       "--shade-650",
       theme === "dark"
         ? themes[7][0]
         : theme === "light"
-        ? themes[7][1]
-        : themes[7][2]
+          ? themes[7][1]
+          : themes[7][2],
     );
     document.documentElement.style.setProperty(
       "--shade-600",
       theme === "dark"
         ? themes[8][0]
         : theme === "light"
-        ? themes[8][1]
-        : themes[8][2]
+          ? themes[8][1]
+          : themes[8][2],
     );
     document.documentElement.style.setProperty(
       "--shade-550",
       theme === "dark"
         ? themes[9][0]
         : theme === "light"
-        ? themes[9][1]
-        : themes[9][2]
+          ? themes[9][1]
+          : themes[9][2],
     );
     document.documentElement.style.setProperty(
       "--shade-500",
       theme === "dark"
         ? themes[10][0]
         : theme === "light"
-        ? themes[10][1]
-        : themes[10][2]
+          ? themes[10][1]
+          : themes[10][2],
     );
     document.documentElement.style.setProperty(
       "--shade-450",
       theme === "dark"
         ? themes[11][0]
         : theme === "light"
-        ? themes[11][1]
-        : themes[11][2]
+          ? themes[11][1]
+          : themes[11][2],
     );
     document.documentElement.style.setProperty(
       "--shade-400",
       theme === "dark"
         ? themes[12][0]
         : theme === "light"
-        ? themes[12][1]
-        : themes[12][2]
+          ? themes[12][1]
+          : themes[12][2],
     );
     document.documentElement.style.setProperty(
       "--shade-350",
       theme === "dark"
         ? themes[13][0]
         : theme === "light"
-        ? themes[13][1]
-        : themes[13][2]
+          ? themes[13][1]
+          : themes[13][2],
     );
     document.documentElement.style.setProperty(
       "--shade-300",
       theme === "dark"
         ? themes[14][0]
         : theme === "light"
-        ? themes[14][1]
-        : themes[14][2]
+          ? themes[14][1]
+          : themes[14][2],
     );
     document.documentElement.style.setProperty(
       "--shade-250",
       theme === "dark"
         ? themes[15][0]
         : theme === "light"
-        ? themes[15][1]
-        : themes[15][2]
+          ? themes[15][1]
+          : themes[15][2],
     );
     document.documentElement.style.setProperty(
       "--shade-200",
       theme === "dark"
         ? themes[16][0]
         : theme === "light"
-        ? themes[16][1]
-        : themes[16][2]
+          ? themes[16][1]
+          : themes[16][2],
     );
     document.documentElement.style.setProperty(
       "--shade-150",
       theme === "dark"
         ? themes[17][0]
         : theme === "light"
-        ? themes[17][1]
-        : themes[17][2]
+          ? themes[17][1]
+          : themes[17][2],
     );
     document.documentElement.style.setProperty(
       "--shade-100",
       theme === "dark"
         ? themes[18][0]
         : theme === "light"
-        ? themes[18][1]
-        : themes[18][2]
+          ? themes[18][1]
+          : themes[18][2],
     );
     document.documentElement.style.setProperty(
       "--shade-50",
       theme === "dark"
         ? themes[19][0]
         : theme === "light"
-        ? themes[19][1]
-        : themes[19][2]
+          ? themes[19][1]
+          : themes[19][2],
     );
     document.documentElement.style.setProperty(
       "--screen",
       theme === "dark"
         ? themes[20][0]
         : theme === "light"
-        ? themes[20][1]
-        : themes[20][2]
+          ? themes[20][1]
+          : themes[20][2],
     );
     document.documentElement.style.setProperty(
       "--accent",
       theme === "dark"
         ? themes[21][0]
         : theme === "light"
-        ? themes[21][1]
-        : themes[21][2]
+          ? themes[21][1]
+          : themes[21][2],
     );
   };
 

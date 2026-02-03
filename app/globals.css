@@ -141,8 +141,12 @@ body {
   text-rendering: geometricPrecision;
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
-  font-feature-settings: "liga" 0, "calt" 0;
-  -webkit-font-feature-settings: "liga" 0, "calt" 0;
+  font-feature-settings:
+    "liga" 0,
+    "calt" 0;
+  -webkit-font-feature-settings:
+    "liga" 0,
+    "calt" 0;
 }
 
 /* For Chrome, Safari, and Opera */
@@ -352,7 +356,9 @@ body {
   transform-origin: center;
   transform-box: fill-box;
   transform: scale(2.5);
-  transition: opacity 0.1s ease-in-out, transform 0.6s ease-out;
+  transition:
+    opacity 0.1s ease-in-out,
+    transform 0.6s ease-out;
 }
 
 .numbers path {
@@ -414,4 +420,15 @@ input {
 .keyboard *,
 .socials svg * {
   vector-effect: non-scaling-stroke;
+}
+
+.keyboard g:hover rect {
+  fill: var(--shade-800);
+  stroke: var(--shade-250);
+}
+.keyboard g:hover path {
+  fill: var(--shade-150);
+}
+.keyboard rect:not(g rect) {
+  pointer-events: none;
 }
