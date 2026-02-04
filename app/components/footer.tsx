@@ -1,13 +1,118 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import Projects from "./projects";
 
-type props = {
-  height: number;
-  sectionProgress: number;
+const getKeyId = (code: string): string | null => {
+  const codeMap: Record<string, string> = {
+    Backquote: "key-tilde",
+    Minus: "key-dash",
+    Equal: "key-equal",
+    BracketLeft: "key-bracketleft",
+    BracketRight: "key-bracketright",
+    Backslash: "key-backslash",
+    Semicolon: "key-semicolon",
+    Quote: "key-quote",
+    Comma: "key-comma",
+    Period: "key-period",
+    Slash: "key-slash",
+    Space: "key-space",
+    Enter: "key-enter",
+    Backspace: "key-backspace",
+    Tab: "key-tab",
+    CapsLock: "key-caps",
+    ShiftLeft: "key-shiftleft",
+    ShiftRight: "key-shiftright",
+    ControlLeft: "key-ctrlleft",
+    ControlRight: "key-ctrlright",
+    AltLeft: "key-optleft",
+    AltRight: "key-optright",
+    MetaLeft: "key-cmdleft",
+    MetaRight: "key-cmdright",
+    ArrowUp: "key-arrowup",
+    ArrowDown: "key-arrowdown",
+    ArrowLeft: "key-arrowleft",
+    ArrowRight: "key-arrowright",
+    Escape: "key-escape",
+  };
+  if (codeMap[code]) return codeMap[code];
+  if (code.startsWith("Key")) return `key-${code.slice(3).toLowerCase()}`;
+  if (code.startsWith("Digit")) return `key-${code.slice(5)}`;
+  if (code.startsWith("F")) {
+    const fNum = parseInt(code.slice(1));
+    if (!isNaN(fNum) && fNum >= 1 && fNum <= 12) return `key-f${fNum}`;
+  }
+  return null;
 };
 
-const Footer = ({ height, sectionProgress }: props) => {
+type props = {
+  height?: number;
+  sectionProgress?: number;
+  onKeyboardInput?: (key: string) => void;
+};
+
+const Footer = ({ height, sectionProgress, onKeyboardInput }: props) => {
   const [hoveredKey, setHoveredKey] = useState<string | null>(null);
+  const [pressedKeys, setPressedKeys] = useState<Set<string>>(new Set());
+  const typewriterRef = React.useRef<HTMLDivElement>(null);
+  const isKeyboardActive = (sectionProgress ?? 0) > Projects.length + 1.2;
+  const wasKeyboardActiveRef = useRef(false);
+  const onKeyboardInputRef = useRef(onKeyboardInput);
+
+  // Keep ref updated with latest callback
+  useEffect(() => {
+    onKeyboardInputRef.current = onKeyboardInput;
+  }, [onKeyboardInput]);
+
+  useEffect(() => {
+    // Only attach/detach listeners when active state actually changes
+    if (isKeyboardActive === wasKeyboardActiveRef.current) return;
+    wasKeyboardActiveRef.current = isKeyboardActive;
+
+    if (!isKeyboardActive) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const id = getKeyId(e.code);
+      if (id) {
+        setPressedKeys((prev) => {
+          const next = new Set(prev);
+          next.add(id);
+          return next;
+        });
+      }
+
+      if (onKeyboardInputRef.current) {
+        if (e.key === "Backspace") {
+          onKeyboardInputRef.current("Backspace");
+        } else if (e.key === "Enter") {
+          onKeyboardInputRef.current("Enter");
+        } else if (
+          e.key.length === 1 &&
+          !e.metaKey &&
+          !e.ctrlKey &&
+          !e.altKey
+        ) {
+          onKeyboardInputRef.current(e.key);
+        }
+      }
+    };
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      const id = getKeyId(e.code);
+      if (id) {
+        setPressedKeys((prev) => {
+          const next = new Set(prev);
+          next.delete(id);
+          return next;
+        });
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  }, [isKeyboardActive]);
 
   return (
     <footer
@@ -19,15 +124,15 @@ const Footer = ({ height, sectionProgress }: props) => {
           className="relative w-[calc((50vh-32px)*2)] max-w-[1076px] flex items-center justify-center transform-3d"
           style={{
             perspective:
-              sectionProgress > Projects.length + 1
-                ? `${10000 - (sectionProgress % 1) * 9000}px`
+              (sectionProgress ?? 0) > Projects.length + 1
+                ? `${10000 - ((sectionProgress ?? 0) % 1) * 9000}px`
                 : "10000px",
             transform:
-              sectionProgress > Projects.length
-                ? `translateY(${-2 + (sectionProgress % 1) * 2}vw) translateZ(${
-                    10 - (sectionProgress % 1) * 9
+              (sectionProgress ?? 0) > Projects.length
+                ? `translateY(${-2 + ((sectionProgress ?? 0) % 1) * 2}vw) translateZ(${
+                    10 - ((sectionProgress ?? 0) % 1) * 9
                   }vw) rotateX(${
-                    90 - ((sectionProgress % 1) * 1.33 - 0.33) * 90
+                    90 - (((sectionProgress ?? 0) % 1) * 1.33 - 0.33) * 90
                   }deg)`
                 : "translateY(-2vw) translateZ(-10vw) rotateX(90deg)",
           }}
@@ -38,7 +143,9 @@ const Footer = ({ height, sectionProgress }: props) => {
             viewBox="0 0 1432 647"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            style={{ opacity: sectionProgress > Projects.length + 1.2 ? 1 : 0 }}
+            style={{
+              opacity: (sectionProgress ?? 0) > Projects.length + 1.2 ? 1 : 0,
+            }}
             onMouseOver={(e) => {
               const g = (e.target as Element).closest("g");
               if (g && g.id && g.id.startsWith("key-")) {
@@ -1618,6 +1725,17 @@ const Footer = ({ height, sectionProgress }: props) => {
             {hoveredKey && (
               <use href={`#${hoveredKey}`} style={{ pointerEvents: "none" }} />
             )}
+            {Array.from(pressedKeys).map((keyId) => (
+              <use
+                key={keyId}
+                href={`#${keyId}`}
+                // CHANGE THIS STYLE to customize the pressed key effect
+                style={{
+                  pointerEvents: "none",
+                  filter: "brightness(1.5)",
+                }}
+              />
+            ))}
           </svg>
           <div
             className="absolute bottom-0 w-full h-[4vw] border border-[var(--shade-150)] perspective-origin-top bg-[var(--shade-900)]"

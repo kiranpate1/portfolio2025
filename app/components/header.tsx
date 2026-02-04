@@ -102,6 +102,8 @@ const Header = ({ height, scrollProgress }: props) => {
   const terminalRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const isActive = scrollProgress === undefined || scrollProgress <= 0.1;
+
   const prompt = "hello@kiranpa.tel ~ %\u00A0";
 
   // Blinking cursor effect
@@ -113,6 +115,8 @@ const Header = ({ height, scrollProgress }: props) => {
   }, []);
 
   useEffect(() => {
+    if (!isActive) return;
+
     const handleClick = (e: MouseEvent) => {
       // Only focus input if user isn't selecting text
       const selection = window.getSelection();
@@ -126,9 +130,11 @@ const Header = ({ height, scrollProgress }: props) => {
       terminal.addEventListener("click", handleClick);
       return () => terminal.removeEventListener("click", handleClick);
     }
-  }, []);
+  }, [isActive]);
 
   useEffect(() => {
+    if (!isActive) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
       // Focus input when user starts typing (but not during text selection)
       const selection = window.getSelection();
@@ -145,12 +151,16 @@ const Header = ({ height, scrollProgress }: props) => {
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [isActive]);
 
   // Auto-focus on mount
   useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+    if (isActive) {
+      inputRef.current?.focus();
+    } else {
+      inputRef.current?.blur();
+    }
+  }, [isActive]);
 
   const themes = [
     ["#00030a", "#e0e4f0", "#002d00"],

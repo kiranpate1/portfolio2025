@@ -422,13 +422,32 @@ input {
   vector-effect: non-scaling-stroke;
 }
 
-.keyboard g:hover rect {
-  fill: var(--shade-800);
-  stroke: var(--shade-250);
+.keyboard g:hover {
+  filter: brightness(1.5);
 }
-.keyboard g:hover path {
-  fill: var(--shade-150);
-}
+
 .keyboard rect:not(g rect) {
   pointer-events: none;
+}
+
+.typing-cursor::after {
+  content: "";
+  display: inline-block;
+  width: 1.5px;
+  height: 1em;
+  background-color: var(--accent);
+  margin-left: 1px;
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
 }

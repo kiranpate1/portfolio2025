@@ -30,15 +30,17 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
           Math.min(scrollProgress, Projects.length + 1),
         );
         const pos = clamped - 1; // 0 .. Projects.length - 1
-        const activeIndex = Math.min(
+        const calculatedIndex = Math.min(
           Projects.length,
           Math.max(1, Math.round(pos)),
         );
-        if (i === activeIndex) {
+        if (i === calculatedIndex) {
           infoContainer.current.style.opacity = "1";
           title.current.innerText = Projects[i - 1].project;
           description.current.innerText = Projects[i - 1].description;
-          setActiveIndex(i + 1);
+          if (activeIndex !== i + 1) {
+            setActiveIndex(i + 1);
+          }
           break;
         }
       }
@@ -49,7 +51,9 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
       (scrollProgress <= 1.5 || scrollProgress > Projects.length + 1.5)
     ) {
       infoContainer.current.style.opacity = "0";
-      setActiveIndex(0);
+      if (activeIndex !== 0) {
+        setActiveIndex(0);
+      }
     }
 
     const normalizedScrollProgress =
@@ -66,8 +70,10 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
     const maxWidth = 100 - (Projects.length - 1) * minWidth;
     const normalizedActiveIndex = Math.floor(scrollProgress);
     const barScrollProgress = scrollProgress % 1;
-    const openingWidth = barScrollProgress * maxWidth;
-    const closingWidth = (1 - barScrollProgress) * maxWidth;
+
+    const easeInOutCubic = (t: number) => {
+      return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    };
 
     bars.forEach((bar, index) => {
       if (scrollProgress > 1.5 && scrollProgress < 2) {
@@ -85,9 +91,13 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
         }
       } else if (scrollProgress > 2 && scrollProgress < Projects.length + 1) {
         if (index === normalizedActiveIndex - 2) {
-          bar.style.width = `${closingWidth + minWidth}%`;
+          const easedProgress = easeInOutCubic(barScrollProgress);
+          const closingWidth = (1 - easedProgress) * maxWidth + minWidth;
+          bar.style.width = `${closingWidth}%`;
         } else if (index === normalizedActiveIndex - 1) {
-          bar.style.width = `${openingWidth + minWidth}%`;
+          const easedProgress = easeInOutCubic(barScrollProgress);
+          const openingWidth = easedProgress * maxWidth + minWidth;
+          bar.style.width = `${openingWidth}%`;
         } else {
           bar.style.width = `${minWidth}%`;
         }
@@ -137,7 +147,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
               <div
                 className="h-full rounded-xl duration-700"
                 style={{
-                  backgroundColor:
+                  background:
                     scrollProgress > 1.5 &&
                     scrollProgress < Projects.length + 1.5
                       ? project.color
@@ -197,7 +207,15 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
         >
           Description
         </p>
-        <button className="flex items-center gap-2 mt-2 px-3 py-2 bg-[var(--shade-850)] rounded-lg w-max text-sm font-medium hover:bg-[var(--shade-800)] cursor-pointer">
+        <button
+          className="flex items-center gap-2 mt-2 px-3 py-2 bg-[var(--shade-850)] rounded-lg w-max text-sm font-medium hover:bg-[var(--shade-800)] cursor-pointer"
+          onClick={() => {
+            const currentProject = Projects[activeIndex - 2];
+            if (currentProject && currentProject.link) {
+              window.open(currentProject.link, "_blank");
+            }
+          }}
+        >
           Visit
           <svg
             width="11"

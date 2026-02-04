@@ -20,6 +20,17 @@ export default function Home() {
   const scrollWindow = useRef<HTMLDivElement>(null);
   const main = useRef<HTMLElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [typedText, setTypedText] = useState("");
+
+  const handleKeyboardInput = useCallback((key: string) => {
+    if (key === "Backspace") {
+      setTypedText((prev) => prev.slice(0, -1));
+    } else if (key === "Enter") {
+      setTypedText((prev) => prev + "\n");
+    } else if (key.length === 1) {
+      setTypedText((prev) => prev + key);
+    }
+  }, []);
 
   useEffect(() => {
     const windows = document.querySelectorAll(
@@ -284,13 +295,17 @@ export default function Home() {
           <Project
             key={index}
             index={index}
-            padding={padding}
             title={project.title}
             src={project.src}
             sectionProgress={scrollProgress}
+            typedText={typedText}
           />
         ))}
-        <Footer height={footerHeight} sectionProgress={scrollProgress} />
+        <Footer
+          height={footerHeight}
+          sectionProgress={scrollProgress}
+          onKeyboardInput={handleKeyboardInput}
+        />
       </div>
     </main>
   );

@@ -3,12 +3,14 @@ import Projects from "./projects";
 
 type props = {
   sectionProgress?: number;
+  typedText?: string;
 };
 
-const Computer = ({ sectionProgress }: props) => {
+const Computer = ({ sectionProgress, typedText }: props) => {
   const desktopRef = useRef<HTMLDivElement | null>(null);
   const computerRef = useRef<HTMLDivElement | null>(null);
-  const imageRef = useRef<HTMLImageElement | null>(null);
+  const logoRef = useRef<HTMLDivElement | null>(null);
+  const [isTyping, setIsTyping] = React.useState(false);
   const typingRef = useRef<HTMLDivElement | null>(null);
   let showLinks = useRef(false);
   const primaryDeviceColor = "#1D1E20";
@@ -45,16 +47,23 @@ const Computer = ({ sectionProgress }: props) => {
   }, [sectionProgress]);
 
   useEffect(() => {
+    if (typingRef.current && typedText !== undefined) {
+      typedText.length > 0 ? setIsTyping(true) : setIsTyping(false);
+      typingRef.current.innerText = typedText;
+    }
+  }, [typedText]);
+
+  useEffect(() => {
     if (
       !sectionProgress ||
       !desktopRef.current ||
       !computerRef.current ||
       // !imageRef.current ||
-      !typingRef.current
+      !logoRef.current
     )
       return;
 
-    const svgElement = typingRef.current.querySelector("svg");
+    const svgElement = logoRef.current.querySelector("svg");
     if (svgElement) {
       svgElement.querySelectorAll("path").forEach((path) => {
         path.style.strokeWidth = `500`;
@@ -81,7 +90,7 @@ const Computer = ({ sectionProgress }: props) => {
 
     if (sectionProgress > Projects.length + 1.9 && !showLinks.current) {
       showLinks.current = true;
-      typingRef.current.querySelectorAll("a").forEach((a, i) => {
+      logoRef.current.querySelectorAll("a").forEach((a, i) => {
         setTimeout(
           () => {
             (a as HTMLElement).style.pointerEvents = "auto";
@@ -92,7 +101,7 @@ const Computer = ({ sectionProgress }: props) => {
       });
     } else if (sectionProgress <= Projects.length + 1.9 && showLinks.current) {
       showLinks.current = false;
-      typingRef.current.querySelectorAll("a").forEach((a, i) => {
+      logoRef.current.querySelectorAll("a").forEach((a, i) => {
         setTimeout(() => {
           (a as HTMLElement).style.pointerEvents = "none";
           (a as HTMLElement).style.opacity = "0";
@@ -119,7 +128,7 @@ const Computer = ({ sectionProgress }: props) => {
               // }}
             >
               <div
-                ref={typingRef}
+                ref={logoRef}
                 className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-full h-full flex flex-col gap-4 justify-center"
               >
                 <div className="relative h-[15%] w-full">
@@ -225,6 +234,63 @@ const Computer = ({ sectionProgress }: props) => {
                   >
                     Email
                   </a>
+                </div>
+                <div
+                  className="absolute inset-[calc(100%-28px)_24px_calc(-80%+28px)_24px] hidden md:flex flex-col items-center justify-start gap-2 duration-300 ease-in-out overflow-hidden"
+                  style={{
+                    transform: isTyping
+                      ? "translateY(-100%)"
+                      : "translateY(0%)",
+                  }}
+                >
+                  <svg
+                    className="text-(--shade-300) hover:text-(--accent)! cursor-pointer"
+                    style={{
+                      color: isTyping ? "var(--accent)" : "var(--shade-300)",
+                    }}
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    onClick={() => setIsTyping(!isTyping)}
+                  >
+                    <path
+                      d="M7 16H17"
+                      stroke="currentColor"
+                      strokeWidth="1"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M20 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V6C22 4.89543 21.1046 4 20 4Z"
+                      stroke="currentColor"
+                      strokeWidth="1"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M10 8H10.01M12 12H12.01M14 8H14.01M16 12H16.01M18 8H18.01M6 8H6.01M8 12H8.01"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <div className="relative flex-1 w-full bg-(--screen) p-6 rounded-3xl border border-(--shade-300)">
+                    <div className="absolute inset-[20px_0] flex flex-col gap-[16.2px] overflow-scroll">
+                      {Array.from({ length: 20 }).map((_, i) => (
+                        <div
+                          key={i}
+                          className="w-full min-h-0.5 bg-(--shade-850)"
+                        />
+                      ))}
+                    </div>
+                    <div
+                      className="relative w-full h-full paragraph typing-cursor"
+                      ref={typingRef}
+                    ></div>
+                  </div>
                 </div>
               </div>
               {/* <img

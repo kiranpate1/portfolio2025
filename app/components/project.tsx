@@ -11,12 +11,12 @@ import Computer from "./computer";
 type props = {
   index: number;
   title: string;
-  padding: number;
   src: string;
   sectionProgress?: number;
+  typedText?: string;
 };
 
-const Project = ({ index, title, padding, src, sectionProgress }: props) => {
+const Project = ({ index, title, src, sectionProgress, typedText }: props) => {
   return (
     <div
       className="window absolute flex flex-col items-stretch w-full rounded-2xl overflow-hidden z-1"
@@ -62,7 +62,7 @@ const Project = ({ index, title, padding, src, sectionProgress }: props) => {
         <div></div>
       </div> */}
       {index === Projects.length - 1 ? (
-        <Computer sectionProgress={sectionProgress} />
+        <Computer sectionProgress={sectionProgress} typedText={typedText} />
       ) : index === 3 ? (
         <Codepen sectionProgress={sectionProgress} />
       ) : null}
