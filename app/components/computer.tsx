@@ -13,7 +13,7 @@ const Computer = ({ sectionProgress, typedText }: props) => {
   const [isTyping, setIsTyping] = React.useState(false);
   const typingRef = useRef<HTMLDivElement | null>(null);
   let showLinks = useRef(false);
-  const primaryDeviceColor = "#1D1E20";
+  const primaryDeviceColor = "var(--shade-900)";
   const secondaryDeviceColor = "var(--surface)";
 
   useEffect(() => {

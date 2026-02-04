@@ -183,6 +183,7 @@ const Header = ({ height, scrollProgress }: props) => {
     ["#d8e5ff", "#031825", "#ccffcc"],
     ["#e6eeff", "#000c19", "#e6ffe6"],
     ["#f3f7ff", "#00000d", "#ffffe6"],
+    ["#2e2c2a", "#f5f7fa", "#0a260f"],
     ["#1E2527", "#F5F7FA", "#0A260F"],
     ["#4ade80", "#16a34a", "#4ade80"],
   ];
@@ -349,7 +350,7 @@ const Header = ({ height, scrollProgress }: props) => {
           : themes[19][2],
     );
     document.documentElement.style.setProperty(
-      "--screen",
+      "--surface",
       theme === "dark"
         ? themes[20][0]
         : theme === "light"
@@ -357,12 +358,20 @@ const Header = ({ height, scrollProgress }: props) => {
           : themes[20][2],
     );
     document.documentElement.style.setProperty(
-      "--accent",
+      "--screen",
       theme === "dark"
         ? themes[21][0]
         : theme === "light"
           ? themes[21][1]
           : themes[21][2],
+    );
+    document.documentElement.style.setProperty(
+      "--accent",
+      theme === "dark"
+        ? themes[22][0]
+        : theme === "light"
+          ? themes[22][1]
+          : themes[22][2],
     );
   };
 

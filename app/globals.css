@@ -3,9 +3,6 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --accent: #4ade80;
-  --surface: #2e2c2a;
-  --screen: #1e2527;
   --shade-1000: #00030a;
   --shade-950: #0a0e15;
   --shade-900: #181b22;
@@ -26,6 +23,9 @@
   --shade-150: #d8e5ff;
   --shade-100: #e6eeff;
   --shade-50: #f3f7ff;
+  --surface: #2e2c2a;
+  --screen: #1e2527;
+  --accent: #4ade80;
 }
 
 @theme inline {
@@ -412,7 +412,7 @@ input {
 
 .toronto svg * {
   stroke-width: 1.5px;
-  stroke: var(--shade-300);
+  stroke: #b1bfdb;
 }
 
 .computer *,
