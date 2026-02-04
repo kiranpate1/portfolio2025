@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, act } from "react";
 import Projects from "./projects";
 import Doodle from "./doodle";
 
@@ -12,7 +12,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
   const infoContainer = useRef<HTMLDivElement>(null);
   const title = useRef<HTMLDivElement>(null);
   const description = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [normalizedProgress, setNormalizedProgress] = useState(0);
 
   useEffect(() => {
@@ -23,26 +23,19 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
       scrollProgress > 1.5 &&
       scrollProgress <= Projects.length + 1.5
     ) {
-      for (let i = 0; i < Projects.length + 1; i++) {
-        // map new scrollProgress (1 .. Projects.length) to a 0-based project index
-        const clamped = Math.max(
-          1,
-          Math.min(scrollProgress, Projects.length + 1),
-        );
-        const pos = clamped - 1; // 0 .. Projects.length - 1
-        const calculatedIndex = Math.min(
-          Projects.length,
-          Math.max(1, Math.round(pos)),
-        );
-        if (i === calculatedIndex) {
-          infoContainer.current.style.opacity = "1";
-          title.current.innerText = Projects[i - 1].project;
-          description.current.innerText = Projects[i - 1].description;
-          if (activeIndex !== i + 1) {
-            setActiveIndex(i + 1);
-          }
-          break;
-        }
+      // Map scrollProgress (1.5 to Projects.length + 1.5) to project index (0 to Projects.length - 1)
+      const projectProgress = scrollProgress - 1.5; // 0 to Projects.length
+      const projectIndex = Math.min(
+        Projects.length - 1,
+        Math.max(0, Math.round(projectProgress - 0.5)),
+      );
+
+      infoContainer.current.style.opacity = "1";
+      title.current.innerText = Projects[projectIndex].project;
+      description.current.innerText = Projects[projectIndex].description;
+
+      if (activeIndex !== projectIndex) {
+        setActiveIndex(projectIndex);
       }
     } else if (
       infoContainer.current &&
@@ -51,10 +44,12 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
       (scrollProgress <= 1.5 || scrollProgress > Projects.length + 1.5)
     ) {
       infoContainer.current.style.opacity = "0";
-      if (activeIndex !== 0) {
-        setActiveIndex(0);
+      if (activeIndex !== null) {
+        setActiveIndex(null);
       }
     }
+
+    console.log(activeIndex);
 
     const normalizedScrollProgress =
       scrollProgress > 2
@@ -174,7 +169,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
         </div>
       </div>
       <div className="flex flex-col gap-4">
-        <Doodle height={doodleHeight} activeIndex={activeIndex} />
+        <Doodle height={doodleHeight} />
         <div className="flex flex-wrap gap-2">
           {Projects.map((project, index) => (
             <span
@@ -183,7 +178,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
               style={{
                 opacity:
                   scrollProgress > 1.5 && scrollProgress < Projects.length + 1.5
-                    ? index === activeIndex - 2
+                    ? index === activeIndex
                       ? 1
                       : 0.6
                     : 0.6,
@@ -208,11 +203,25 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
           Description
         </p>
         <button
-          className="flex items-center gap-2 mt-2 px-3 py-2 bg-[var(--shade-850)] rounded-lg w-max text-sm font-medium hover:bg-[var(--shade-800)] cursor-pointer"
+          className="flex items-center gap-2 mt-2 px-3 py-2 rounded-lg w-max text-sm font-medium hover:bg-[var(--shade-800)]!"
+          style={{
+            opacity:
+              activeIndex !== null && Projects[activeIndex].link ? 1 : 0.5,
+            cursor:
+              activeIndex !== null && Projects[activeIndex].link
+                ? "pointer"
+                : "auto",
+            backgroundColor:
+              activeIndex !== null && Projects[activeIndex].link
+                ? "var(--shade-850)"
+                : "var(--shade-850)!important",
+          }}
           onClick={() => {
-            const currentProject = Projects[activeIndex - 2];
-            if (currentProject && currentProject.link) {
-              window.open(currentProject.link, "_blank");
+            if (activeIndex !== null) {
+              const currentProject = Projects[activeIndex];
+              if (currentProject && currentProject.link) {
+                window.open(currentProject.link, "_blank");
+              }
             }
           }}
         >

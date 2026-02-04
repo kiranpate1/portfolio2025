@@ -269,7 +269,7 @@ const OpeningDesktop = ({ sectionProgress }: props) => {
             When I'm not coding or designing, you can find me lost in a good book (and when I say book I mean doomscrolling). Sometimes, I might attempt to cook (results may vary), or convincing my cat that I'm not just a giant, clumsy human.
           </p>
         </div>
-        <div class="w-full h-80 bg-[var(--shade-500)] rounded-md"></div>
+        <Image src="/images/me.svg" alt="Me" width={311} height={181} class="w-full rounded-md aspect-[311/181]"/>
       </div>`;
       const { openSideWindow, appendModal } = createModal(title, content);
       if (immediate) {
@@ -570,7 +570,7 @@ const OpeningDesktop = ({ sectionProgress }: props) => {
           </div>
         </div>
         <div
-          className="flex-0 relative w-full max-w-[500px] rounded-[16px] overflow-hidden"
+          className="flex-0 relative w-full rounded-[16px] overflow-hidden"
           ref={separateWindowRef}
         ></div>
       </div>

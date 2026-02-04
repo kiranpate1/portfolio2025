@@ -3,10 +3,9 @@ import DoodleOpening from "./doodles/doodleOpening";
 
 type props = {
   height: number;
-  activeIndex: number;
 };
 
-const Doodle = ({ activeIndex, height }: props) => {
+const Doodle = ({ height }: props) => {
   return (
     <div
       className="doodle relative w-full border-[var(--shade-300)] border rounded-2xl overflow-hidden md:block hidden"

@@ -31,7 +31,6 @@ const Computer = ({ sectionProgress, typedText }: props) => {
         4) /
       3;
     const easedProgress = progressAdj;
-    console.log(easedProgress);
 
     // Apply transforms directly to DOM for smooth animation
     computerRef.current.style.transform = `rotateX(${
