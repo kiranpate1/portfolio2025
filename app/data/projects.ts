@@ -51,7 +51,7 @@ const Projects = [
     color: "#A94EB9",
     link: "https://www.instagram.com/artsbykiran/",
     description:
-      "A curated collection of art and design pieces from my Instagram. I built this site to showcase my favorite works and provide context and commentary on each piece.",
+      "A curated collection of art and design pieces from my Instagram.",
   },
 ];
 export default Projects;
