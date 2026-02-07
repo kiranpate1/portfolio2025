@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import Projects from "../../data/projects";
+import Projects from "../data/projects";
 
 const getKeyId = (code: string): string | null => {
   const codeMap: Record<string, string> = {

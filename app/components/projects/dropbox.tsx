@@ -10,7 +10,9 @@ type props = {
 
 const Dropbox = ({ sectionProgress }: props) => {
   const filter = useRef<HTMLImageElement>(null);
-  const tilesRef = useRef<any>(null);
+  const tilesRef = useRef<{ updateTiles: (progress: number) => void } | null>(
+    null,
+  );
 
   useEffect(() => {
     if (sectionProgress && filter.current) {

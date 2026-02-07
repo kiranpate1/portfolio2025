@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-type props = {};
+interface WeatherData {
+  mainTemp: number;
+  weather: Array<{ main: string }>;
+}
 
-const DoodleOpening = ({}: props) => {
+const DoodleOpening = () => {
   const cities = ["Toronto", "San Francisco", "London", "New York", "Seoul"];
-  const [weatherData, setWeatherData] = useState<any>(null);
+  const [weatherData, setWeatherData] = useState<WeatherData[] | null>(null);
   const [currentCityIndex, setCurrentCityIndex] = React.useState(0);
   const nextCity = React.useRef<SVGGElement>(null);
   const prevCity = React.useRef<SVGGElement>(null);
@@ -80,7 +83,8 @@ const DoodleOpening = ({}: props) => {
 
     //temperature
     const weatherUpdate = (index: number) => {
-      var data = weatherData[index];
+      if (!weatherData) return;
+      const data = weatherData[index];
       const temp = Math.round(data.mainTemp - 273.15); // Kelvin to Celsius
       const minTemp = -30;
       const maxTemp = 40;
@@ -140,9 +144,13 @@ const DoodleOpening = ({}: props) => {
 
     function loadingAnimation() {
       // run only once per page load
-      if (typeof window !== "undefined" && (window as any).__doodleLoaded)
+      if (
+        typeof window !== "undefined" &&
+        (window as Window & { __doodleLoaded?: boolean }).__doodleLoaded
+      )
         return;
-      if (typeof window !== "undefined") (window as any).__doodleLoaded = true;
+      if (typeof window !== "undefined")
+        (window as Window & { __doodleLoaded?: boolean }).__doodleLoaded = true;
 
       if (!document) return;
 
@@ -202,10 +210,12 @@ const DoodleOpening = ({}: props) => {
 
     const clearGlobalInterval = () => {
       if (typeof window === "undefined") return;
-      const prev = (window as any).__doodleInterval;
+      const prev = (window as Window & { __doodleInterval?: number })
+        .__doodleInterval;
       if (prev) {
         clearInterval(prev);
-        (window as any).__doodleInterval = undefined;
+        (window as Window & { __doodleInterval?: number }).__doodleInterval =
+          undefined;
       }
     };
 
@@ -217,7 +227,7 @@ const DoodleOpening = ({}: props) => {
         () => updateClock(cities[currentCityIndex]),
         1000,
       );
-      (window as any).__doodleInterval = id;
+      (window as Window & { __doodleInterval?: number }).__doodleInterval = id;
     }
 
     if (nextCity.current && prevCity.current) {
@@ -240,7 +250,9 @@ const DoodleOpening = ({}: props) => {
               () => updateClock(cities[newIndex]),
               1000,
             );
-            (window as any).__doodleInterval = id;
+            (
+              window as Window & { __doodleInterval?: number }
+            ).__doodleInterval = id;
           }
 
           return newIndex;
@@ -265,7 +277,9 @@ const DoodleOpening = ({}: props) => {
               () => updateClock(cities[newIndex]),
               1000,
             );
-            (window as any).__doodleInterval = id;
+            (
+              window as Window & { __doodleInterval?: number }
+            ).__doodleInterval = id;
           }
 
           return newIndex;

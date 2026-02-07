@@ -248,8 +248,11 @@ export default function Home() {
       window.removeEventListener("resize", handleFooterResize);
 
       // Clean up lenis
-      if (lenis && typeof (lenis as any).destroy === "function") {
-        (lenis as any).destroy();
+      if (
+        lenis &&
+        typeof (lenis as { destroy?: () => void }).destroy === "function"
+      ) {
+        (lenis as { destroy: () => void }).destroy();
       }
 
       if (drag) {

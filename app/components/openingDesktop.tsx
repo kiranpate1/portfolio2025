@@ -14,7 +14,7 @@ const OpeningDesktop = ({ sectionProgress }: props) => {
   const screen = useRef<HTMLDivElement>(null);
   const easeIn = (t: number) => t * t * (3 - 2 * t);
 
-  let showLinks = useRef(false);
+  const showLinks = useRef(false);
 
   useEffect(() => {
     if (

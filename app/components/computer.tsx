@@ -12,7 +12,7 @@ const Computer = ({ sectionProgress, typedText }: props) => {
   const logoRef = useRef<HTMLDivElement | null>(null);
   const [isTyping, setIsTyping] = React.useState(false);
   const typingRef = useRef<HTMLDivElement | null>(null);
-  let showLinks = useRef(false);
+  const showLinks = useRef(false);
   const primaryDeviceColor = "var(--shade-900)";
   const secondaryDeviceColor = "var(--surface)";
 
