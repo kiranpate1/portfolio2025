@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Projects from "./projects";
+import Projects from "../../data/projects";
 const src = Projects[Projects.length - 1].src; // Art image
 
 type props = {

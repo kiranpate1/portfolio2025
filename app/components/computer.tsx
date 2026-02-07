@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import Projects from "./projects";
+import Projects from "../data/projects";
 
 type props = {
   sectionProgress?: number;

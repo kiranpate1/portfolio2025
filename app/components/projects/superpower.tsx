@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
-import Projects from "./projects";
+import Projects from "../../data/projects";
 const src = Projects[2].src;
 
 type props = {
@@ -42,7 +42,7 @@ const Superpower = ({ sectionProgress }: props) => {
     }
 
     const spGradientBlurs = document.querySelectorAll(
-      ".sp .gradient-blur > div"
+      ".sp .gradient-blur > div",
     ) as NodeListOf<HTMLElement>;
 
     spGradientBlurs.forEach((div, index) => {

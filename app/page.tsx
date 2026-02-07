@@ -3,9 +3,9 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import Nav from "./components/nav";
 import Header from "./components/header";
-import Projects from "./components/projects";
-import Project from "./components/project";
-import Footer from "./components/footer";
+import Projects from "./data/projects";
+import Project from "./components/projects/project";
+import Footer from "./components/projects/footer";
 import Lenis from "lenis";
 import OpeningDesktop from "./components/openingDesktop";
 

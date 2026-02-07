@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
-import Projects from "./projects";
+import Projects from "../../data/projects";
 const src = Projects[0].src; // Dropbox image
 import DropboxTiles from "./dropboxTiles";
 

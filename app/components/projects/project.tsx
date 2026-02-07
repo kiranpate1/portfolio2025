@@ -1,12 +1,12 @@
 import React from "react";
 import Image from "next/image";
-import Projects from "./projects";
+import Projects from "../../data/projects";
 import Dropbox from "./dropbox";
 import TorontoTechWeek from "./ttw";
 import Superpower from "./superpower";
 import Codepen from "./codepen";
 import Art from "./art";
-import Computer from "./computer";
+import Computer from "../computer";
 
 type props = {
   index: number;

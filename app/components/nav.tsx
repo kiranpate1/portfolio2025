@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, act } from "react";
-import Projects from "./projects";
+import Projects from "../data/projects";
 import Doodle from "./doodle";
 
 type props = {

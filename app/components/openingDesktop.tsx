@@ -260,13 +260,7 @@ const OpeningDesktop = ({ sectionProgress }: props) => {
       <div class="w-full h-full flex flex-col justify-between gap-3">
         <div class="flex flex-col gap-2.5">
           <p class='paragraph text-[var(--shade-300)] text-pretty'>
-            Hey! I'm Kiran, an artist who accidentally learned to code during the pandemic and now can't escape the matrix. I also dabble in product design and motion design. On a good day, I can juggle all four without dropping any... most of the time. 
-          </p>
-          <p class='paragraph text-[var(--shade-300)] text-pretty'>
-            I create digital experiences that hopefully don't make people rage-quit. My superpower? Turning caffeine into pixels and pretending I understand what I'm doing. Honestly, I'm just here for the vibes and the occasional "it works!" moment.
-          </p>
-          <p class='paragraph text-[var(--shade-300)] text-pretty'>
-            When I'm not coding or designing, you can find me lost in a good book (and when I say book I mean doomscrolling). Sometimes, I might attempt to cook (results may vary), or convincing my cat that I'm not just a giant, clumsy human.
+            Hey! I'm Kiran, an artist who does product design to make $ and then accidentally learned to code (before "vibe-coding" and AI unfortunately took over...). I also dabble in research and motion design. Anyways thanks for reading this, I should really go to bed soon. Night. 
           </p>
         </div>
         <Image src="/images/me.svg" alt="Me" width={311} height={181} class="w-full rounded-md aspect-[311/181]"/>

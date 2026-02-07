@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
-import Projects from "./projects";
+import Projects from "../../data/projects";
 const src = Projects[1].src; // Toronto Tech Week image
 
 type props = {
