@@ -111,16 +111,16 @@ const Computer = ({ sectionProgress, typedText }: props) => {
   return (
     <div
       ref={desktopRef}
-      className="absolute inset-0 z-2 overflow-hidden rounded-2xl text-[var(--shade-300)] bg-[var(--shade-900)]"
+      className="absolute inset-0 z-2 rounded-2xl text-[var(--shade-300)] bg-[var(--shade-900)] pointer-events-none"
     >
       <div className="absolute inset-0 flex justify-center items-center">
         <div className="absolute transform-3d perspective-distant">
           <div
             ref={computerRef}
-            className="computer w-[calc((50vh-48px)*1.253)] max-w-[calc(100vw-100px)] md:max-w-[calc(100vw-350px)] relative flex justify-center items-center transform-3d"
+            className="computer w-[calc((50vh-48px)*1.253)] max-w-[calc(100vw-100px)] md:w-[calc((50vh-56px)*1.253)] md:max-w-[calc(100vw-360px)] relative flex justify-center items-center transform-3d"
           >
             <div
-              className="absolute w-[82%] aspect-[405/304] bg-[var(--screen)] overflow-hidden"
+              className="absolute w-[82%] aspect-[405/304] bg-[var(--screen)] -translate-z-px overflow-hidden pointer-events-auto"
               // style={{
               //   clipPath:
               //     "path('M6.02468 26.3161C6.78034 19.3829 11.679 13.7121 18.5195 12.3521C99.2139 -3.69155 308.961 -3.68907 389.613 12.3601C396.433 13.7172 401.325 19.3585 402.091 26.2697C409.97 97.3632 409.97 208.095 402.091 279.189C401.325 286.1 396.424 291.744 389.607 293.119C309.727 309.228 111.196 309.143 19.1337 292.865C12.0128 291.605 6.72967 285.817 5.93783 278.629C-1.88572 207.611 -1.85678 98.6291 6.02468 26.3161Z')",

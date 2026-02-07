@@ -43,6 +43,59 @@ const getKeyId = (code: string): string | null => {
   return null;
 };
 
+const KEY_TO_CHAR_MAP: Record<string, string> = {
+  "key-enter": "Enter",
+  "key-backspace": "Backspace",
+  "key-space": " ",
+  "key-a": "a",
+  "key-b": "b",
+  "key-c": "c",
+  "key-d": "d",
+  "key-e": "e",
+  "key-f": "f",
+  "key-g": "g",
+  "key-h": "h",
+  "key-i": "i",
+  "key-j": "j",
+  "key-k": "k",
+  "key-l": "l",
+  "key-m": "m",
+  "key-n": "n",
+  "key-o": "o",
+  "key-p": "p",
+  "key-q": "q",
+  "key-r": "r",
+  "key-s": "s",
+  "key-t": "t",
+  "key-u": "u",
+  "key-v": "v",
+  "key-w": "w",
+  "key-x": "x",
+  "key-y": "y",
+  "key-z": "z",
+  "key-0": "0",
+  "key-1": "1",
+  "key-2": "2",
+  "key-3": "3",
+  "key-4": "4",
+  "key-5": "5",
+  "key-6": "6",
+  "key-7": "7",
+  "key-8": "8",
+  "key-9": "9",
+  "key-tilde": "`",
+  "key-dash": "-",
+  "key-equal": "=",
+  "key-bracketleft": "[",
+  "key-bracketright": "]",
+  "key-backslash": "\\",
+  "key-semicolon": ";",
+  "key-quote": "'",
+  "key-comma": ",",
+  "key-period": ".",
+  "key-slash": "/",
+};
+
 type props = {
   height?: number;
   sectionProgress?: number;
@@ -114,6 +167,32 @@ const Footer = ({ height, sectionProgress, onKeyboardInput }: props) => {
     };
   }, [isKeyboardActive]);
 
+  const handleKeyClick = (keyId: string) => {
+    if (!isKeyboardActive || !onKeyboardInputRef.current) return;
+
+    // Simulate key press
+    setPressedKeys((prev) => {
+      const next = new Set(prev);
+      next.add(keyId);
+      return next;
+    });
+
+    // Release after a short delay
+    setTimeout(() => {
+      setPressedKeys((prev) => {
+        const next = new Set(prev);
+        next.delete(keyId);
+        return next;
+      });
+    }, 100);
+
+    // Handle the key input
+    const char = KEY_TO_CHAR_MAP[keyId];
+    if (char) {
+      onKeyboardInputRef.current(char);
+    }
+  };
+
   return (
     <footer
       className="window absolute w-full bg-[var(--shade-900)] overflow-hidden flex items-center justify-center -mt-4"
@@ -154,6 +233,12 @@ const Footer = ({ height, sectionProgress, onKeyboardInput }: props) => {
             }}
             onMouseOut={() => {
               setHoveredKey(null);
+            }}
+            onClick={(e) => {
+              const g = (e.target as Element).closest("g");
+              if (g && g.id && g.id.startsWith("key-")) {
+                handleKeyClick(g.id);
+              }
             }}
           >
             <rect width="1432" height="647" fill="var(--shade-900)" />
