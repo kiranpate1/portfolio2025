@@ -301,11 +301,22 @@ const OpeningDesktop = ({ sectionProgress }: props) => {
     });
 
     myMusic.current.addEventListener("click", () => {
-      const title = "My Music";
+      const title = "Fav Songs";
       const songs = [
-        { title: "Peachy", artist: "Kiran Patel" },
-        { title: "Lemonade", artist: "Kiran Patel" },
-        { title: "Cherry", artist: "Kiran Patel" },
+        { title: "SpottieOttieDopaliscious", artist: "Outkast" },
+        { title: "Collect Calls", artist: "Kendrick Lamar" },
+        { title: "Are You That Somebody", artist: "Aaliyah" },
+        { title: "F***d Up If True", artist: "Soul Glo" },
+        { title: "Above The Clouds", artist: "Gang Starr" },
+        { title: "Clan In Da Front", artist: "Wu-Tang Clan" },
+        { title: "He Wasn't Man Enough", artist: "Toni Braxton" },
+        { title: "Halftime", artist: "Nas" },
+        { title: "Get Up", artist: "Amel Larrieux" },
+        { title: "Ex-Factor", artist: "Lauryn Hill" },
+        { title: "Brown Sugar", artist: "D'Angelo" },
+        { title: "Ain't It Funny", artist: "Danny Brown" },
+        { title: "Mascara", artist: "Deftones" },
+        { title: "Plastic Off The Sofa", artist: "Beyoncé" },
       ];
       let content = "";
       songs.forEach((song) => {
@@ -522,7 +533,7 @@ const OpeningDesktop = ({ sectionProgress }: props) => {
                     stroke="currentColor"
                   />
                 </svg>
-                <div className="caption-small text-center">My Music</div>
+                <div className="caption-small text-center">Music</div>
               </div>
             </div>
           </div>
