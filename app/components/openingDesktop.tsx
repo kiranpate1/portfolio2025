@@ -575,7 +575,7 @@ const OpeningDesktop = ({ sectionProgress }: props) => {
           </div>
         </div>
         <div
-          className="flex-0 relative w-full rounded-[16px] overflow-hidden"
+          className="flex-0 relative w-full lg:max-w-[450px] rounded-[16px] overflow-hidden"
           ref={separateWindowRef}
         ></div>
       </div>
