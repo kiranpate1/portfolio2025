@@ -1,6 +1,6 @@
 import React, { use, useEffect, useRef } from "react";
 import { people } from "../data/people";
-import { sep } from "path";
+import Button from "./button";
 
 type props = {
   sectionProgress?: number;
@@ -259,9 +259,49 @@ const OpeningDesktop = ({ sectionProgress }: props) => {
       const content = `
       <div class="w-full h-full flex flex-col justify-between gap-3">
         <div class="flex flex-col gap-2.5">
+          <h2 class="heading-medium mt-2 text-[var(--shade-150)]">Freelance <span class="text-[var(--accent)]">Designer + Developer</span></h2>
           <p class='paragraph text-[var(--shade-300)] text-pretty'>
-            Hey! I'm Kiran, an artist who does product design to make $ and then accidentally learned to code (before "vibe-coding" and AI unfortunately took over...). I also dabble in research and motion design. Anyways thanks for reading this, I should really go to bed soon. Night. 
+            Hey! I'm Kiran, an artist who does product design and then accidentally learned to code (like actually code, not "vibe-code"...). I also dabble in research and motion design. Open to new freelance clients seeking design or frontend development help, and always down to chat! 
           </p>
+          <div class="flex gap-2">
+            <button
+              class="flex items-center gap-2 mt-2 px-3 py-2 rounded-lg w-max text-sm font-medium bg-(--shade-250) hover:bg-(--shade-50)! text-(--shade-900) border border-(--shade-900) cursor-pointer"
+              onclick="window.location.href='mailto:kp8568@gmail.com'"
+            >
+              Email
+              <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path 
+                  d="M11.0834 1H2.91675C2.45262 1 2.0075 1.18437 1.67931 1.51256C1.35112 1.84075 1.16675 2.28587 1.16675 2.75V8.58333C1.16675 9.04746 1.35112 9.49258 1.67931 9.82077C2.0075 10.149 2.45262 10.3333 2.91675 10.3333H11.0834C11.5475 10.3333 11.9927 10.149 12.3209 9.82077C12.649 9.49258 12.8334 9.04746 12.8334 8.58333V2.75C12.8334 2.28587 12.649 1.84075 12.3209 1.51256C11.9927 1.18437 11.5475 1 11.0834 1ZM10.6926 2.16667L7.00008 4.9375L3.30758 2.16667H10.6926ZM11.0834 9.16667H2.91675C2.76204 9.16667 2.61367 9.10521 2.50427 8.99581C2.39487 8.88642 2.33341 8.73804 2.33341 8.58333V2.89583L6.65008 6.13333C6.75105 6.20906 6.87387 6.25 7.00008 6.25C7.1263 6.25 7.24911 6.20906 7.35008 6.13333L11.6667 2.89583V8.58333C11.6667 8.73804 11.6053 8.88642 11.4959 8.99581C11.3865 9.10521 11.2381 9.16667 11.0834 9.16667Z" 
+                  fill="currentColor"
+                />
+              </svg>
+            </button>
+            <button
+              class="flex items-center gap-2 mt-2 px-3 py-2 rounded-lg w-max text-sm font-medium bg-(--shade-850) hover:bg-(--shade-800)! text-(--shade-50) cursor-pointer"
+              onclick="window.open('https://linkedin.com/ka-patel/', '_blank')"
+            >
+              LinkedIn
+              <svg
+                width="11"
+                height="11"
+                class="-translate-y-[1px]"
+                viewBox="0 0 11 11"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9.2207 7.60386C9.2207 8.59387 9.2207 9.08835 9.00788 9.45682C8.86848 9.69825 8.668 9.89873 8.42658 10.0381C8.0581 10.2509 7.56363 10.2509 6.57362 10.2509H3.92653C2.42934 10.2509 1.68021 10.251 1.21538 9.78559C0.750027 9.32076 0.750027 8.57164 0.750027 7.07445V4.42736C0.750027 3.43735 0.750027 2.94287 0.962853 2.5744C1.10225 2.33297 1.30273 2.13249 1.54415 1.9931C1.91263 1.78027 2.4071 1.78027 3.39711 1.78027"
+                  stroke="currentColor"
+                  strokeWidth="1.25"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M4.98616 7.0745C4.69326 7.3674 4.21839 7.3674 3.9255 7.0745C3.6326 6.78161 3.6326 6.30674 3.9255 6.01384L4.45583 6.54417L4.98616 7.0745ZM9.75 1.25V0.5H10.5V1.25H9.75ZM4.45583 6.54417L3.9255 6.01384L9.21967 0.71967L9.75 1.25L10.2803 1.78033L4.98616 7.0745L4.45583 6.54417ZM9.75 1.25H10.5V5.48534H9.75H9V1.25H9.75ZM9.75 1.25V2H5.51466V1.25V0.5H9.75V1.25Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
         <Image src="/images/me.svg" alt="Me" width={311} height={181} class="w-full rounded-md aspect-[311/181]"/>
       </div>`;
