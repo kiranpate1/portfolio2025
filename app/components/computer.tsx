@@ -112,6 +112,10 @@ const Computer = ({ sectionProgress, typedText }: props) => {
     <div
       ref={desktopRef}
       className="absolute inset-0 z-2 rounded-2xl text-[var(--shade-300)] bg-[var(--shade-900)] pointer-events-none"
+      style={{
+        opacity:
+          sectionProgress && sectionProgress > Projects.length + 1 ? 1 : 0,
+      }}
     >
       <div className="absolute inset-0 flex justify-center items-center">
         <div className="absolute transform-3d perspective-distant">

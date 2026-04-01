@@ -1,19 +1,49 @@
-import React, { useRef, useEffect, useState, act } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Projects from "../data/projects";
+import { projectIcons } from "../data/projects";
 import Doodle from "./doodle";
 
 type props = {
   scrollProgress: number;
   padding: number;
   doodleHeight: number;
+  projectTitleRefsProp?: React.MutableRefObject<(HTMLSpanElement | null)[]>;
+  doodlePathRefProp?: React.RefObject<SVGPathElement | null>;
+  onProjectClick?: (index: number) => void;
 };
 
-const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
+const Nav = ({
+  scrollProgress,
+  padding,
+  doodleHeight,
+  projectTitleRefsProp,
+  doodlePathRefProp,
+  onProjectClick,
+}: props) => {
+  const projectIconOrder: Array<keyof typeof projectIcons> = [
+    "Dropbox",
+    "TTW",
+    "Superpower",
+    "Codepen",
+    "DDR",
+    "Art",
+  ];
   const infoContainer = useRef<HTMLDivElement>(null);
   const title = useRef<HTMLDivElement>(null);
   const description = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [normalizedProgress, setNormalizedProgress] = useState(0);
+  const [introComplete, setIntroComplete] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setIntroComplete(true), 2000);
+    const timer2 = window.setTimeout(() => setIsAnimating(true), 1000);
+    return () => {
+      window.clearTimeout(timer);
+      window.clearTimeout(timer2);
+    };
+  }, []);
 
   useEffect(() => {
     if (
@@ -49,7 +79,7 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
       }
     }
 
-    console.log(activeIndex);
+    // console.log(activeIndex);
 
     const normalizedScrollProgress =
       scrollProgress > 2
@@ -169,12 +199,18 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
         </div>
       </div>
       <div className="flex flex-col gap-4">
-        <Doodle height={doodleHeight} />
+        <Doodle height={doodleHeight} pathRef={doodlePathRefProp} />
         <div className="flex flex-wrap gap-2">
           {Projects.map((project, index) => (
-            <span
+            <div
               key={index}
-              className="text-xs px-1.75 py-1 rounded-md cursor-pointer bg-[var(--shade-850)] hover:bg-[var(--shade-800)]"
+              ref={(el) => {
+                if (projectTitleRefsProp) {
+                  projectTitleRefsProp.current[index] = el;
+                }
+              }}
+              onClick={() => onProjectClick?.(index)}
+              className="relative inline-flex shrink-0 overflow-hidden whitespace-nowrap text-xs px-1.75 py-1 rounded-md cursor-pointer bg-[var(--shade-850)] hover:bg-[var(--shade-800)]"
               style={{
                 opacity:
                   scrollProgress > 1.5 && scrollProgress < Projects.length + 1.5
@@ -182,10 +218,24 @@ const Nav = ({ scrollProgress, padding, doodleHeight }: props) => {
                       ? 1
                       : 0.6
                     : 0.6,
+                width: introComplete ? undefined : "24px",
               }}
             >
-              {project.title}
-            </span>
+              {projectIcons[projectIconOrder[index]] ? (
+                <div
+                  className="absolute inset-0 duration-200"
+                  style={{ opacity: isAnimating ? 0 : 1 }}
+                >
+                  {projectIcons[projectIconOrder[index]]}
+                </div>
+              ) : null}
+              <div
+                style={{ opacity: isAnimating ? 1 : 0 }}
+                className="relative duration-200"
+              >
+                {project.title}
+              </div>
+            </div>
           ))}
         </div>
       </div>
