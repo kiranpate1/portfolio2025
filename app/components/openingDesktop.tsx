@@ -717,4 +717,6 @@ const OpeningDesktop = React.forwardRef<HTMLDivElement, props>(
   },
 );
 
+OpeningDesktop.displayName = "OpeningDesktop";
+
 export default OpeningDesktop;

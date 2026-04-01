@@ -680,4 +680,6 @@ const Header = React.forwardRef<HTMLDivElement, props>(
   },
 );
 
+Header.displayName = "Header";
+
 export default Header;
