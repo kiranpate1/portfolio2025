@@ -35,6 +35,8 @@ export default function Home() {
   const openingDesktopPathRef = useRef<SVGGeometryElement | null>(null);
   const introCompleteRef = useRef(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const scrollProgressRef = useRef(0);
+  const targetProjectIndexRef = useRef<number | null>(null);
   const [typedText, setTypedText] = useState("");
   const estimatedWindowCount = Projects.length + 3;
 
@@ -69,6 +71,46 @@ export default function Home() {
     },
     [doodleHeight, footerHeight],
   );
+
+  useEffect(() => {
+    scrollProgressRef.current = scrollProgress;
+    // If scroll position has drifted far from the tracked target (manual scroll),
+    // clear the target so the next keypress re-derives from actual position.
+    if (targetProjectIndexRef.current !== null) {
+      const scrollIndex = Math.round(scrollProgress - 2);
+      if (Math.abs(targetProjectIndexRef.current - scrollIndex) > 1) {
+        targetProjectIndexRef.current = null;
+      }
+    }
+  }, [scrollProgress]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+      e.preventDefault();
+      // Initialize from scroll if no target is tracked yet (e.g. after manual scroll)
+      if (targetProjectIndexRef.current === null) {
+        targetProjectIndexRef.current = Math.max(
+          Math.round(scrollProgressRef.current - 2),
+          0,
+        );
+      }
+      if (e.key === "ArrowDown") {
+        const next = Math.min(
+          targetProjectIndexRef.current + 1,
+          Projects.length - 1,
+        );
+        targetProjectIndexRef.current = next;
+        scrollToProject(next);
+      } else {
+        const prev = Math.max(targetProjectIndexRef.current - 1, 0);
+        targetProjectIndexRef.current = prev;
+        scrollToProject(prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [scrollToProject]);
 
   useEffect(() => {
     const windows = document.querySelectorAll(
