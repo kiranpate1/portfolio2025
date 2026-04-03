@@ -50,6 +50,7 @@ export default function Home() {
     }
   }, []);
 
+  // click to navigate
   const scrollToProject = useCallback(
     (index: number) => {
       const vh = window.innerHeight;
@@ -72,6 +73,7 @@ export default function Home() {
     [doodleHeight, footerHeight],
   );
 
+  // Keyboard navigation logic:
   useEffect(() => {
     scrollProgressRef.current = scrollProgress;
     // If scroll position has drifted far from the tracked target (manual scroll),
@@ -90,9 +92,12 @@ export default function Home() {
       e.preventDefault();
       // Initialize from scroll if no target is tracked yet (e.g. after manual scroll)
       if (targetProjectIndexRef.current === null) {
+        const rawIndex = Math.round(scrollProgressRef.current - 2);
+        // Clamp to [-1, Projects.length] so ArrowDown from before project 0 lands on 0,
+        // and ArrowUp from the footer lands on the last project.
         targetProjectIndexRef.current = Math.max(
-          Math.round(scrollProgressRef.current - 2),
-          0,
+          Math.min(rawIndex, Projects.length),
+          -1,
         );
       }
       if (e.key === "ArrowDown") {
